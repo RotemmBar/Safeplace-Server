@@ -19,9 +19,9 @@ namespace WebApplication1.Controllers
             DateTime daytemp = DateTime.Today; //the day of the treatment 
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
-            SafePlaceDBContext db = new SafePlaceDBContext();
+            SafePlaceDbContext db = new SafePlaceDbContext();
 
-            List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.TreatmentDate == daytemp).ToList();
+            List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == daytemp).ToList();
             List<TblTreatment> treatsbydayandther = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == id)).ToList();
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
@@ -99,7 +99,7 @@ namespace WebApplication1.Controllers
         // POST: api/Treatment
         public void Post([FromBody] TblTreatment value)
         {
-            SafePlaceDBContext db = new SafePlaceDBContext();
+            SafePlaceDbContext db = new SafePlaceDbContext();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
 
             try
@@ -107,12 +107,12 @@ namespace WebApplication1.Controllers
                 TblTreatment trea = new TblTreatment();
 
                 trea.Treatment_Id = temp;
-                trea.TreatmentDate = value.TreatmentDate;
+                trea.Treatment_Date = value.Treatment_Date;
                 trea.WasDone = value.WasDone;
                 trea.StartTime = value.StartTime;
                 trea.EndTime = value.EndTime;
                 trea.Room_Num = value.Room_Num;
-                trea.TType_Id = value.TType_Id;
+                trea.Type_Id = value.Type_Id;
 
                 db.TblTreatment.Add(trea);
                 db.SaveChanges();

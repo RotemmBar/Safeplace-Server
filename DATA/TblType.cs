@@ -21,8 +21,8 @@ namespace DATA
             this.TblTherapist = new HashSet<TblTherapist>();
         }
     
-        public int TType_Id { get; set; }
-        public string TType_Name { get; set; }
+        public int Type_Id { get; set; }
+        public string Type_Name { get; set; }
         public int Duration { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

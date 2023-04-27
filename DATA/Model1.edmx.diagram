@@ -4,28 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="10e5110e2ee3443a8b6c93ea6ce072c4" Name="Diagram1">
-        <EntityTypeShape EntityType="SafePlaceModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblFile" Width="1.5" PointX="6" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblFileType" Width="1.5" PointX="3.75" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblPatient" Width="1.5" PointX="1.5" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblRoom" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblSummary" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblTherapist" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblTreatment" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblTreats" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblType" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SafePlaceModel.TblUsers" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <AssociationConnector Association="SafePlaceModel.fk1" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk13" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk7" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk12" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk11" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk6" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.fk10" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.TblFills" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.TblPractices" ManuallyRouted="false" />
-        <AssociationConnector Association="SafePlaceModel.TblWrittenFor" ManuallyRouted="false" />
+      <Diagram DiagramId="bfa3eef3c29a49bf96b2497b80dd4e80" Name="Diagram1">
+        <EntityTypeShape EntityType="igroup200_prodModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblFile" Width="1.5" PointX="6" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblFileType" Width="1.5" PointX="3.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblPatient" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblRoom" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblSummary" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblTherapist" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblTreatment" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblTreats" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblType" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblUsers" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="igroup200_prodModel.fk1" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.fk10" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.fk7" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.fk12" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.fk11" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.fk6" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.TblFills" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.TblPractices" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_prodModel.TblWrittenFor" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

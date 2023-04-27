@@ -18,8 +18,8 @@ namespace DATA
         public int Treatment_Id { get; set; }
         public string Therapist_Id { get; set; }
     
+        public virtual TblPatient TblPatient { get; set; }
         public virtual TblTherapist TblTherapist { get; set; }
         public virtual TblTreatment TblTreatment { get; set; }
-        public virtual TblUsers TblUsers { get; set; }
     }
 }

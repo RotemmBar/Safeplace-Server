@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
     [RoutePrefix("api/SignInUser")]
     public class EnycreptedUserController : ApiController
     {
-        SafePlaceDBContext db = new SafePlaceDBContext();
+        SafePlaceDbContext db = new SafePlaceDbContext();
 
 
         ///General Functions
@@ -75,7 +75,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                using (var db = new SafePlaceDBContext())
+                using (var db = new SafePlaceDbContext())
                 {
                     string modelGender = "";
 
@@ -100,14 +100,13 @@ namespace WebApplication1.Controllers
                     db.SaveChanges();
 
                 }
-                using (var db = new SafePlaceDBContext())
+                using (var db = new SafePlaceDbContext())
                 {
-                    var newUser = new TblUsers
+                    var newUser = new TblUsers   ////need to go over
                     {
                         Email = model.email,
                         Password = EncryptPassword(model.password),
-                        Patient_Id = model.patient_Id,
-                        IsSuperUser = model.issuperuser
+                        //Id = model.patient_Id,
 
                     };
 
@@ -127,7 +126,7 @@ namespace WebApplication1.Controllers
         [Route("login")]
         public IHttpActionResult Login([FromBody] DecryptUserDto model, HttpContext context)
         {
-            using (var db = new SafePlaceDBContext())
+            using (var db = new SafePlaceDbContext())
             {
                 var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.email);
                 string hasded = hasdedPassword.Password;

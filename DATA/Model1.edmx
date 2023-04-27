@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SafePlaceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="igroup200_prodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -21,7 +21,7 @@
           </Key>
           <Property Name="File_Num" Type="int" Nullable="false" />
           <Property Name="DateSent" Type="date" Nullable="false" />
-          <Property Name="Content" Type="nvarchar" MaxLength="300" />
+          <Property Name="Content" Type="nvarchar" MaxLength="500" />
           <Property Name="FileType_Num" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblFileType">
@@ -30,7 +30,7 @@
           </Key>
           <Property Name="FileType_Num" Type="int" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Template" Type="nvarchar" MaxLength="300" />
+          <Property Name="Template" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="TblFills">
           <Key>
@@ -45,20 +45,20 @@
             <PropertyRef Name="Patient_Id" />
           </Key>
           <Property Name="Patient_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="BirthDate" Type="date" Nullable="false" />
-          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="StartDate" Type="date" />
           <Property Name="Gender" Type="char" MaxLength="1" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TblPractices">
           <Key>
             <PropertyRef Name="Therapist_Id" />
-            <PropertyRef Name="TType_Id" />
+            <PropertyRef Name="Type_Id" />
           </Key>
           <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
-          <Property Name="TType_Id" Type="int" Nullable="false" />
+          <Property Name="Type_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblRoom">
           <Key>
@@ -72,9 +72,9 @@
           </Key>
           <Property Name="Summary_Num" Type="int" Nullable="false" />
           <Property Name="WrittenBy" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="Content" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="700" />
           <Property Name="Summary_Date" Type="date" Nullable="false" />
-          <Property Name="ImportanttoNote" Type="nvarchar" MaxLength="300" />
+          <Property Name="ImportentToNote" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
         <EntityType Name="TblTherapist">
           <Key>
@@ -87,18 +87,19 @@
           <Property Name="BirthDate" Type="date" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="YearsOfExperience" Type="int" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TblTreatment">
           <Key>
             <PropertyRef Name="Treatment_Id" />
           </Key>
           <Property Name="Treatment_Id" Type="int" Nullable="false" />
-          <Property Name="WasDone" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="TType_Id" Type="int" Nullable="false" />
-          <Property Name="Room_Num" Type="int" Nullable="false" />
-          <Property Name="TreatmentDate" Type="date" />
+          <Property Name="Treatment_Date" Type="date" Nullable="false" />
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
+          <Property Name="WasDone" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Type_Id" Type="int" Nullable="false" />
+          <Property Name="Room_Num" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblTreats">
           <Key>
@@ -111,25 +112,23 @@
         </EntityType>
         <EntityType Name="TblType">
           <Key>
-            <PropertyRef Name="TType_Id" />
+            <PropertyRef Name="Type_Id" />
           </Key>
-          <Property Name="TType_Id" Type="int" Nullable="false" />
-          <Property Name="TType_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type_Id" Type="int" Nullable="false" />
+          <Property Name="Type_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblUsers">
           <Key>
-            <PropertyRef Name="Patient_Id" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Patient_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
-          <Property Name="IsSuperUser" Type="bit" Nullable="false" />
-          <Property Name="IsSuperUserNew" Type="int" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'igroup200_prod.dbo.TblWrittenFor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TblWrittenFor">
           <Key>
             <PropertyRef Name="Summary_Num" />
@@ -151,10 +150,10 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           </ReferentialConstraint>
         </Association>
         <Association Name="fk10">
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
           <End Role="TblTreats" Type="Self.TblTreats" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TblUsers">
+            <Principal Role="TblPatient">
               <PropertyRef Name="Patient_Id" />
             </Principal>
             <Dependent Role="TblTreats">
@@ -186,23 +185,17 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk13">
-          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TblPatient">
-              <PropertyRef Name="Patient_Id" />
-            </Principal>
-            <Dependent Role="TblUsers">
-              <PropertyRef Name="Patient_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk13' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk13" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk14' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk14" />-->
         <Association Name="fk2">
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
+          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
           <End Role="TblFills" Type="Self.TblFills" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TblUsers">
+            <Principal Role="TblPatient">
               <PropertyRef Name="Patient_Id" />
             </Principal>
             <Dependent Role="TblFills">
@@ -239,10 +232,10 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <End Role="TblPractices" Type="Self.TblPractices" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
-              <PropertyRef Name="TType_Id" />
+              <PropertyRef Name="Type_Id" />
             </Principal>
             <Dependent Role="TblPractices">
-              <PropertyRef Name="TType_Id" />
+              <PropertyRef Name="Type_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -251,10 +244,10 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
-              <PropertyRef Name="TType_Id" />
+              <PropertyRef Name="Type_Id" />
             </Principal>
             <Dependent Role="TblTreatment">
-              <PropertyRef Name="TType_Id" />
+              <PropertyRef Name="Type_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -294,7 +287,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SafePlaceModelStoreContainer">
+        <EntityContainer Name="igroup200_prodModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" Schema="dbo" store:Type="Tables" />
@@ -319,7 +312,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <End Role="TblFile" EntitySet="TblFile" />
           </AssociationSet>
           <AssociationSet Name="fk10" Association="Self.fk10">
-            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblPatient" EntitySet="TblPatient" />
             <End Role="TblTreats" EntitySet="TblTreats" />
           </AssociationSet>
           <AssociationSet Name="fk11" Association="Self.fk11">
@@ -330,12 +323,8 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblTreats" EntitySet="TblTreats" />
           </AssociationSet>
-          <AssociationSet Name="fk13" Association="Self.fk13">
-            <End Role="TblPatient" EntitySet="TblPatient" />
-            <End Role="TblUsers" EntitySet="TblUsers" />
-          </AssociationSet>
           <AssociationSet Name="fk2" Association="Self.fk2">
-            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblPatient" EntitySet="TblPatient" />
             <End Role="TblFills" EntitySet="TblFills" />
           </AssociationSet>
           <AssociationSet Name="fk3" Association="Self.fk3">
@@ -371,7 +360,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SafePlaceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="igroup200_prodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -388,10 +377,10 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           </Key>
           <Property Name="File_Num" Type="Int32" Nullable="false" />
           <Property Name="DateSent" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Content" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FileType_Num" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TblFileType" Relationship="Self.fk1" FromRole="TblFile" ToRole="TblFileType" />
-          <NavigationProperty Name="TblUsers" Relationship="Self.TblFills" FromRole="TblFile" ToRole="TblUsers" />
+          <NavigationProperty Name="TblPatient" Relationship="Self.TblFills" FromRole="TblFile" ToRole="TblPatient" />
         </EntityType>
         <EntityType Name="TblFileType">
           <Key>
@@ -399,7 +388,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           </Key>
           <Property Name="FileType_Num" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Template" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Template" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblFile" Relationship="Self.fk1" FromRole="TblFileType" ToRole="TblFile" />
         </EntityType>
         <EntityType Name="TblPatient">
@@ -407,13 +396,14 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <PropertyRef Name="Patient_Id" />
           </Key>
           <Property Name="Patient_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TblUsers" Relationship="Self.fk13" FromRole="TblPatient" ToRole="TblUsers" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblPatient" ToRole="TblTreats" />
+          <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblPatient" ToRole="TblFile" />
         </EntityType>
         <EntityType Name="TblRoom">
           <Key>
@@ -428,9 +418,9 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           </Key>
           <Property Name="Summary_Num" Type="Int32" Nullable="false" />
           <Property Name="WrittenBy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
           <Property Name="Summary_Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ImportanttoNote" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ImportentToNote" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.TblWrittenFor" FromRole="TblSummary" ToRole="TblTreatment" />
         </EntityType>
         <EntityType Name="TblTherapist">
@@ -444,6 +434,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="YearsOfExperience" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk12" FromRole="TblTherapist" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.TblPractices" FromRole="TblTherapist" ToRole="TblType" />
         </EntityType>
@@ -452,12 +443,12 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <PropertyRef Name="Treatment_Id" />
           </Key>
           <Property Name="Treatment_Id" Type="Int32" Nullable="false" />
-          <Property Name="WasDone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="TType_Id" Type="Int32" Nullable="false" />
-          <Property Name="Room_Num" Type="Int32" Nullable="false" />
-          <Property Name="TreatmentDate" Type="DateTime" Precision="0" />
+          <Property Name="Treatment_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="StartTime" Type="DateTime" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="WasDone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Type_Id" Type="Int32" Nullable="false" />
+          <Property Name="Room_Num" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TblRoom" Relationship="Self.fk7" FromRole="TblTreatment" ToRole="TblRoom" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk11" FromRole="TblTreatment" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.fk6" FromRole="TblTreatment" ToRole="TblType" />
@@ -471,33 +462,28 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <Property Name="Patient_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Treatment_Id" Type="Int32" Nullable="false" />
           <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TblPatient" Relationship="Self.fk10" FromRole="TblTreats" ToRole="TblPatient" />
           <NavigationProperty Name="TblTherapist" Relationship="Self.fk12" FromRole="TblTreats" ToRole="TblTherapist" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.fk11" FromRole="TblTreats" ToRole="TblTreatment" />
-          <NavigationProperty Name="TblUsers" Relationship="Self.fk10" FromRole="TblTreats" ToRole="TblUsers" />
         </EntityType>
         <EntityType Name="TblType">
           <Key>
-            <PropertyRef Name="TType_Id" />
+            <PropertyRef Name="Type_Id" />
           </Key>
-          <Property Name="TType_Id" Type="Int32" Nullable="false" />
-          <Property Name="TType_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type_Id" Type="Int32" Nullable="false" />
+          <Property Name="Type_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.fk6" FromRole="TblType" ToRole="TblTreatment" />
           <NavigationProperty Name="TblTherapist" Relationship="Self.TblPractices" FromRole="TblType" ToRole="TblTherapist" />
         </EntityType>
         <EntityType Name="TblUsers">
           <Key>
-            <PropertyRef Name="Patient_Id" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Patient_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsSuperUser" Type="Boolean" Nullable="false" />
-          <Property Name="IsSuperUserNew" Type="Int32" />
-          <NavigationProperty Name="TblPatient" Relationship="Self.fk13" FromRole="TblUsers" ToRole="TblPatient" />
-          <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblUsers" ToRole="TblTreats" />
-          <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblUsers" ToRole="TblFile" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -511,14 +497,14 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk13">
+        <Association Name="fk10">
           <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
+          <End Role="TblTreats" Type="Self.TblTreats" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblPatient">
               <PropertyRef Name="Patient_Id" />
             </Principal>
-            <Dependent Role="TblUsers">
+            <Dependent Role="TblTreats">
               <PropertyRef Name="Patient_Id" />
             </Dependent>
           </ReferentialConstraint>
@@ -564,27 +550,15 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
-              <PropertyRef Name="TType_Id" />
+              <PropertyRef Name="Type_Id" />
             </Principal>
             <Dependent Role="TblTreatment">
-              <PropertyRef Name="TType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk10">
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="1" />
-          <End Role="TblTreats" Type="Self.TblTreats" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TblUsers">
-              <PropertyRef Name="Patient_Id" />
-            </Principal>
-            <Dependent Role="TblTreats">
-              <PropertyRef Name="Patient_Id" />
+              <PropertyRef Name="Type_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="TblFills">
-          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="*" />
+          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="*" />
           <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
         </Association>
         <Association Name="TblPractices">
@@ -595,7 +569,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
           <End Role="TblSummary" Type="Self.TblSummary" Multiplicity="*" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SafePlaceDBContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SafePlaceDbContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" />
@@ -611,9 +585,9 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
           </AssociationSet>
-          <AssociationSet Name="fk13" Association="Self.fk13">
+          <AssociationSet Name="fk10" Association="Self.fk10">
             <End Role="TblPatient" EntitySet="TblPatient" />
-            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblTreats" EntitySet="TblTreats" />
           </AssociationSet>
           <AssociationSet Name="fk7" Association="Self.fk7">
             <End Role="TblRoom" EntitySet="TblRoom" />
@@ -631,12 +605,8 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             <End Role="TblType" EntitySet="TblType" />
             <End Role="TblTreatment" EntitySet="TblTreatment" />
           </AssociationSet>
-          <AssociationSet Name="fk10" Association="Self.fk10">
-            <End Role="TblUsers" EntitySet="TblUsers" />
-            <End Role="TblTreats" EntitySet="TblTreats" />
-          </AssociationSet>
           <AssociationSet Name="TblFills" Association="Self.TblFills">
-            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblPatient" EntitySet="TblPatient" />
             <End Role="TblFile" EntitySet="TblFile" />
           </AssociationSet>
           <AssociationSet Name="TblPractices" Association="Self.TblPractices">
@@ -653,9 +623,9 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SafePlaceModelStoreContainer" CdmEntityContainer="SafePlaceDBContext">
+        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDbContext">
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="SafePlaceModel.sysdiagrams">
+            <EntityTypeMapping TypeName="igroup200_prodModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -666,7 +636,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblFile">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblFile">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblFile">
               <MappingFragment StoreEntitySet="TblFile">
                 <ScalarProperty Name="File_Num" ColumnName="File_Num" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
@@ -676,7 +646,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblFileType">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblFileType">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblFileType">
               <MappingFragment StoreEntitySet="TblFileType">
                 <ScalarProperty Name="FileType_Num" ColumnName="FileType_Num" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -685,7 +655,7 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblPatient">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblPatient">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblPatient">
               <MappingFragment StoreEntitySet="TblPatient">
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -698,25 +668,25 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblRoom">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblRoom">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblRoom">
               <MappingFragment StoreEntitySet="TblRoom">
                 <ScalarProperty Name="Room_Num" ColumnName="Room_Num" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblSummary">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblSummary">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblSummary">
               <MappingFragment StoreEntitySet="TblSummary">
                 <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
                 <ScalarProperty Name="WrittenBy" ColumnName="WrittenBy" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Summary_Date" ColumnName="Summary_Date" />
-                <ScalarProperty Name="ImportanttoNote" ColumnName="ImportanttoNote" />
+                <ScalarProperty Name="ImportentToNote" ColumnName="ImportentToNote" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTherapist">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblTherapist">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblTherapist">
               <MappingFragment StoreEntitySet="TblTherapist">
                 <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -725,24 +695,25 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="YearsOfExperience" ColumnName="YearsOfExperience" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTreatment">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblTreatment">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblTreatment">
               <MappingFragment StoreEntitySet="TblTreatment">
                 <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
-                <ScalarProperty Name="WasDone" ColumnName="WasDone" />
-                <ScalarProperty Name="TType_Id" ColumnName="TType_Id" />
-                <ScalarProperty Name="Room_Num" ColumnName="Room_Num" />
-                <ScalarProperty Name="TreatmentDate" ColumnName="TreatmentDate" />
+                <ScalarProperty Name="Treatment_Date" ColumnName="Treatment_Date" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="WasDone" ColumnName="WasDone" />
+                <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
+                <ScalarProperty Name="Room_Num" ColumnName="Room_Num" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTreats">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblTreats">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblTreats">
               <MappingFragment StoreEntitySet="TblTreats">
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
@@ -751,43 +722,41 @@ warning 6002: The table/view 'SafePlace.dbo.TblWrittenFor' does not have a prima
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblType">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblType">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblType">
               <MappingFragment StoreEntitySet="TblType">
-                <ScalarProperty Name="TType_Id" ColumnName="TType_Id" />
-                <ScalarProperty Name="TType_Name" ColumnName="TType_Name" />
+                <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
+                <ScalarProperty Name="Type_Name" ColumnName="Type_Name" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblUsers">
-            <EntityTypeMapping TypeName="SafePlaceModel.TblUsers">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblUsers">
               <MappingFragment StoreEntitySet="TblUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
-                <ScalarProperty Name="IsSuperUser" ColumnName="IsSuperUser" />
-                <ScalarProperty Name="IsSuperUserNew" ColumnName="IsSuperUserNew" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TblFills" TypeName="SafePlaceModel.TblFills" StoreEntitySet="TblFills">
-            <EndProperty Name="TblUsers">
+          <AssociationSetMapping Name="TblFills" TypeName="igroup200_prodModel.TblFills" StoreEntitySet="TblFills">
+            <EndProperty Name="TblPatient">
               <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
             </EndProperty>
             <EndProperty Name="TblFile">
               <ScalarProperty Name="File_Num" ColumnName="File_Num" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TblPractices" TypeName="SafePlaceModel.TblPractices" StoreEntitySet="TblPractices">
+          <AssociationSetMapping Name="TblPractices" TypeName="igroup200_prodModel.TblPractices" StoreEntitySet="TblPractices">
             <EndProperty Name="TblTherapist">
               <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
             </EndProperty>
             <EndProperty Name="TblType">
-              <ScalarProperty Name="TType_Id" ColumnName="TType_Id" />
+              <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TblWrittenFor" TypeName="SafePlaceModel.TblWrittenFor" StoreEntitySet="TblWrittenFor">
+          <AssociationSetMapping Name="TblWrittenFor" TypeName="igroup200_prodModel.TblWrittenFor" StoreEntitySet="TblWrittenFor">
             <EndProperty Name="TblSummary">
               <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
             </EndProperty>

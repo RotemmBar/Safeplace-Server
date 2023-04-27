@@ -24,7 +24,7 @@ namespace DATA
         public string WrittenBy { get; set; }
         public string Content { get; set; }
         public System.DateTime Summary_Date { get; set; }
-        public string ImportanttoNote { get; set; }
+        public string ImportentToNote { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblTreatment> TblTreatment { get; set; }

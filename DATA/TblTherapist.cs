@@ -28,6 +28,7 @@ namespace DATA
         public System.DateTime BirthDate { get; set; }
         public System.DateTime StartDate { get; set; }
         public int YearsOfExperience { get; set; }
+        public string PhoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblTreats> TblTreats { get; set; }

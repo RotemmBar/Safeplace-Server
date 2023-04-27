@@ -17,7 +17,7 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblFile()
         {
-            this.TblUsers = new HashSet<TblUsers>();
+            this.TblPatient = new HashSet<TblPatient>();
         }
     
         public int File_Num { get; set; }
@@ -27,6 +27,6 @@ namespace DATA
     
         public virtual TblFileType TblFileType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblUsers> TblUsers { get; set; }
+        public virtual ICollection<TblPatient> TblPatient { get; set; }
     }
 }
