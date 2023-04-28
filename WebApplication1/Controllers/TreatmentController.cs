@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,16 +13,29 @@ namespace WebApplication1.Controllers
     {
 
         [HttpGet]
-        [Route("api/amen/{id}")]
-        public IHttpActionResult Getfreetreat(string id)
+        [Route("api/amen/{year}/{month}/{day}")]
+        public IHttpActionResult Getfreetreat(int year,int month,int day)
         {
-            string[] hours = { "10:00", "14:00", "16:00", "20:00" }; ///when therapist is avialble 
-            DateTime daytemp = DateTime.Today; //the day of the treatment 
+            #region
+            //DateTime daytemp = DateTime.Today; //the day of the treatment 
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
+            #endregion
+            //var hour = new Dictionary<int, string>();
+            //hour.Add(1, "10:00");
+            //hour.Add(2, "14:00");
+            //hour.Add(3, "16:00");
+
+            string[] hours = new string[] { "10:00", "14:00", "16:00" }; ///when therapist is avialble 
+
+
+
+            string id = "1";
+            DateTime udate = new DateTime(year, month, day);
+            
             SafePlaceDbContext db = new SafePlaceDbContext();
 
-            List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == daytemp).ToList();
+            List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList();
             List<TblTreatment> treatsbydayandther = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == id)).ToList();
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
@@ -32,9 +46,9 @@ namespace WebApplication1.Controllers
             {
                 DateTime temp = (DateTime)treatment.StartTime;
                 string dem = temp.ToShortTimeString();
-
                 lis[treatment.Treatment_Id] = dem; //Dictionary ordered by Treatment number- the value is the string of the hour
             } //Insets hours to dictionary. (Therapist+Day) Based on Treatment Id
+
             foreach (var tre in lis)
             {
                 for (int i = 0; i < hours.Length; i++)
@@ -82,10 +96,56 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-            } //Checks if any of the hours are taken based on Room2 and day
+            }
 
+            #region dic
+            //foreach (var tre in lis)
+            //{
+            //    foreach(var hr in hour)
+            //    {
+            //        if (tre.Value == hr.Value)
+            //        {
+            //            hour.Remove(hr.Key);
+            //        }
+            //    }
+            //} //Checks if any of the hours are taken based on theapist+day
+
+
+
+            //foreach (var r1 in room1)
+            //{
+            //    DateTime t = (DateTime)r1.StartTime;
+            //    string r1time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+
+            //        if (hour[i] == r1time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //} //Checks if any of the hours are taken based on Room1 and day
+
+
+            //foreach (var r2 in room2)
+            //{
+            //    DateTime t = (DateTime)r2.StartTime;
+            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+            //        if (hour[i] == r2time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //}
+            //Checks if any of the hours are taken based on Room2 and day
+            #endregion dic
             return Ok(hours);
-
 
             /////***NEED TO ADD: End times
         }
@@ -97,22 +157,36 @@ namespace WebApplication1.Controllers
         }
 
         // POST: api/Treatment
+        [HttpPost]
+        [Route("api/CreateTre")]
         public void Post([FromBody] TblTreatment value)
         {
             SafePlaceDbContext db = new SafePlaceDbContext();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+
+            string date = value.Treatment_Date.ToString();
+            string time = value.StartTime.ToString();
+
+            string dateAndTime = date.Trim() + ' ' + time.Trim();
+            //DateTime dt = DateTime.ParseExact(dateAndTime, "yyyy/MM/dd hh:mm:ss",
+            //              CultureInfo.InvariantCulture);
+            //dt = DateTime.Parse(dateAndTime, CultureInfo.InvariantCulture,
+            //     DateTimeStyles.None);
+
+            DateTime dattem = DateTime.Parse(date);
 
             try
             {
                 TblTreatment trea = new TblTreatment();
 
                 trea.Treatment_Id = temp;
-                trea.Treatment_Date = value.Treatment_Date;
-                trea.WasDone = value.WasDone;
+                trea.Treatment_Date = dattem;
                 trea.StartTime = value.StartTime;
-                trea.EndTime = value.EndTime;
-                trea.Room_Num = value.Room_Num;
+                trea.EndTime = value.StartTime.Value.AddHours(1);
+                trea.WasDone = value.WasDone;
                 trea.Type_Id = value.Type_Id;
+                trea.Room_Num = value.Room_Num;
+
 
                 db.TblTreatment.Add(trea);
                 db.SaveChanges();
