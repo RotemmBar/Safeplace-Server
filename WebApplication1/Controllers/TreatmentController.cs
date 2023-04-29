@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
             DateTime daytemp = DateTime.Today; //the day of the treatment 
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == daytemp).ToList();
             List<TblTreatment> treatsbydayandther = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == id)).ToList();
@@ -99,7 +99,7 @@ namespace WebApplication1.Controllers
         // POST: api/Treatment
         public void Post([FromBody] TblTreatment value)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
 
             try

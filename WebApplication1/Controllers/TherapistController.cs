@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
         [Route("api/Therapist/{id}")]
         public List<TherapistDto> Get(string id)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
             List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date == DateTime.Today)
             .Select(x => new TherapistDto
             {
@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
         [Route("api/PostSummary")]
         public IHttpActionResult Post([FromBody] TblSummary value)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
             try
             {
                 TblSummary newSummary = new TblSummary();

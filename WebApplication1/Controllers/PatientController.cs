@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
         [Route("api/patientstreatment/{id}")]
         public List<TreatmentDto> GetAllPatientTreatments(string id)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
 
             List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
                 Select(p => new TreatmentDto()
@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
         [Route("api/patient")]
         public List<PatientDto> Get()
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDb db = new SafePlaceDb();
             List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
             {
                 patientId = p.Patient_Id,
@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                SafePlaceDbContext db = new SafePlaceDbContext();
+                SafePlaceDb db = new SafePlaceDb();
                 List<PatientDto> patients = db.TblPatient
                     .Where(p => p.TblTreats.Any(t => t.Therapist_Id == therapistId))
                     .Select(p => new PatientDto()
@@ -85,7 +85,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                SafePlaceDbContext db = new SafePlaceDbContext();
+                SafePlaceDb db = new SafePlaceDb();
                 PatientDto patient = db.TblPatient
                     .Where(p => p.Patient_Id == patientId)
                     .Select(p => new PatientDto()

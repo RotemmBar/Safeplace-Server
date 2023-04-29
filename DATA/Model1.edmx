@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="igroup200_prodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="igroup200_prodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -358,7 +358,8 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
             <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="igroup200_prodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -403,9 +404,9 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblPatient" ToRole="TblTreats" />
           <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblPatient" ToRole="TblFile" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TblRoom">
           <Key>
@@ -486,7 +487,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserType" Type="Boolean" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -513,7 +514,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk7">
-          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="1" />
+          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblRoom">
@@ -549,7 +550,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk6">
-          <End Role="TblType" Type="Self.TblType" Multiplicity="1" />
+          <End Role="TblType" Type="Self.TblType" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
@@ -572,7 +573,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <End Role="TblSummary" Type="Self.TblSummary" Multiplicity="*" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SafePlaceDbContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SafePlaceDb" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" />
@@ -626,7 +627,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDbContext">
+        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDb">
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="igroup200_prodModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -660,7 +661,6 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <EntitySetMapping Name="TblPatient">
             <EntityTypeMapping TypeName="igroup200_prodModel.TblPatient">
               <MappingFragment StoreEntitySet="TblPatient">
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -668,6 +668,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -737,11 +738,11 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <EntitySetMapping Name="TblUsers">
             <EntityTypeMapping TypeName="igroup200_prodModel.TblUsers">
               <MappingFragment StoreEntitySet="TblUsers">
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
