@@ -28,6 +28,7 @@ namespace DATA
         public Nullable<System.DateTime> StartDate { get; set; }
         public string Gender { get; set; }
         public string PhoneNumber { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblTreats> TblTreats { get; set; }

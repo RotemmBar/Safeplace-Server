@@ -33,7 +33,7 @@ namespace WebApplication1.Controllers
             string id = "1";
             DateTime udate = new DateTime(year, month, day);
             
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList();
             List<TblTreatment> treatsbydayandther = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == id)).ToList();
@@ -161,7 +161,7 @@ namespace WebApplication1.Controllers
         [Route("api/CreateTre")]
         public void Post([FromBody] TblTreatment value)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
 
             string date = value.Treatment_Date.ToString();

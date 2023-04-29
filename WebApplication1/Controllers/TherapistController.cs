@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
         [Route("api/Therapist/{id}")]
         public List<TherapistDto> Get(string id)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
             List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date == DateTime.Today)
             .Select(x => new TherapistDto
             {
@@ -26,7 +26,7 @@ namespace WebApplication1.Controllers
                 Treatment_Date = x.TblTreatment.Treatment_Date,
                 StartTime = x.TblTreatment.StartTime,
                 EndTime = x.TblTreatment.EndTime,
-                Room_Num = x.TblTreatment.Room_Num,
+                Room_Num = (int)x.TblTreatment.Room_Num,
                 WasDone = x.TblTreatment.WasDone,
                 PatientFirstName = x.TblPatient.FirstName,
                 PatientLastName = x.TblPatient.LastName,
@@ -49,11 +49,12 @@ namespace WebApplication1.Controllers
         [Route("api/PostSummary")]
         public IHttpActionResult Post([FromBody] TblSummary value)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
             try
             {
                 TblSummary newSummary = new TblSummary();
-                newSummary.Summary_Num = value.Summary_Num;
+                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
+                newSummary.Summary_Num = nextSummaryNum;
                 newSummary.WrittenBy = value.WrittenBy;
                 newSummary.Content = value.Content;
                 newSummary.Summary_Date = value.Summary_Date;
