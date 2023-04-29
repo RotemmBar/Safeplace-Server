@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         [Route("api/amen/{year}/{month}/{day}")]
-        public IHttpActionResult Getfreetreat(int year,int month,int day)
+        public IHttpActionResult Getfreetreat(int year, int month, int day)
         {
             #region
             //DateTime daytemp = DateTime.Today; //the day of the treatment 
@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
 
             string id = "1";
             DateTime udate = new DateTime(year, month, day);
-            
+
             SafePlaceDbContextt db = new SafePlaceDbContextt();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList();
@@ -150,6 +150,7 @@ namespace WebApplication1.Controllers
             /////***NEED TO ADD: End times
         }
 
+        
         // GET: api/Treatment/5
         public string Get(int id)
         {
@@ -168,10 +169,6 @@ namespace WebApplication1.Controllers
             string time = value.StartTime.ToString();
 
             string dateAndTime = date.Trim() + ' ' + time.Trim();
-            //DateTime dt = DateTime.ParseExact(dateAndTime, "yyyy/MM/dd hh:mm:ss",
-            //              CultureInfo.InvariantCulture);
-            //dt = DateTime.Parse(dateAndTime, CultureInfo.InvariantCulture,
-            //     DateTimeStyles.None);
 
             DateTime dattem = DateTime.Parse(date);
 
@@ -188,10 +185,17 @@ namespace WebApplication1.Controllers
                 trea.Room_Num = value.Room_Num;
 
 
-                db.TblTreatment.Add(trea);
+                TblTreats tr = new TblTreats();
+
+                tr.Patient_Id = "1";
+                tr.Therapist_Id = "1";
+                tr.Treatment_Id = temp;
+
+                //db.TblTreats.Add(tr);
+                //db.TblTreatment.Add(trea);
                 db.SaveChanges();
-                Console.WriteLine("YAY");
             }
+
             catch (Exception e)
             {
                 throw (e);
@@ -199,48 +203,6 @@ namespace WebApplication1.Controllers
 
         }
 
-        //// PUT: api/Treatment/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
 
-        //[HttpPut]
-        //[Route("api/temp")]
-        //// PUT: api/Treatment/5
-        //public void Put()
-        //{
-        //    SafePlaceDBContext db = new SafePlaceDBContext();
-
-        //    try
-        //    {
-        //        TblTreatment trea = new TblTreatment();
-
-        //        trea.Treatment_Id = 7;
-        //        trea.TreatmentDate = DateTime.Today;
-        //        trea.WasDone = "n";
-        //        trea.StartTime = DateTime.Now.AddHours(2);
-        //        trea.EndTime = DateTime.Now.AddHours(3);
-        //        trea.Room_Num = 2;
-        //        trea.TType_Id = 2;
-
-        //        db.TblTreatment.Add(trea);
-        //        db.SaveChanges();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-
-        //}
-        //// DELETE: api/Treatment/5
-        //public void Delete(int id)
-        //{
-        //}
-
-        //// GET: api/Treatment/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
     }
 }
