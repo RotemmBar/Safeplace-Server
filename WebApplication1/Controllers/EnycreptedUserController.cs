@@ -70,31 +70,33 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [Route("SignUp")]
-        public IHttpActionResult SignUp([FromBody] UsersDto model) ///Problem with the Super User!!!
+        public IHttpActionResult SignUp([FromBody] UsersDTO model) ///Problem with the Super User!!!
         //GO OVER ONCE WE UPLOADED THE DATABASE
         ///***********NOT FINAL********************
         {
             try
             {
-                int modelUserType = 2;
+                int modelUserType = 0;
 
-                if (model.user_type == "מטפל")
+                if (model.UserType == "מטפל")
                 {
                     modelUserType = 1;
                 }
-                else if (model.user_type == "מטופל")
+                else if (model.UserType == "מטופל")
                 {
                     modelUserType = 0;
                 }
+                else
+                { modelUserType = 2; }
 
                 var newUser = new TblUsers
                 {
-                    Email = model.email,
-                    Password = model.phone_number,
-                    PhoneNumber = model.phone_number,
-                    UserType = modelUserType
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    UserType = modelUserType,
+                    Password = model.Password
                 };
-                
+
                 db.TblUsers.Add(newUser);
                 db.SaveChanges();
 
@@ -109,20 +111,20 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IHttpActionResult Login([FromBody] UsersDto model, HttpContext context)
+        public IHttpActionResult Login([FromBody] UsersDTO model)
         {
             //Check if passowrd was Changed from the default
-            var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.email);
-            if (default_password.Password == model.phone_number)
+            var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
+            if (default_password.Password == model.Password && model.Password == default_password.PhoneNumber)
             {
                 //Default login wasn't changed
                 return Content(HttpStatusCode.OK, "Change Password");
             }
             else
             {
-                var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.email);
+                var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
                 string hasded = hasdedPassword.Password;
-                if (IsPasswordMatch(model.password, hasded))
+                if (IsPasswordMatch(model.Password, hasded))
                 {
                     return Ok();
                 }
@@ -138,7 +140,7 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [Route("SignUpUser")]
-        public IHttpActionResult SignUp([FromBody] EnycreptedUserDto model) ///Problem with the Super User!!!
+        public IHttpActionResult SignUp([FromBody] EnycreptedUserDTO model) ///Problem with the Super User!!!
         //GO OVER ONCE WE UPLOADED THE DATABASE
         ///***********NOT FINAL********************
         {
@@ -214,7 +216,7 @@ namespace WebApplication1.Controllers
                     db.SaveChanges();
                     return Ok();
                 }
-                else 
+                else
                 {
                     return Content(HttpStatusCode.BadRequest, "Error with values entered");
                 }
@@ -222,7 +224,6 @@ namespace WebApplication1.Controllers
             catch (Exception ex)
             {
                 return Content(HttpStatusCode.BadRequest, ex);
-            }   
+            }
         }
-    }
-}
+    

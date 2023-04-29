@@ -173,13 +173,13 @@
     <Compile Include="Controllers\TherapistController.cs" />
     <Compile Include="Controllers\TreatmentController.cs" />
     <Compile Include="Dto\DecryptUserDto.cs" />
-    <Compile Include="Dto\EnycreptedUserDto.cs" />
+    <Compile Include="Dto\EnycreptedUserDTO.cs" />
     <Compile Include="Dto\PatientDto.cs" />
     <Compile Include="Dto\SummaryDto.cs" />
     <Compile Include="Dto\TherapistDto.cs" />
     <Compile Include="Dto\TreatmentDto.cs" />
     <Compile Include="Dto\TreatsDto.cs" />
-    <Compile Include="Dto\UsersDto.cs" />
+    <Compile Include="Dto\UsersDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
