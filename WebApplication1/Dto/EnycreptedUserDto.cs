@@ -12,7 +12,7 @@ namespace WebApplication1.Dto
         public DateTime birthdate { get; set; }
         public DateTime startdate { get; set; }
         public string gender { get; set; }
-        public string patient_Id { get; set; }
+        public string user_id { get; set; }
         public int issuperuser { get; set; }
         public string email { get; set; }
         public string password { get; set; }

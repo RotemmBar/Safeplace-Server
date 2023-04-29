@@ -7,8 +7,9 @@ namespace WebApplication1.Dto
 {
     public class UsersDto
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public int Patinet_Id { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public string phone_number { get; set; }
+        public int user_type { get; set; }
     }
 }

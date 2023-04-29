@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
     [RoutePrefix("api/SignInUser")]
     public class EnycreptedUserController : ApiController
     {
-        SafePlaceDbContext db = new SafePlaceDbContext();
+        SafePlaceDbContext
 
 
         ///General Functions
@@ -68,52 +68,24 @@ namespace WebApplication1.Controllers
         #region API
 
         [HttpPost]
-        [Route("SignIn")]
-        public IHttpActionResult SignUp([FromBody] EnycreptedUserDto model) ///Problem with the Super User!!!
+        [Route("SignUp")]
+        public IHttpActionResult SignUp([FromBody] UsersDto model) ///Problem with the Super User!!!
         //GO OVER ONCE WE UPLOADED THE DATABASE
         ///***********NOT FINAL********************
         {
             try
             {
-                using (var db = new SafePlaceDbContext())
+                var newUser = new TblUsers
                 {
-                    string modelGender = "";
-
-                    if (model.gender == "זכר")
-                    {
-                        modelGender = "M";
-                    }
-                    else
-                    {
-                        modelGender = "F";
-                    };
-
-                    var newPatient = new TblPatient
-                    {
-                        FirstName = model.firstname,
-                        LastName = model.lastname,
-                        BirthDate = model.birthdate,
-                        StartDate = model.startdate,
-                        Patient_Id = model.patient_Id
-                    };
-                    db.TblPatient.Add(newPatient);
-                    db.SaveChanges();
-
-                }
-                using (var db = new SafePlaceDbContext())
-                {
-                    var newUser = new TblUsers   ////need to go over
-                    {
-                        Email = model.email,
-                        Password = EncryptPassword(model.password),
-                        //Id = model.patient_Id,
-
-                    };
-
-                    db.TblUsers.Add(newUser);
-                    db.SaveChanges();
-                    return Ok();
-                }
+                    Email = model.email,
+                    Password = model.email + model.phone_number,
+                    PhoneNumber = model.phone_number,
+                    UserType = model.user_type,
+                    
+                };
+                
+                db.TblUsers.Add(newUser);
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -165,31 +137,58 @@ namespace WebApplication1.Controllers
 
         #endregion
 
-        //// GET: api/EnycreptedUser
-        //public IEnumerable<string> Get()
+        //[HttpPost]
+        //[Route("SignUp")]
+        //public IHttpActionResult SignUp([FromBody] EnycreptedUserDto model) ///Problem with the Super User!!!
+        ////GO OVER ONCE WE UPLOADED THE DATABASE
+        /////***********NOT FINAL********************
         //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        //    try
+        //    {
+        //        using (var db = new SafePlaceDbContext())
+        //        {
+        //            string modelGender = "";
 
-        //// GET: api/EnycreptedUser/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        //            if (model.gender == "זכר")
+        //            {
+        //                modelGender = "M";
+        //            }
+        //            else
+        //            {
+        //                modelGender = "F";
+        //            };
 
-        //// POST: api/EnycreptedUser
-        //public void Post([FromBody]string value)
-        //{
-        //}
+        //            var newPatient = new TblPatient
+        //            {
+        //                FirstName = model.firstname,
+        //                LastName = model.lastname,
+        //                BirthDate = model.birthdate,
+        //                StartDate = model.startdate,
+        //                Patient_Id = model.user_id
+        //            };
+        //            db.TblPatient.Add(newPatient);
+        //            db.SaveChanges();
 
-        //// PUT: api/EnycreptedUser/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        //        }
+        //        using (var db = new SafePlaceDbContext())
+        //        {
+        //            var newUser = new TblUsers   ////need to go over
+        //            {
+        //                Email = model.email,
+        //                Password = EncryptPassword(model.password),
+        //                //Id = model.patient_Id,
 
-        //// DELETE: api/EnycreptedUser/5
-        //public void Delete(int id)
-        //{
+        //            };
+
+        //            db.TblUsers.Add(newUser);
+        //            db.SaveChanges();
+        //            return Ok();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, ex);
+        //    }
         //}
     }
 }
