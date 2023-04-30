@@ -18,7 +18,7 @@ namespace DATA
         public TblTreatment()
         {
             this.TblTreats = new HashSet<TblTreats>();
-            this.TblSummary = new HashSet<TblSummary>();
+            this.TblWrittenFor = new HashSet<TblWrittenFor>();
         }
     
         public int Treatment_Id { get; set; }
@@ -34,6 +34,6 @@ namespace DATA
         public virtual ICollection<TblTreats> TblTreats { get; set; }
         public virtual TblType TblType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblSummary> TblSummary { get; set; }
+        public virtual ICollection<TblWrittenFor> TblWrittenFor { get; set; }
     }
 }
