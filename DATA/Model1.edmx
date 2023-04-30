@@ -51,6 +51,7 @@
           <Property Name="StartDate" Type="date" />
           <Property Name="Gender" Type="char" MaxLength="1" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TblPractices">
           <Key>
@@ -97,9 +98,9 @@
           <Property Name="Treatment_Date" Type="date" Nullable="false" />
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
-          <Property Name="WasDone" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="Type_Id" Type="int" Nullable="false" />
-          <Property Name="Room_Num" Type="int" Nullable="false" />
+          <Property Name="WasDone" Type="char" MaxLength="1" />
+          <Property Name="Type_Id" Type="int" />
+          <Property Name="Room_Num" Type="int" />
         </EntityType>
         <EntityType Name="TblTreats">
           <Key>
@@ -126,6 +127,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserType" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'igroup200_prod.dbo.TblWrittenFor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -240,7 +242,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk6">
-          <End Role="TblType" Type="Self.TblType" Multiplicity="1" />
+          <End Role="TblType" Type="Self.TblType" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
@@ -252,7 +254,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk7">
-          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="1" />
+          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblRoom">
@@ -402,6 +404,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblPatient" ToRole="TblTreats" />
           <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblPatient" ToRole="TblFile" />
         </EntityType>
@@ -446,9 +449,9 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="Treatment_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="StartTime" Type="DateTime" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
-          <Property Name="WasDone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Type_Id" Type="Int32" Nullable="false" />
-          <Property Name="Room_Num" Type="Int32" Nullable="false" />
+          <Property Name="WasDone" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Type_Id" Type="Int32" />
+          <Property Name="Room_Num" Type="Int32" />
           <NavigationProperty Name="TblRoom" Relationship="Self.fk7" FromRole="TblTreatment" ToRole="TblRoom" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk11" FromRole="TblTreatment" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.fk6" FromRole="TblTreatment" ToRole="TblType" />
@@ -484,6 +487,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -510,7 +514,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk7">
-          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="1" />
+          <End Role="TblRoom" Type="Self.TblRoom" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblRoom">
@@ -546,7 +550,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </ReferentialConstraint>
         </Association>
         <Association Name="fk6">
-          <End Role="TblType" Type="Self.TblType" Multiplicity="1" />
+          <End Role="TblType" Type="Self.TblType" Multiplicity="0..1" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TblType">
@@ -569,7 +573,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <End Role="TblSummary" Type="Self.TblSummary" Multiplicity="*" />
           <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SafePlaceDbContext" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SafePlaceDbContextt" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" />
@@ -623,7 +627,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDbContext">
+        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDbContextt">
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="igroup200_prodModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -664,6 +668,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -737,6 +742,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

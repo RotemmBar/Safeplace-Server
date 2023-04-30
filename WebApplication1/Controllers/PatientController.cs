@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,30 +14,42 @@ namespace WebApplication1.Controllers
     {
         [HttpGet]
         [Route("api/patientstreatment/{id}")]
-        public List<TreatmentDto> GetAllPatientTreatments(string id)
+        public IHttpActionResult GetAllPatientTreatments(string id)
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
+                string LastName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.LastName).FirstOrDefault();
 
-            List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
+                string TherapistName = FirstName +' '+ LastName;
+
+                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,
                     WasDone = p.WasDone,
-                    Type_Id = p.Type_Id,
-                    Room_Num = p.Room_Num,
-                    TreatmentDate = (DateTime)p.Treatment_Date,
-                    StartTime = (DateTime)p.StartTime,
-                    EndTime = (DateTime)p.EndTime
+                    Type_Id = (int)p.Type_Id,
+                    Room_Num = (int)p.Room_Num,
+                    datetemp = p.Treatment_Date.ToString(),
+                    startTimetemp = p.StartTime.ToString().Substring(13),
+                    endtimetemp = p.EndTime.ToString().Substring(13),
+                    TherapistName = TherapistName,
                 }).ToList();
 
-            return treatment;
+                return Ok(treatment);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
         }
 
         [HttpGet]
         [Route("api/patient")]
         public List<PatientDto> Get()
         {
-            SafePlaceDbContext db = new SafePlaceDbContext();
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
             List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
             {
                 patientId = p.Patient_Id,
@@ -57,7 +70,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                SafePlaceDbContext db = new SafePlaceDbContext();
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
                 List<PatientDto> patients = db.TblPatient
                     .Where(p => p.TblTreats.Any(t => t.Therapist_Id == therapistId))
                     .Select(p => new PatientDto()
@@ -85,7 +98,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                SafePlaceDbContext db = new SafePlaceDbContext();
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
                 PatientDto patient = db.TblPatient
                     .Where(p => p.Patient_Id == patientId)
                     .Select(p => new PatientDto()
@@ -93,7 +106,7 @@ namespace WebApplication1.Controllers
                         patientId = p.Patient_Id,
                         FirstName = p.FirstName,
                         LastName = p.LastName,
-                        //Email = p.TblUsers.Email, ///GO OVER
+                        Email = p.Email,
                         Age = DateTime.Now.Year - p.BirthDate.Value.Year,
                         NumTreatments = p.TblTreats.Count(),
                         phoneNumber = p.PhoneNumber
@@ -109,25 +122,5 @@ namespace WebApplication1.Controllers
         }
 
 
-        //// GET: api/Patient/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST: api/Patient
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT: api/Patient/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Patient/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

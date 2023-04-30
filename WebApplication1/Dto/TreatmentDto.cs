@@ -14,5 +14,9 @@ namespace WebApplication1.Dto
         public DateTime TreatmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string datetemp;
+        public string startTimetemp;
+        public string endtimetemp;
+        public string TherapistName;
     }
 }

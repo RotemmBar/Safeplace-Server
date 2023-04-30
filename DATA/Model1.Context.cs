@@ -13,10 +13,10 @@ namespace DATA
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SafePlaceDbContext : DbContext
+    public partial class SafePlaceDbContextt : DbContext
     {
-        public SafePlaceDbContext()
-            : base("name=SafePlaceDbContext")
+        public SafePlaceDbContextt()
+            : base("name=SafePlaceDbContextt")
         {
         }
     

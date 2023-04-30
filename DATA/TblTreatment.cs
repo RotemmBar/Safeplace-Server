@@ -26,8 +26,8 @@ namespace DATA
         public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public string WasDone { get; set; }
-        public int Type_Id { get; set; }
-        public int Room_Num { get; set; }
+        public Nullable<int> Type_Id { get; set; }
+        public Nullable<int> Room_Num { get; set; }
     
         public virtual TblRoom TblRoom { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
