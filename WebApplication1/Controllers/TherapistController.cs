@@ -44,47 +44,6 @@ namespace WebApplication1.Controllers
         }
 
 
-        // POST: api/Therapist
-        [HttpPost]
-        [Route("api/PostSummary")]
-        public IHttpActionResult Post([FromBody] TblSummary value)
-        {
-            SafePlaceDbContextt db = new SafePlaceDbContextt();
-            try
-            {
-                TblSummary newSummary = new TblSummary();
-                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
-                newSummary.Summary_Num = nextSummaryNum;
-                newSummary.WrittenBy = value.WrittenBy;
-                newSummary.Content = value.Content;
-                newSummary.Summary_Date = value.Summary_Date;
-                newSummary.ImportentToNote = value.ImportentToNote;
-                newSummary.TblTreatment = new List<TblTreatment>();
-                db.TblSummary.Add(newSummary);
-                db.SaveChanges();
-                return Ok("Save");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
-        //// GET: api/Patient/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-
-        //// PUT: api/Therapist/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Therapist/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

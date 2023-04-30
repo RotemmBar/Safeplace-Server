@@ -129,8 +129,6 @@
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="UserType" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'igroup200_prod.dbo.TblWrittenFor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TblWrittenFor">
           <Key>
             <PropertyRef Name="Summary_Num" />
@@ -138,6 +136,7 @@ warning 6002: The table/view 'igroup200_prod.dbo.TblWrittenFor' does not have a 
           </Key>
           <Property Name="Summary_Num" Type="int" Nullable="false" />
           <Property Name="Treatment_Id" Type="int" Nullable="false" />
+          <Property Name="new" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -303,12 +302,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <EntitySet Name="TblTreats" EntityType="Self.TblTreats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblType" EntityType="Self.TblType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [TblWrittenFor].[Summary_Num] AS [Summary_Num], 
-    [TblWrittenFor].[Treatment_Id] AS [Treatment_Id]
-    FROM [dbo].[TblWrittenFor] AS [TblWrittenFor]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -424,7 +418,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="Content" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
           <Property Name="Summary_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ImportentToNote" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TblTreatment" Relationship="Self.TblWrittenFor" FromRole="TblSummary" ToRole="TblTreatment" />
+          <NavigationProperty Name="TblWrittenFor" Relationship="Self.fk8" FromRole="TblSummary" ToRole="TblWrittenFor" />
         </EntityType>
         <EntityType Name="TblTherapist">
           <Key>
@@ -455,7 +449,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <NavigationProperty Name="TblRoom" Relationship="Self.fk7" FromRole="TblTreatment" ToRole="TblRoom" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk11" FromRole="TblTreatment" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.fk6" FromRole="TblTreatment" ToRole="TblType" />
-          <NavigationProperty Name="TblSummary" Relationship="Self.TblWrittenFor" FromRole="TblTreatment" ToRole="TblSummary" />
+          <NavigationProperty Name="TblWrittenFor" Relationship="Self.fk9" FromRole="TblTreatment" ToRole="TblWrittenFor" />
         </EntityType>
         <EntityType Name="TblTreats">
           <Key>
@@ -488,6 +482,17 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserType" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblWrittenFor">
+          <Key>
+            <PropertyRef Name="Summary_Num" />
+            <PropertyRef Name="Treatment_Id" />
+          </Key>
+          <Property Name="Summary_Num" Type="Int32" Nullable="false" />
+          <Property Name="Treatment_Id" Type="Int32" Nullable="false" />
+          <Property Name="new" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblSummary" Relationship="Self.fk8" FromRole="TblWrittenFor" ToRole="TblSummary" />
+          <NavigationProperty Name="TblTreatment" Relationship="Self.fk9" FromRole="TblWrittenFor" ToRole="TblTreatment" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -522,6 +527,18 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
             </Principal>
             <Dependent Role="TblTreatment">
               <PropertyRef Name="Room_Num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk8">
+          <End Role="TblSummary" Type="Self.TblSummary" Multiplicity="1" />
+          <End Role="TblWrittenFor" Type="Self.TblWrittenFor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblSummary">
+              <PropertyRef Name="Summary_Num" />
+            </Principal>
+            <Dependent Role="TblWrittenFor">
+              <PropertyRef Name="Summary_Num" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -561,6 +578,18 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk9">
+          <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="1" />
+          <End Role="TblWrittenFor" Type="Self.TblWrittenFor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblTreatment">
+              <PropertyRef Name="Treatment_Id" />
+            </Principal>
+            <Dependent Role="TblWrittenFor">
+              <PropertyRef Name="Treatment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="TblFills">
           <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="*" />
           <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
@@ -568,10 +597,6 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
         <Association Name="TblPractices">
           <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="*" />
           <End Role="TblType" Type="Self.TblType" Multiplicity="*" />
-        </Association>
-        <Association Name="TblWrittenFor">
-          <End Role="TblSummary" Type="Self.TblSummary" Multiplicity="*" />
-          <End Role="TblTreatment" Type="Self.TblTreatment" Multiplicity="*" />
         </Association>
         <EntityContainer Name="SafePlaceDbContextt" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
@@ -585,6 +610,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <EntitySet Name="TblTreats" EntityType="Self.TblTreats" />
           <EntitySet Name="TblType" EntityType="Self.TblType" />
           <EntitySet Name="TblUsers" EntityType="Self.TblUsers" />
+          <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" />
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -596,6 +622,10 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <AssociationSet Name="fk7" Association="Self.fk7">
             <End Role="TblRoom" EntitySet="TblRoom" />
             <End Role="TblTreatment" EntitySet="TblTreatment" />
+          </AssociationSet>
+          <AssociationSet Name="fk8" Association="Self.fk8">
+            <End Role="TblSummary" EntitySet="TblSummary" />
+            <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
           </AssociationSet>
           <AssociationSet Name="fk12" Association="Self.fk12">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
@@ -609,6 +639,10 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
             <End Role="TblType" EntitySet="TblType" />
             <End Role="TblTreatment" EntitySet="TblTreatment" />
           </AssociationSet>
+          <AssociationSet Name="fk9" Association="Self.fk9">
+            <End Role="TblTreatment" EntitySet="TblTreatment" />
+            <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
+          </AssociationSet>
           <AssociationSet Name="TblFills" Association="Self.TblFills">
             <End Role="TblPatient" EntitySet="TblPatient" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -616,10 +650,6 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <AssociationSet Name="TblPractices" Association="Self.TblPractices">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblType" EntitySet="TblType" />
-          </AssociationSet>
-          <AssociationSet Name="TblWrittenFor" Association="Self.TblWrittenFor">
-            <End Role="TblSummary" EntitySet="TblSummary" />
-            <End Role="TblTreatment" EntitySet="TblTreatment" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -746,6 +776,15 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TblWrittenFor">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblWrittenFor">
+              <MappingFragment StoreEntitySet="TblWrittenFor">
+                <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
+                <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
+                <ScalarProperty Name="new" ColumnName="new" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="TblFills" TypeName="igroup200_prodModel.TblFills" StoreEntitySet="TblFills">
             <EndProperty Name="TblPatient">
               <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
@@ -760,14 +799,6 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
             </EndProperty>
             <EndProperty Name="TblType">
               <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="TblWrittenFor" TypeName="igroup200_prodModel.TblWrittenFor" StoreEntitySet="TblWrittenFor">
-            <EndProperty Name="TblSummary">
-              <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
-            </EndProperty>
-            <EndProperty Name="TblTreatment">
-              <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
