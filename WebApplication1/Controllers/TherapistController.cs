@@ -47,20 +47,27 @@ namespace WebApplication1.Controllers
         // POST: api/Therapist
         [HttpPost]
         [Route("api/PostSummary")]
-        public IHttpActionResult Post([FromBody] TblSummary value)
+        public IHttpActionResult Post([FromBody] NewSummaryDto value)
         {
+            
             SafePlaceDbContextt db = new SafePlaceDbContextt();
             try
             {
                 TblSummary newSummary = new TblSummary();
-                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
+                int nextSummaryNum = db.TblSummaries.Any() ? db.TblSummaries.Max(s => s.Summary_Num) + 1 : 1;
                 newSummary.Summary_Num = nextSummaryNum;
                 newSummary.WrittenBy = value.WrittenBy;
                 newSummary.Content = value.Content;
                 newSummary.Summary_Date = value.Summary_Date;
-                newSummary.ImportentToNote = value.ImportentToNote;
-                newSummary.TblTreatment = new List<TblTreatment>();
-                db.TblSummary.Add(newSummary);
+                newSummary.ImportentToNote = value.ImportanttoNote;
+                //newSummary.TblTreatments = new List<TblTreatment>();
+                db.TblSummaries.Add(newSummary);
+
+                TblWrittenFor newWrittenFor = new TblWrittenFor();
+                newWrittenFor.Summary_Num = nextSummaryNum;
+                newWrittenFor.Treatment_Id = value.Treatment_Id;
+                db.TblWrittenFors.Add(newWrittenFor);
+
                 db.SaveChanges();
                 return Ok("Save");
             }

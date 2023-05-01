@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
 
-            List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList();
+            List<TblTreatment> treatsbyday = db.TblTreatments.Where(o => o.Treatment_Date == udate).ToList();
             List<TblTreatment> treatsbydayandther = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == id)).ToList();
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
@@ -163,7 +163,7 @@ namespace WebApplication1.Controllers
         public void Post([FromBody] TblTreatment value)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
-            int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+            int temp = db.TblTreatments.Max(o => o.Treatment_Id) + 1;
 
             string date = value.Treatment_Date.ToString();
             string time = value.StartTime.ToString();
@@ -185,7 +185,7 @@ namespace WebApplication1.Controllers
                 trea.Room_Num = value.Room_Num;
 
 
-                TblTreats tr = new TblTreats();
+                TblTreat tr = new TblTreat();
 
                 tr.Patient_Id = "1";
                 tr.Therapist_Id = "1";

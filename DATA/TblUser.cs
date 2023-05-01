@@ -12,7 +12,7 @@ namespace DATA
     using System;
     using System.Collections.Generic;
     
-    public partial class TblUsers
+    public partial class TblUser
     {
         public int Id { get; set; }
         public string Email { get; set; }

@@ -12,17 +12,13 @@ namespace DATA
     using System;
     using System.Collections.Generic;
     
-    public partial class TblRoom
+    public partial class TblWrittenFor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TblRoom()
-        {
-            this.TblTreatments = new HashSet<TblTreatment>();
-        }
+        public int Summary_Num { get; set; }
+        public int Treatment_Id { get; set; }
+        public string @new { get; set; }
     
-        public int Room_Num { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTreatment> TblTreatments { get; set; }
+        public virtual TblSummary TblSummary { get; set; }
+        public virtual TblTreatment TblTreatment { get; set; }
     }
 }

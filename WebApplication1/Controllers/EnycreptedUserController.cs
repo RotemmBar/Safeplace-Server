@@ -96,13 +96,13 @@ namespace WebApplication1.Controllers
                         StartDate = model.startdate,
                         Patient_Id = model.patient_Id
                     };
-                    db.TblPatient.Add(newPatient);
+                    db.TblPatients.Add(newPatient);
                     db.SaveChanges();
 
                 }
                 using (var db = new SafePlaceDbContextt())
                 {
-                    var newUser = new TblUsers   ////need to go over
+                    var newUser = new TblUser   ////need to go over
                     {
                         Email = model.email,
                         Password = EncryptPassword(model.password),
