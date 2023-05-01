@@ -160,12 +160,12 @@ namespace WebApplication1.Controllers
         // POST: api/Treatment
         [HttpPost]
         [Route("api/CreateTre")]
-        public void Post([FromBody] TblTreatment value)
+        public void Post([FromBody] TreatmentDto value)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
 
-            string date = value.Treatment_Date.ToString();
+            string date = value.TreatmentDate.ToString();
             string time = value.StartTime.ToString();
 
             string dateAndTime = date.Trim() + ' ' + time.Trim();
@@ -179,7 +179,7 @@ namespace WebApplication1.Controllers
                 trea.Treatment_Id = temp;
                 trea.Treatment_Date = dattem;
                 trea.StartTime = value.StartTime;
-                trea.EndTime = value.StartTime.Value.AddHours(1);
+                trea.EndTime = value.StartTime.AddHours(1);
                 trea.WasDone = value.WasDone;
                 trea.Type_Id = value.Type_Id;
                 trea.Room_Num = value.Room_Num;
@@ -191,8 +191,8 @@ namespace WebApplication1.Controllers
                 tr.Therapist_Id = "1";
                 tr.Treatment_Id = temp;
 
-                //db.TblTreats.Add(tr);
-                //db.TblTreatment.Add(trea);
+                db.TblTreats.Add(tr);
+                db.TblTreatment.Add(trea);
                 db.SaveChanges();
             }
 
