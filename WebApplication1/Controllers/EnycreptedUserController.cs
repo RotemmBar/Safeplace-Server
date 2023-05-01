@@ -160,7 +160,21 @@ namespace WebApplication1.Controllers
                 string hasded = hasdedPassword.Password;
                 if (IsPasswordMatch(model.Password, hasded))
                 {
-                    return Ok();
+                    if (hasdedPassword.UserType == 0)
+                    {
+                        return Ok();
+                    }
+
+                    if (hasdedPassword.UserType == 1)
+                    {
+
+                        return Content(HttpStatusCode.Accepted, "pleae");
+
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
                 }
                 else 
                 {
