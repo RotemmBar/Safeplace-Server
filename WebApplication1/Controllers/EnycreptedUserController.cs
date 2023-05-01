@@ -66,7 +66,6 @@ namespace WebApplication1.Controllers
 
         ///DB API'S
         #region API
-
         [HttpPost]
         [Route("SignUp")]
         public IHttpActionResult SignUp([FromBody] UsersDto model) ///Problem with the Super User!!!
@@ -108,15 +107,55 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Route("SignUpManager")]
+        public IHttpActionResult ManagerSignUp([FromBody] UsersDto model) ///Problem with the Super User!!!
+        //GO OVER ONCE WE UPLOADED THE DATABASE
+        ///***********NOT FINAL********************
+        {
+            try
+            {
+                int modelUserType = 0;
+
+                if (model.UserType == "מטפל")
+                {
+                    modelUserType = 1;
+                }
+                else if (model.UserType == "מטופל")
+                {
+                    modelUserType = 0;
+                }
+                else
+                { modelUserType = 2; }
+
+                var newUser = new TblUsers
+                {
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    UserType = modelUserType,
+                    Password = model.PhoneNumber
+                };
+
+                db.TblUsers.Add(newUser);
+                db.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        [HttpPost]
         [Route("login")]
-        public IHttpActionResult Login([FromBody] UsersDto model)
+        public IHttpActionResult Login([FromBody] FirstLoginDto model)
         {
             //Check if passowrd was Changed from the default
             var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
             if (default_password.Password == model.Password && model.Password == default_password.PhoneNumber)
             {
                 //Default login wasn't changed
-                return Content(HttpStatusCode.OK, "Change Password");
+                return Content(HttpStatusCode.OK, $"Change Password {default_password.UserType}");
             }
             else
             {
@@ -137,31 +176,33 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost]
-        [Route("SignUpUser")]
-        public IHttpActionResult SignUp([FromBody] EnycreptedUserDto model) ///Problem with the Super User!!!
+        [Route("SignUpPatient")]
+        public IHttpActionResult SignUpPatient([FromBody] PatientRegisterDto patientRegisterDto) ///Problem with the Super User!!!
         //GO OVER ONCE WE UPLOADED THE DATABASE
         ///***********NOT FINAL********************
         {
             try
             {
-                var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == model.email);
+                var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == patientRegisterDto.Email);
 
                 if (login_credentials.UserType == 0)
                 {
                     //Patient Login
                     string modelGender = "";
 
-                    if (model.gender == "זכר") { modelGender = "M"; }
+                    if (patientRegisterDto.Gender == "זכר") { modelGender = "M"; }
 
                     else { modelGender = "F"; };
 
                     var newPatient = new TblPatient
                     {
-                        FirstName = model.firstname,
-                        LastName = model.lastname,
-                        BirthDate = model.birthdate,
-                        StartDate = model.startdate,
-                        Patient_Id = model.user_id
+                        FirstName = patientRegisterDto.FirstName,
+                        LastName = patientRegisterDto.LastName,
+                        BirthDate = patientRegisterDto.BirthDate,
+                        StartDate = patientRegisterDto.StartDate,
+                        Patient_Id = patientRegisterDto.Patient_Id,
+                        PhoneNumber = login_credentials.PhoneNumber,
+                        Email = patientRegisterDto.Email                     
                     };
                     db.TblPatient.Add(newPatient);
                     db.SaveChanges();
@@ -169,8 +210,8 @@ namespace WebApplication1.Controllers
 
                     var newUser = new TblUsers   ////need to go over
                     {
-                        Email = model.email,
-                        Password = EncryptPassword(model.password),
+                        Email = login_credentials.Email,
+                        Password = EncryptPassword(patientRegisterDto.Password),
                         //Id = model.patient_Id,
 
                     };
@@ -179,24 +220,38 @@ namespace WebApplication1.Controllers
                     db.SaveChanges();
                     return Ok();
                 }
-
-                else if (login_credentials.UserType == 1 || login_credentials.UserType == 2)
+                else
                 {
-                    //Therapist Login
-                    string modelGender = "";
+                    return Content(HttpStatusCode.BadRequest, "Error with values entered");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
 
-                    if (model.gender == "זכר") { modelGender = "M"; }
 
-                    else { modelGender = "F"; };
+        [HttpPost]
+        [Route("SignUpTherapist")]
+        public IHttpActionResult SignUpTherapist([FromBody] RegisterTherapistDto therapistDto) ///Problem with the Super User!!!
+        //GO OVER ONCE WE UPLOADED THE DATABASE
+        ///***********NOT FINAL********************
+        {
+            try
+            {
+                var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == therapistDto.Email);
 
+                if (login_credentials.UserType == 1 || login_credentials.UserType == 2)
+                {
                     var newTherapist = new TblTherapist
                     {
-                        FirstName = model.firstname,
-                        LastName = model.lastname,
-                        BirthDate = model.birthdate,
-                        StartDate = model.startdate,
-                        YearsOfExperience = model.years_of_experience,
-                        Therapist_Id = model.user_id
+                        FirstName = therapistDto.FirstName,
+                        LastName = therapistDto.LastName,
+                        BirthDate = therapistDto.BirthDate,
+                        StartDate = therapistDto.StartDate,
+                        YearsOfExperience = therapistDto.YearsOfExperience,
+                        Therapist_Id = therapistDto.Therapist_Id
                     };
                     db.TblTherapist.Add(newTherapist);
                     db.SaveChanges();
@@ -204,8 +259,8 @@ namespace WebApplication1.Controllers
 
                     var newUser = new TblUsers   ////need to go over
                     {
-                        Email = model.email,
-                        Password = EncryptPassword(model.password),
+                        Email = login_credentials.Email,
+                        Password = EncryptPassword(therapistDto.Password),
                         //Id = model.patient_Id,
 
                     };
