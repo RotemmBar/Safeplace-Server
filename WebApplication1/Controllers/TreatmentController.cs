@@ -151,16 +151,10 @@ namespace WebApplication1.Controllers
         }
 
         
-        // GET: api/Treatment/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/Treatment
         [HttpPost]
         [Route("api/CreateTre")]
-        public void Post([FromBody] TreatmentDto value)
+        public IHttpActionResult Post([FromBody] TreatmentDto value)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
             int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
@@ -194,11 +188,13 @@ namespace WebApplication1.Controllers
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
                 db.SaveChanges();
+
+                return Ok();
             }
 
             catch (Exception e)
             {
-                throw (e);
+                return BadRequest();
             }
 
         }
