@@ -51,7 +51,7 @@ namespace WebApplication1.Controllers
             try
             {
                 TblSummary newSummary = new TblSummary();
-                int nextSummaryNum = db.TblSummaries.Any() ? db.TblSummaries.Max(s => s.Summary_Num) + 1 : 1;
+                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
                 newSummary.Summary_Num = nextSummaryNum;
                 newSummary.WrittenBy = value.WrittenBy;
                 newSummary.Content = value.Content;

@@ -17,7 +17,7 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblTreatment()
         {
-            this.TblTreats = new HashSet<TblTreats>();
+            this.TblTreats = new HashSet<TblTreat>();
             this.TblWrittenFor = new HashSet<TblWrittenFor>();
 
         }

@@ -243,7 +243,7 @@ namespace WebApplication1.Controllers
         public IHttpActionResult Post([FromBody] TreatmentDto value)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
-            int temp = db.TblTreatments.Max(o => o.Treatment_Id) + 1;
+            int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
 
             string date = value.TreatmentDate.ToShortDateString();
             string time = value.StartTime.ToShortTimeString();

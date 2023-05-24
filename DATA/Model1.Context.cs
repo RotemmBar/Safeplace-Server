@@ -25,7 +25,7 @@ namespace DATA
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TblFile> TblFile { get; set; }
         public virtual DbSet<TblFileType> TblFileType { get; set; }
         public virtual DbSet<TblPatient> TblPatient { get; set; }
@@ -33,9 +33,9 @@ namespace DATA
         public virtual DbSet<TblSummary> TblSummary { get; set; }
         public virtual DbSet<TblTherapist> TblTherapist { get; set; }
         public virtual DbSet<TblTreatment> TblTreatment { get; set; }
-        public virtual DbSet<TblTreats> TblTreats { get; set; }
+        public virtual DbSet<TblTreat> TblTreats { get; set; }
         public virtual DbSet<TblType> TblType { get; set; }
-        public virtual DbSet<TblUsers> TblUsers { get; set; }
+        public virtual DbSet<TblUser> TblUsers { get; set; }
         public virtual DbSet<TblWrittenFor> TblWrittenFor { get; set; }
 
     }

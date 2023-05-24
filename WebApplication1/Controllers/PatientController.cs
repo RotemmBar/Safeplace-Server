@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
 
                 string TherapistName = FirstName +' '+ LastName;
 
-                List<TreatmentDto> treatment = db.TblTreatments.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
+                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,
@@ -50,7 +50,7 @@ namespace WebApplication1.Controllers
         public List<PatientDto> Get()
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
-            List<PatientDto> patients = db.TblPatients.Select(p => new PatientDto()
+            List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
             {
                 patientId = p.Patient_Id,
                 FirstName = p.FirstName,
@@ -71,7 +71,7 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                List<PatientDto> patients = db.TblPatients
+                List<PatientDto> patients = db.TblPatient
                     .Where(p => p.TblTreats.Any(t => t.Therapist_Id == therapistId))
                     .Select(p => new PatientDto()
                     {
@@ -99,7 +99,7 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                PatientDto patient = db.TblPatients
+                PatientDto patient = db.TblPatient
                     .Where(p => p.Patient_Id == patientId)
                     .Select(p => new PatientDto()
                     {
