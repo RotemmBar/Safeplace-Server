@@ -57,6 +57,7 @@ namespace WebApplication1.Controllers
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList(); //treatment for the day picked
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
+
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
             
@@ -242,7 +243,7 @@ namespace WebApplication1.Controllers
         public IHttpActionResult Post([FromBody] TreatmentDto value)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
-            int temp = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+            int temp = db.TblTreatments.Max(o => o.Treatment_Id) + 1;
 
             string date = value.TreatmentDate.ToShortDateString();
             string time = value.StartTime.ToShortTimeString();
@@ -263,7 +264,7 @@ namespace WebApplication1.Controllers
                 trea.Room_Num = value.Room_Num;
 
 
-                TblTreats tr = new TblTreats();
+                TblTreat tr = new TblTreat();
 
                 tr.Patient_Id = "2";
                 tr.Therapist_Id = "1";

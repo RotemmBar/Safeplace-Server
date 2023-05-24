@@ -37,5 +37,6 @@ namespace DATA
         public virtual DbSet<TblType> TblType { get; set; }
         public virtual DbSet<TblUsers> TblUsers { get; set; }
         public virtual DbSet<TblWrittenFor> TblWrittenFor { get; set; }
+
     }
 }

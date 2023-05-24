@@ -19,6 +19,7 @@ namespace DATA
         {
             this.TblTreats = new HashSet<TblTreats>();
             this.TblWrittenFor = new HashSet<TblWrittenFor>();
+
         }
     
         public int Treatment_Id { get; set; }
@@ -31,9 +32,10 @@ namespace DATA
     
         public virtual TblRoom TblRoom { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTreats> TblTreats { get; set; }
+        public virtual ICollection<TblTreat> TblTreats { get; set; }
         public virtual TblType TblType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblWrittenFor> TblWrittenFor { get; set; }
+
     }
 }

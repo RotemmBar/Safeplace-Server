@@ -17,12 +17,12 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblRoom()
         {
-            this.TblTreatment = new HashSet<TblTreatment>();
+            this.TblTreatments = new HashSet<TblTreatment>();
         }
     
         public int Room_Num { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTreatment> TblTreatment { get; set; }
+        public virtual ICollection<TblTreatment> TblTreatments { get; set; }
     }
 }

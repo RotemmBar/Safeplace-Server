@@ -47,12 +47,11 @@ namespace WebApplication1.Controllers
         [Route("api/PostSummary")]
         public IHttpActionResult Post([FromBody] NewSummaryDto value)
         {
-
             SafePlaceDbContextt db = new SafePlaceDbContextt();
             try
             {
                 TblSummary newSummary = new TblSummary();
-                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
+                int nextSummaryNum = db.TblSummaries.Any() ? db.TblSummaries.Max(s => s.Summary_Num) + 1 : 1;
                 newSummary.Summary_Num = nextSummaryNum;
                 newSummary.WrittenBy = value.WrittenBy;
                 newSummary.Content = value.Content;
@@ -65,6 +64,7 @@ namespace WebApplication1.Controllers
                 newWrittenFor.Summary_Num = nextSummaryNum;
                 newWrittenFor.Treatment_Id = value.Treatment_Id;
                 db.TblWrittenFor.Add(newWrittenFor);
+
 
                 db.SaveChanges();
                 return Ok("Save");

@@ -17,8 +17,8 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblType()
         {
-            this.TblTreatment = new HashSet<TblTreatment>();
-            this.TblTherapist = new HashSet<TblTherapist>();
+            this.TblTreatments = new HashSet<TblTreatment>();
+            this.TblTherapists = new HashSet<TblTherapist>();
         }
     
         public int Type_Id { get; set; }
@@ -26,8 +26,8 @@ namespace DATA
         public int Duration { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTreatment> TblTreatment { get; set; }
+        public virtual ICollection<TblTreatment> TblTreatments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTherapist> TblTherapist { get; set; }
+        public virtual ICollection<TblTherapist> TblTherapists { get; set; }
     }
 }

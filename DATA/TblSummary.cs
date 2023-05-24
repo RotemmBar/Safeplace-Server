@@ -18,6 +18,7 @@ namespace DATA
         public TblSummary()
         {
             this.TblWrittenFor = new HashSet<TblWrittenFor>();
+
         }
     
         public int Summary_Num { get; set; }
@@ -28,5 +29,6 @@ namespace DATA
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblWrittenFor> TblWrittenFor { get; set; }
+
     }
 }
