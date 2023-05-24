@@ -25,18 +25,17 @@ namespace DATA
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<TblFile> TblFile { get; set; }
-        public virtual DbSet<TblFileType> TblFileType { get; set; }
-        public virtual DbSet<TblPatient> TblPatient { get; set; }
-        public virtual DbSet<TblRoom> TblRoom { get; set; }
-        public virtual DbSet<TblSummary> TblSummary { get; set; }
-        public virtual DbSet<TblTherapist> TblTherapist { get; set; }
-        public virtual DbSet<TblTreatment> TblTreatment { get; set; }
-        public virtual DbSet<TblTreats> TblTreats { get; set; }
-        public virtual DbSet<TblType> TblType { get; set; }
-        public virtual DbSet<TblUsers> TblUsers { get; set; }
-        public virtual DbSet<TblWrittenFor> TblWrittenFor { get; set; }
-
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<TblFile> TblFiles { get; set; }
+        public virtual DbSet<TblFileType> TblFileTypes { get; set; }
+        public virtual DbSet<TblPatient> TblPatients { get; set; }
+        public virtual DbSet<TblRoom> TblRooms { get; set; }
+        public virtual DbSet<TblSummary> TblSummaries { get; set; }
+        public virtual DbSet<TblTherapist> TblTherapists { get; set; }
+        public virtual DbSet<TblTreatment> TblTreatments { get; set; }
+        public virtual DbSet<TblTreat> TblTreats { get; set; }
+        public virtual DbSet<TblType> TblTypes { get; set; }
+        public virtual DbSet<TblUser> TblUsers { get; set; }
+        public virtual DbSet<TblWrittenFor> TblWrittenFors { get; set; }
     }
 }

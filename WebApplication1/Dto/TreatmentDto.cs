@@ -18,8 +18,5 @@ namespace WebApplication1.Dto
         public string startTimetemp;
         public string endtimetemp;
         public string TherapistName;
-        public string Therapist_Id;
-        public string Patient_Id;
-        public string available;
     }
 }

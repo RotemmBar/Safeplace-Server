@@ -19,19 +19,17 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
-
+                SummaryDto Summary = db.TblSummaries.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" && a.TblWrittenFors.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
                 {
                     Summary_Num = x.Summary_Num,
                     WrittenBy = x.WrittenBy,
                     Summary_Date = x.Summary_Date.ToString().Substring(0, 10),
                     ImportanttoNote = x.ImportentToNote,
                     Content = x.Content,
-                    StartTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.StartTime,
-                    EndTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.EndTime,
-                    FirstNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
-                    LastNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
-
+                    StartTime = (DateTime)x.TblWrittenFors.FirstOrDefault().TblTreatment.StartTime,
+                    EndTime = (DateTime)x.TblWrittenFors.FirstOrDefault().TblTreatment.EndTime,
+                    FirstNameP = x.TblWrittenFors.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
+                    LastNameP = x.TblWrittenFors.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
                 }).FirstOrDefault();
 
 
@@ -50,14 +48,12 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                List<SummaryDto> allSummaries = db.TblSummary.Where(x => x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId)
-
+                List<SummaryDto> allSummaries = db.TblSummaries.Where(x => x.TblWrittenFors.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId)
                     .Select(s => new SummaryDto()
                     {
                         Summary_Num = 0,
                         Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
-                        Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
-
+                        Patient_Id = s.TblWrittenFors.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
                     }).ToList();
 
                 return Ok(allSummaries);

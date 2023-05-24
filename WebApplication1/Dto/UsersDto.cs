@@ -9,14 +9,6 @@ namespace WebApplication1.Dto
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public string PhoneNumber { get; set; }
-        public string UserType { get; set; }
-    }
-
-    public class FirstLoginDto 
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-
+        public int Patinet_Id { get; set; }
     }
 }
