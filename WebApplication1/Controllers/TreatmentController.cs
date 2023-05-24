@@ -230,6 +230,118 @@ namespace WebApplication1.Controllers
             TreatmentDto[] final = new TreatmentDto[0];
             final = freetreatment.Where(c => c.Room_Num != 0 || c.available== "Taken2").ToArray();
             return Ok(final);       
+            //    {
+
+            //        if (hour[i] == r1time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //} //Checks if any of the hours are taken based on Room1 and day
+
+
+            //foreach (var r2 in room2)
+            //{
+            //    DateTime t = (DateTime)r2.StartTime;
+            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+            //        if (hour[i] == r2time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //}
+            //Checks if any of the hours are taken based on Room2 and day
+            #endregion dic
+            return Ok(hours);
+            //    {
+
+            //        if (hour[i] == r1time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //} //Checks if any of the hours are taken based on Room1 and day
+
+
+            //foreach (var r2 in room2)
+            //{
+            //    DateTime t = (DateTime)r2.StartTime;
+            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+            //        if (hour[i] == r2time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //}
+            //Checks if any of the hours are taken based on Room2 and day
+            #endregion dic
+            return Ok(hours);
+            //    {
+
+            //        if (hour[i] == r1time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //} //Checks if any of the hours are taken based on Room1 and day
+
+
+            //foreach (var r2 in room2)
+            //{
+            //    DateTime t = (DateTime)r2.StartTime;
+            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+            //        if (hour[i] == r2time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //}
+            //Checks if any of the hours are taken based on Room2 and day
+            #endregion dic
+            return Ok(hours);
+            //    {
+
+            //        if (hour[i] == r1time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //} //Checks if any of the hours are taken based on Room1 and day
+
+
+            //foreach (var r2 in room2)
+            //{
+            //    DateTime t = (DateTime)r2.StartTime;
+            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
+
+            //    for (int i = 1; i <= hour.Count; i++)
+            //    {
+            //        if (hour[i] == r2time)
+            //        {
+            //            hour.Remove(i);
+            //        }
+            //    }
+
+            //}
+            //Checks if any of the hours are taken based on Room2 and day
+            #endregion dic
+            return Ok(hours);
 
             /////***NEED TO ADD: End times
         }
@@ -270,7 +382,7 @@ namespace WebApplication1.Controllers
 
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 return Ok();
             }
