@@ -230,7 +230,8 @@ namespace WebApplication1.Controllers
             TreatmentDto[] final = new TreatmentDto[0];
             final = freetreatment.Where(c => c.Room_Num != 0 || c.available== "Taken2").ToArray();
             return Ok(final);       
-
+                   
+        
             /////***NEED TO ADD: End times
         }
 
@@ -270,7 +271,7 @@ namespace WebApplication1.Controllers
 
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 return Ok();
             }
