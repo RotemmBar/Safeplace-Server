@@ -66,198 +66,53 @@ namespace WebApplication1.Controllers
 
         ///DB API'S
         #region API
+
         [HttpPost]
-        [Route("SignUp")]
-        public IHttpActionResult SignUp([FromBody] UsersDto model)    //activated by NewRegister- the manager page
+        [Route("SignIn")]
+        public IHttpActionResult SignUp([FromBody] EnycreptedUserDto model) ///Problem with the Super User!!!
+        //GO OVER ONCE WE UPLOADED THE DATABASE
+        ///***********NOT FINAL********************
         {
             try
             {
-                int modelUserType = 0;
-
-
-                if (model.UserType == "מטפל")
+                using (var db = new SafePlaceDbContextt())
                 {
-                    modelUserType = 1;
-                }
-                else if (model.UserType == "מטופל")
-                {
-                    modelUserType = 0;
-                }
-                else
-                { modelUserType = 2; }
+                    string modelGender = "";
 
-
-                var newUser = new TblUsers
-                {
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    UserType = modelUserType,
-                    Password = model.PhoneNumber
-                };
-
-                db.TblUsers.Add(newUser);
-                db.SaveChanges();
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
-
-        //[HttpPost]
-        //[Route("SignUpManager")]
-        //public IHttpActionResult ManagerSignUp([FromBody] UsersDto model) 
-     
-        //{
-        //    try
-        //    {
-        //        int modelUserType = 0;
-
-        //        if (model.UserType == "מטפל")
-        //        {
-        //            modelUserType = 1;
-        //        }
-        //        else if (model.UserType == "מטופל")
-        //        {
-        //            modelUserType = 0;
-        //        }
-        //        else
-        //        { modelUserType = 2; }
-
-        //        var newUser = new TblUsers
-        //        {
-        //            Email = model.Email,
-        //            PhoneNumber = model.PhoneNumber,
-        //            UserType = modelUserType,
-        //            Password = model.PhoneNumber
-        //        };
-
-        //        db.TblUsers.Add(newUser);
-        //        db.SaveChanges();
-
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(HttpStatusCode.BadRequest, ex);
-        //    }
-        //}
-
-        [HttpPost]
-        [Route("login")]
-        public IHttpActionResult Login([FromBody] FirstLoginDto model) //activated by login
-        {
-            //Check if passowrd was Changed from the default
-            var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
-            if (default_password.Password == model.Password && model.Password == default_password.PhoneNumber)
-            {
-                //Default login wasn't changed
-                return Content(HttpStatusCode.Created, $"Change Password {default_password.UserType}");
-            }
-            else
-            {
-                var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
-                string hasded = hasdedPassword.Password;
-                if (IsPasswordMatch(model.Password, hasded))
-                {
-                    if (hasdedPassword.UserType == 0)
+                    if (model.gender == "זכר")
                     {
-                        return Ok();
-                    }
-
-                    if (hasdedPassword.UserType == 1)
-                    {
-
-                        return Content(HttpStatusCode.Accepted, "pleae");
-
+                        modelGender = "M";
                     }
                     else
                     {
-                        return BadRequest();
-                    }
-                }
-                else 
-                {
-                    return BadRequest();
-                }
-            }
-        }
-
-
-    
-
-        [HttpPost]
-        [Route("SignUpPatient")]
-        public IHttpActionResult SignUpPatient([FromBody] PatientRegisterDto patientRegisterDto) 
-  
-        {
-            try
-            {
-                var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == patientRegisterDto.Email);
-                string modelGender = "";
-
-                if (patientRegisterDto.Gender == "זכר") { modelGender = "M"; }
-
-                else { modelGender = "F"; };
-
-                if (login_credentials.UserType == 0)
-                {
-                    //Patient Login
-                 
+                        modelGender = "F";
+                    };
 
                     var newPatient = new TblPatient
                     {
-                        FirstName = patientRegisterDto.FirstName,
-                        LastName = patientRegisterDto.LastName,
-                        BirthDate = patientRegisterDto.BirthDate,
-                        StartDate = patientRegisterDto.StartDate,
-                        Patient_Id = patientRegisterDto.Patient_Id,
-                        PhoneNumber = login_credentials.PhoneNumber,
-                        Email = patientRegisterDto.Email ,
-                        Gender=modelGender
+                        FirstName = model.firstname,
+                        LastName = model.lastname,
+                        BirthDate = model.birthdate,
+                        StartDate = model.startdate,
+                        Patient_Id = model.patient_Id
                     };
-                    db.TblPatient.Add(newPatient);
-
-                    var newUser = db.TblUsers.Where(o => o.Email == login_credentials.Email).FirstOrDefault();
-
-                    newUser.Password = EncryptPassword(patientRegisterDto.Password);
-
-
-
-                    db.Entry(newUser).State = System.Data.Entity.EntityState.Modified;
+                    db.TblPatients.Add(newPatient);
                     db.SaveChanges();
-                    return Ok();
-                }
 
-                if (login_credentials.UserType == 1 || login_credentials.UserType == 2)
+                }
+                using (var db = new SafePlaceDbContextt())
                 {
-                    var newTherapist = new TblTherapist
+                    var newUser = new TblUser   ////need to go over
                     {
-                        FirstName = patientRegisterDto.FirstName,
-                        LastName = patientRegisterDto.LastName,
-                        BirthDate = patientRegisterDto.BirthDate,
-                        Gender = modelGender,
-                        StartDate = patientRegisterDto.StartDate,
-                        YearsOfExperience = patientRegisterDto.YearsOfExperience,
-                        Therapist_Id = patientRegisterDto.Patient_Id,
-                        PhoneNumber=login_credentials.PhoneNumber
+                        Email = model.email,
+                        Password = EncryptPassword(model.password),
+                        //Id = model.patient_Id,
+
                     };
-                    db.TblTherapist.Add(newTherapist);
 
-                    var newUser = db.TblUsers.Where(o => o.Email == login_credentials.Email).FirstOrDefault();
-
-                    newUser.Password = EncryptPassword(patientRegisterDto.Password);
-
-
-                    db.Entry(newUser).State = System.Data.Entity.EntityState.Modified;
+                    db.TblUsers.Add(newUser);
                     db.SaveChanges();
                     return Ok();
-                }
-                else
-                {
-                    return Content(HttpStatusCode.BadRequest, "Error with values entered");
                 }
             }
             catch (Exception ex)
@@ -267,55 +122,74 @@ namespace WebApplication1.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("SignUpTherapist")]
-        //public IHttpActionResult SignUpTherapist([FromBody] RegisterTherapistDto therapistDto) 
-   
-        //{
-        //    try
-        //    {
-        //        var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == therapistDto.Email);
+        [HttpPost]
+        [Route("login")]
+        public IHttpActionResult Login([FromBody] DecryptUserDto model, HttpContext context)
+        {
+            using (var db = new SafePlaceDbContextt())
+            {
+                var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.email);
+                string hasded = hasdedPassword.Password;
+                if (IsPasswordMatch(model.password, hasded))
+                {
+                    ////Check for user IsSuperUser Level
+                    //int userLevel = hasdedPassword.IsSuperUser;
 
-        //        if (login_credentials.UserType == 1 || login_credentials.UserType == 2)
-        //        {
-        //            var newTherapist = new TblTherapist
-        //            {
-        //                FirstName = therapistDto.FirstName,
-        //                LastName = therapistDto.LastName,
-        //                BirthDate = therapistDto.BirthDate,
-        //                StartDate = therapistDto.StartDate,
-        //                YearsOfExperience = therapistDto.YearsOfExperience,
-        //                Therapist_Id = therapistDto.Therapist_Id
-        //            };
-        //            db.TblTherapist.Add(newTherapist);
-        //            db.SaveChanges();
+                    //// Generate a Session Authentication token
+                    //string sessionToken = Guid.NewGuid().ToString("N");
+
+                    //// Set the token as a session variable
+                    //context.Session["SessionToken"] = sessionToken;
+
+                    //// Create an HTTP response
+                    //context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    //context.Response.ContentType = "application/json";
+
+                    //context.Response.Write("{\"sessionToken\":\"" + sessionToken + "\"}");
+
+                    ////return Content(HttpStatusCode.OK, userLevel);
+                    //return context;
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
 
 
-        //            var newUser = new TblUsers   
-        //            {
-        //                Email = login_credentials.Email,
-        //                Password = EncryptPassword(therapistDto.Password),
+            }
 
-        //            };
 
-        //            db.TblUsers.Add(newUser);
-        //            db.SaveChanges();
-        //            return Ok();
-        //        }
-        //        else
-        //        {
-        //            return Content(HttpStatusCode.BadRequest, "Error with values entered");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(HttpStatusCode.BadRequest, ex);
-        //    }
-        //}
-
+        }
 
 
         #endregion
 
+        //// GET: api/EnycreptedUser
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
+
+        //// GET: api/EnycreptedUser/5
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
+
+        //// POST: api/EnycreptedUser
+        //public void Post([FromBody]string value)
+        //{
+        //}
+
+        //// PUT: api/EnycreptedUser/5
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
+
+        //// DELETE: api/EnycreptedUser/5
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

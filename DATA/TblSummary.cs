@@ -17,8 +17,7 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblSummary()
         {
-            this.TblWrittenFor = new HashSet<TblWrittenFor>();
-
+            this.TblWrittenFors = new HashSet<TblWrittenFor>();
         }
     
         public int Summary_Num { get; set; }
@@ -28,7 +27,6 @@ namespace DATA
         public string ImportentToNote { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblWrittenFor> TblWrittenFor { get; set; }
-
+        public virtual ICollection<TblWrittenFor> TblWrittenFors { get; set; }
     }
 }
