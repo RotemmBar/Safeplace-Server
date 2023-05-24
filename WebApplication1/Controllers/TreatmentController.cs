@@ -271,7 +271,7 @@ namespace WebApplication1.Controllers
 
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
-                //db.SaveChanges();
+               // db.SaveChanges();
 
                 return Ok();
             }
