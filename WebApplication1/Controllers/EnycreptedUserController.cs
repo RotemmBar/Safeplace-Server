@@ -265,10 +265,41 @@ namespace WebApplication1.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/GetSummaryByDate/{PatientId}/{Date}")]
+        public IHttpActionResult GetSummaryByNum(string PatientId, string date)
+        {
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
+                {
+                    Summary_Num = x.Summary_Num,
+                    WrittenBy = x.WrittenBy,
+                    Summary_Date = x.Summary_Date.ToString().Substring(0, 10),
+                    ImportanttoNote = x.ImportentToNote,
+                    Content = x.Content,
+                    StartTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.StartTime,
+                    EndTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.EndTime,
+                    FirstNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
+                    LastNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
+                }).FirstOrDefault();
+
+
+                return Ok(Summary);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+
+
         //[HttpPost]
         //[Route("SignUpTherapist")]
         //public IHttpActionResult SignUpTherapist([FromBody] RegisterTherapistDto therapistDto) 
-   
+
         //{
         //    try
         //    {
