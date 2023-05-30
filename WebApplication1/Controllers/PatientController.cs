@@ -13,18 +13,23 @@ namespace WebApplication1.Controllers
     public class PatientController : ApiController
     {
         [HttpGet]
-        [Route("api/patientstreatment/{id}")]
-        public IHttpActionResult GetAllPatientTreatments(string id)
+        [Route("api/patientstreatment/")]
+        public IHttpActionResult GetAllPatientTreatments(string email)
         {
             try
             {
+                //SafePlaceDbContextt db = new SafePlaceDbContextt();
+                //string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
+                //string LastName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.LastName).FirstOrDefault();
+
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
+                string id = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
                 string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
                 string LastName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.LastName).FirstOrDefault();
 
                 string TherapistName = FirstName +' '+ LastName;
 
-                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today).
+                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date >= DateTime.Today).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,

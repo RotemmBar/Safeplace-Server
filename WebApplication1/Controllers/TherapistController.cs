@@ -13,10 +13,12 @@ namespace WebApplication1.Controllers
     public class TherapistController : ApiController
     {
         [HttpGet]
-        [Route("api/Therapist/{id}")]
-        public List<TherapistDto> Get(string id)
+        [Route("api/Therapist/")]
+        public List<TherapistDto> Get(string email)
         {
             SafePlaceDbContextt db = new SafePlaceDbContextt();
+            string phone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
+            string id = db.TblTherapist.Where(o => o.PhoneNumber == phone).Select(p => p.Therapist_Id).FirstOrDefault();
             List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date == DateTime.Today)
             .Select(x => new TherapistDto
             {
