@@ -21,5 +21,7 @@ namespace WebApplication1.Dto
         public string Therapist_Id;
         public string Patient_Id;
         public string available;
+        public string Patient_Email;
+
     }
 }

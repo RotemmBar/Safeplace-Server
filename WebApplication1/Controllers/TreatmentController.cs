@@ -14,15 +14,13 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         [Route("api/amen/{year}/{month}/{day}")]
-        public IHttpActionResult Getfreetreat(int year, int month, int day)
+        public IHttpActionResult Getfreetreat(int year, int month, int day, string email)
         {
             #region
             //DateTime daytemp = DateTime.Today; //the day of the treatment 
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
             #endregion
-            string[] hours = new string[] { "10:00", "14:00", "16:00" }; ///when therapist is available 
-
             TreatmentDto[] freetreatment = new TreatmentDto[]
             {
                new TreatmentDto
@@ -47,13 +45,12 @@ namespace WebApplication1.Controllers
                },
 
             };
-
-    
-        
-            string therapistid = "1";
             DateTime udate = new DateTime(year, month, day);
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+            string patientId = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
+            string therapistid = db.TblTreats.Where(u => u.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList(); //treatment for the day picked
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
@@ -247,7 +244,9 @@ namespace WebApplication1.Controllers
 
             string date = value.TreatmentDate.ToShortDateString();
             string time = value.StartTime.ToShortTimeString();
-
+            string patienEmail = value.Patient_Email.ToString();
+            string patientId = db.TblPatient.Where(o => o.Email == patienEmail).Select(p => p.Patient_Id).FirstOrDefault();
+            string therapistId = db.TblTreats.Where(o => o.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
             string dateAndTime = date.Trim() + ' ' + time.Trim();
 
             DateTime dattem = DateTime.Parse(dateAndTime);
@@ -266,8 +265,8 @@ namespace WebApplication1.Controllers
 
                 TblTreat tr = new TblTreat();
 
-                tr.Patient_Id = "2";
-                tr.Therapist_Id = "1";
+                tr.Patient_Id = patientId;
+                tr.Therapist_Id = therapistId;
                 tr.Treatment_Id = temp;
 
                 db.TblTreats.Add(tr);
