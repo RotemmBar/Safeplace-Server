@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         [Route("api/amen/{year}/{month}/{day}")]
-        public IHttpActionResult Getfreetreat(int year, int month, int day)
+        public IHttpActionResult Getfreetreat(int year, int month, int day, string email)
         {
             #region
             //DateTime daytemp = DateTime.Today; //the day of the treatment 
@@ -50,10 +50,13 @@ namespace WebApplication1.Controllers
 
     
         
-            string therapistid = "1";
+            //string therapistid = "1";
             DateTime udate = new DateTime(year, month, day);
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+            string patientId = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
+            string therapistid = db.TblTreats.Where(u => u.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList(); //treatment for the day picked
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
