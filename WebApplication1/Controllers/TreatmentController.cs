@@ -21,8 +21,6 @@ namespace WebApplication1.Controllers
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
             #endregion
-            string[] hours = new string[] { "10:00", "14:00", "16:00" }; ///when therapist is available 
-
             TreatmentDto[] freetreatment = new TreatmentDto[]
             {
                new TreatmentDto
@@ -47,10 +45,6 @@ namespace WebApplication1.Controllers
                },
 
             };
-
-    
-        
-            //string therapistid = "1";
             DateTime udate = new DateTime(year, month, day);
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
@@ -249,7 +243,9 @@ namespace WebApplication1.Controllers
 
             string date = value.TreatmentDate.ToShortDateString();
             string time = value.StartTime.ToShortTimeString();
-
+            string patienEmail = value.Patient_Email.ToString();
+            string patientId = db.TblPatient.Where(o => o.Email == patienEmail).Select(p => p.Patient_Id).FirstOrDefault();
+            string therapistId = db.TblTreats.Where(o => o.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
             string dateAndTime = date.Trim() + ' ' + time.Trim();
 
             DateTime dattem = DateTime.Parse(dateAndTime);
@@ -268,8 +264,8 @@ namespace WebApplication1.Controllers
 
                 TblTreats tr = new TblTreats();
 
-                tr.Patient_Id = "2";
-                tr.Therapist_Id = "1";
+                tr.Patient_Id = patientId;
+                tr.Therapist_Id = therapistId;
                 tr.Treatment_Id = temp;
 
                 db.TblTreats.Add(tr);
