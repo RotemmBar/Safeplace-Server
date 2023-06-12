@@ -184,8 +184,6 @@ namespace WebApplication1.Controllers
         }
 
 
-    
-
         [HttpPost]
         [Route("SignUpPatient")]
         public IHttpActionResult SignUpPatient([FromBody] PatientRegisterDto patientRegisterDto) 
@@ -295,6 +293,26 @@ namespace WebApplication1.Controllers
         }
 
 
+        [HttpGet]
+        [Route("userexist/")]
+        public IHttpActionResult UserExist(string email)
+        {
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                var u = db.TblUsers.Where(o => o.Email == email).FirstOrDefault();
+                if(u==null)
+                {
+                    return Content(HttpStatusCode.BadRequest, "you cant");
+                }
+                return Ok(u);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+
+        }
 
         //[HttpPost]
         //[Route("SignUpTherapist")]
