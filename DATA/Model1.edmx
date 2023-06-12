@@ -21,8 +21,8 @@
           </Key>
           <Property Name="File_Num" Type="int" Nullable="false" />
           <Property Name="DateSent" Type="date" Nullable="false" />
-          <Property Name="Content" Type="nvarchar" MaxLength="500" />
           <Property Name="FileType_Num" Type="int" Nullable="false" />
+          <Property Name="Content" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TblFileType">
           <Key>
@@ -373,8 +373,8 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           </Key>
           <Property Name="File_Num" Type="Int32" Nullable="false" />
           <Property Name="DateSent" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FileType_Num" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="TblFileType" Relationship="Self.fk1" FromRole="TblFile" ToRole="TblFileType" />
           <NavigationProperty Name="TblPatient" Relationship="Self.TblFills" FromRole="TblFile" ToRole="TblPatient" />
         </EntityType>
@@ -674,8 +674,8 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
               <MappingFragment StoreEntitySet="TblFile">
                 <ScalarProperty Name="File_Num" ColumnName="File_Num" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="FileType_Num" ColumnName="FileType_Num" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
