@@ -5,6 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="22ab8038600146deaab586db97e0387e" Name="Diagram1">
+
         <EntityTypeShape EntityType="igroup200_prodModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblFile" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblFileType" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
