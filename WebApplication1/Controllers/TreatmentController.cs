@@ -263,7 +263,7 @@ namespace WebApplication1.Controllers
                 trea.Room_Num = value.Room_Num;
 
 
-                TblTreat tr = new TblTreat();
+                TblTreats tr = new TblTreats();
 
                 tr.Patient_Id = patientId;
                 tr.Therapist_Id = therapistId;

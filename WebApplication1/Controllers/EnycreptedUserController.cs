@@ -87,7 +87,7 @@ namespace WebApplication1.Controllers
                 { modelUserType = 2; }
 
 
-                var newUser = new TblUser
+                var newUser = new TblUsers
                 {
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,

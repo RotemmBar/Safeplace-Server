@@ -12,12 +12,14 @@ namespace DATA
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class TblTreats
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public string Patient_Id { get; set; }
+        public int Treatment_Id { get; set; }
+        public string Therapist_Id { get; set; }
+    
+        public virtual TblPatient TblPatient { get; set; }
+        public virtual TblTherapist TblTherapist { get; set; }
+        public virtual TblTreatment TblTreatment { get; set; }
     }
 }
