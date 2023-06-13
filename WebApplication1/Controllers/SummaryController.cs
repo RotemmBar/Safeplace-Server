@@ -20,6 +20,7 @@ namespace WebApplication1.Controllers
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
                 SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
+
                 {
                     Summary_Num = x.Summary_Num,
                     WrittenBy = x.WrittenBy,
@@ -30,6 +31,7 @@ namespace WebApplication1.Controllers
                     EndTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.EndTime,
                     FirstNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
                     LastNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
+
                 }).FirstOrDefault();
 
 
@@ -49,11 +51,13 @@ namespace WebApplication1.Controllers
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
                 List<SummaryDto> allSummaries = db.TblSummary.Where(x => x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId)
+
                     .Select(s => new SummaryDto()
                     {
                         Summary_Num = 0,
                         Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
                         Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
+
                     }).ToList();
 
                 return Ok(allSummaries);

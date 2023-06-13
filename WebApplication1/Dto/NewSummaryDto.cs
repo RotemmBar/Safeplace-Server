@@ -13,5 +13,6 @@ namespace WebApplication1.Dto
         public string ImportanttoNote { get; set; }
         public System.DateTime Summary_Date { get; set; }
         public int Treatment_Id { get; set; }
+
     }
 }

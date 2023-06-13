@@ -54,6 +54,7 @@ namespace WebApplication1.Controllers
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList(); //treatment for the day picked
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
+
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
             

@@ -74,6 +74,7 @@ namespace WebApplication1.Controllers
             {
                 int modelUserType = 0;
 
+
                 if (model.UserType == "מטפל")
                 {
                     modelUserType = 1;
@@ -84,6 +85,7 @@ namespace WebApplication1.Controllers
                 }
                 else
                 { modelUserType = 2; }
+
 
                 var newUser = new TblUsers
                 {

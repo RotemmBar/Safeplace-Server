@@ -49,7 +49,6 @@ namespace WebApplication1.Controllers
         [Route("api/PostSummary")]
         public IHttpActionResult Post([FromBody] NewSummaryDto value)
         {
-
             SafePlaceDbContextt db = new SafePlaceDbContextt();
             try
             {
@@ -67,6 +66,7 @@ namespace WebApplication1.Controllers
                 newWrittenFor.Summary_Num = nextSummaryNum;
                 newWrittenFor.Treatment_Id = value.Treatment_Id;
                 db.TblWrittenFor.Add(newWrittenFor);
+
 
                 db.SaveChanges();
                 return Ok("Save");
