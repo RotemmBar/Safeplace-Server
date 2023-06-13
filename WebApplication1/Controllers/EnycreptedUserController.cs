@@ -104,10 +104,33 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Changepa")]
+        public IHttpActionResult Changepa([FromBody] FirstLoginDto change)    //recieve email and Password, update db
+        {
+            try
+            {
+
+
+                var temp = db.TblUsers.Where(o => o.Email == change.Email).FirstOrDefault();
+                temp.Password = EncryptPassword(change.Password);
+
+
+
+                db.Entry(temp).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
         //[HttpPost]
         //[Route("SignUpManager")]
         //public IHttpActionResult ManagerSignUp([FromBody] UsersDto model) 
-     
+
         //{
         //    try
         //    {
@@ -145,7 +168,7 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IHttpActionResult Login([FromBody] FirstLoginDto model) //activated by login
+        public IHttpActionResult Login ([FromBody] FirstLoginDto model) //activated by login
         {
             //Check if passowrd was Changed from the default
             var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
