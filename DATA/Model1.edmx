@@ -17,10 +17,11 @@
         </EntityType>
         <EntityType Name="TblDaysoff">
           <Key>
-            <PropertyRef Name="Email" />
+            <PropertyRef Name="Request_Id" />
           </Key>
+          <Property Name="Request_Id" Type="int" Nullable="false" />
           <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
           <Property Name="Dayoff" Type="date" />
         </EntityType>
         <EntityType Name="TblFile">
@@ -401,10 +402,11 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
         </EntityType>
         <EntityType Name="TblDaysoff">
           <Key>
-            <PropertyRef Name="Email" />
+            <PropertyRef Name="Request_Id" />
           </Key>
+          <Property Name="Request_Id" Type="Int32" Nullable="false" />
           <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Dayoff" Type="DateTime" Precision="0" />
           <NavigationProperty Name="TblTherapist" Relationship="Self.fk18" FromRole="TblDaysoff" ToRole="TblTherapist" />
         </EntityType>
@@ -732,6 +734,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           <EntitySetMapping Name="TblDaysoff">
             <EntityTypeMapping TypeName="igroup200_prodModel.TblDaysoff">
               <MappingFragment StoreEntitySet="TblDaysoff">
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
                 <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Dayoff" ColumnName="Dayoff" />

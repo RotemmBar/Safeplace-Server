@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a43b5715a1874758937d04558664b790" Name="Diagram1">
-        <EntityTypeShape EntityType="igroup200_prodModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
+      <Diagram DiagramId="2ca12712a2874324a774df0aa66d9827" Name="Diagram1">
+        <EntityTypeShape EntityType="igroup200_prodModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblDaysoff" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblFile" Width="1.5" PointX="6" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblFileType" Width="1.5" PointX="3.75" PointY="17.75" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblPatient" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblRoom" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblSummary" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblRoom" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblSummary" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblTherapist" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblTreatment" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblTreatment" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_prodModel.TblTreats" Width="1.5" PointX="6" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblType" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblUsers" Width="1.5" PointX="8.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_prodModel.TblWrittenFor" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblType" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblUsers" Width="1.5" PointX="8.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_prodModel.TblWrittenFor" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
         <AssociationConnector Association="igroup200_prodModel.fk18" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_prodModel.fk1" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_prodModel.fk10" ManuallyRouted="false" />
