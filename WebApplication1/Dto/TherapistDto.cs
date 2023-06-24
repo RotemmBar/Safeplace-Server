@@ -18,5 +18,9 @@ namespace WebApplication1.Dto
         public string PatientFirstName;
         public string PatientLastName;
         public int Treatment_Id;
+        public string Email;
+        public string[] Free;
+
+
     }
 }

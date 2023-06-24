@@ -14,6 +14,7 @@ namespace DATA
     
     public partial class TblDaysoff
     {
+        public int Request_Id { get; set; }
         public string Therapist_Id { get; set; }
         public string Email { get; set; }
         public Nullable<System.DateTime> Dayoff { get; set; }

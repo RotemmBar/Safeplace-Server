@@ -7,6 +7,7 @@ using System.Web.Http;
 using WebApplication1;
 using DATA;
 using WebApplication1.Dto;
+using System.Globalization;
 
 namespace WebApplication1.Controllers
 {
@@ -78,6 +79,42 @@ namespace WebApplication1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("api/Daysoff")]
+        public IHttpActionResult Daysoff([FromBody] TherapistDto value)
+        {
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
+            var therEmail = value.Email;
+            var therId = db.TblTherapist.Where(o => o.Email == therEmail).Select(p => p.Therapist_Id).FirstOrDefault().ToString();
+            var futurearr = value.Free;
+
+
+            List<TblDaysoff> freedays = new List<TblDaysoff>();
+            try
+            {
+                foreach(var i in futurearr)
+                {
+                    if (DateTime.TryParseExact(i, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+                        freedays.Add(new TblDaysoff
+                    {
+                        Therapist_Id = therId,
+                        Email = therEmail,
+                        Dayoff = date
+                    });
+                }
+
+                db.TblDaysoff.AddRange(freedays);
+
+                db.SaveChanges();
+                return Ok("Save");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
     }
