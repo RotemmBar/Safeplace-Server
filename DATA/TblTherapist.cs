@@ -17,6 +17,7 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblTherapist()
         {
+            this.TblDaysoff = new HashSet<TblDaysoff>();
             this.TblTreats = new HashSet<TblTreats>();
             this.TblType = new HashSet<TblType>();
         }
@@ -29,7 +30,10 @@ namespace DATA
         public System.DateTime StartDate { get; set; }
         public int YearsOfExperience { get; set; }
         public string PhoneNumber { get; set; }
+        public string Email { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TblDaysoff> TblDaysoff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblTreats> TblTreats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

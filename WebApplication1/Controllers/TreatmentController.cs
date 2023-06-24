@@ -20,31 +20,66 @@ namespace WebApplication1.Controllers
             //DateTime daytemp = DateTime.Today; //the day of the treatment 
             //DateTime start = daytemp.Date.AddHours(8); //Our earliest appoinment (8:00)
             //DateTime end = daytemp.Date.AddHours(-1); //Our latest appointment (23:00)
+            //TreatmentDto[] freetreatment = new TreatmentDto[]
+            //{
+            //     new TreatmentDto
+            //   {
+            //       Room_Num=0,
+            //       startTimetemp="08:00",
+            //       available="Y"
+
+            //   },
+            //      new TreatmentDto
+            //   {
+            //       Room_Num=0,
+            //       startTimetemp="09:00",
+            //       available="Y"
+
+            //   },
+            //       new TreatmentDto
+            //   {
+            //       Room_Num=0,
+            //       startTimetemp="10:00",
+            //       available="Y"
+
+            //   },
+            //   new TreatmentDto
+            //   {
+            //       Room_Num=0,
+            //       startTimetemp="11:00",
+            //       available="Y"
+
+            //   },
+            //    new TreatmentDto
+            //   {
+            //      Room_Num=0,
+            //      startTimetemp="12:00",
+            //      available="Y"
+
+            //   },
+            //     new TreatmentDto
+            //   {
+            //       Room_Num=0,
+            //       startTimetemp="13:00",
+            //       available="Y"
+            //   },
+
+            //};
             #endregion
-            TreatmentDto[] freetreatment = new TreatmentDto[]
+
+            TreatmentDto[] freetreatment = new TreatmentDto[15];
+
+            for (int i = 0; i < 15; i++)
             {
-               new TreatmentDto
-               {
-                   Room_Num=0,
-                   startTimetemp="10:00",
-                   available="Y"
-
-               },
-                new TreatmentDto
-               {
-                  Room_Num=0,
-                  startTimetemp="14:00",
-                  available="Y"
-
-               },
-                 new TreatmentDto
-               {
-                   Room_Num=0,
-                   startTimetemp="16:00",
-                   available="Y"
-               },
-
+                int hour = 8 + i;
+                freetreatment[i] = new TreatmentDto
+                {
+                    Room_Num = 0,
+                    startTimetemp = hour.ToString("00") + ":00",
+                    available = "Y"
+                };
             };
+
             DateTime udate = new DateTime(year, month, day);
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
@@ -271,7 +306,7 @@ namespace WebApplication1.Controllers
 
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
-               // db.SaveChanges();
+                //db.SaveChanges();
 
                 return Ok();
             }

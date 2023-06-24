@@ -263,7 +263,8 @@ namespace WebApplication1.Controllers
                         StartDate = patientRegisterDto.StartDate,
                         YearsOfExperience = patientRegisterDto.YearsOfExperience,
                         Therapist_Id = patientRegisterDto.Patient_Id,
-                        PhoneNumber=login_credentials.PhoneNumber
+                        PhoneNumber=login_credentials.PhoneNumber,
+                        Email=login_credentials.Email
                     };
                     db.TblTherapist.Add(newTherapist);
 

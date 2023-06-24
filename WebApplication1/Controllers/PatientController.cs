@@ -18,10 +18,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                //SafePlaceDbContextt db = new SafePlaceDbContextt();
-                //string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
-                //string LastName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.LastName).FirstOrDefault();
-
+              
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
                 string id = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
                 string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
@@ -50,32 +47,34 @@ namespace WebApplication1.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/patient")]
-        public List<PatientDto> Get()
-        {
-            SafePlaceDbContextt db = new SafePlaceDbContextt();
-            List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
-            {
-                patientId = p.Patient_Id,
-                FirstName = p.FirstName,
-                LastName = p.LastName,
-                //Email = p., ////Go Over
-                Age = DateTime.Now.Year - p.BirthDate.Value.Year,
-                NumTreatments = p.TblTreats.Count(),
-                phoneNumber = p.PhoneNumber
-            }).ToList();
+        //[HttpGet]
+        //[Route("api/patient")]
+        //public List<PatientDto> Get()
+        //{
+        //    SafePlaceDbContextt db = new SafePlaceDbContextt();
+        //    List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
+        //    {
+        //        patientId = p.Patient_Id,
+        //        FirstName = p.FirstName,
+        //        LastName = p.LastName,
+        //        //Email = p., ////Go Over
+        //        Age = DateTime.Now.Year - p.BirthDate.Value.Year,
+        //        NumTreatments = p.TblTreats.Count(),
+        //        phoneNumber = p.PhoneNumber
+        //    }).ToList();
 
-            return patients;
-        }
+        //    return patients;
+        //}
 
         [HttpGet]
-        [Route("api/patient/{therapistId}")]
-        public IHttpActionResult GetPatientsByTherapistId(string therapistId)
+        [Route("api/getpatient")]
+        public IHttpActionResult GetPatientsByTherapistId(string email)
         {
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
+                var therapistPhone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
+                var therapistId = db.TblTherapist.Where(n => n.PhoneNumber == therapistPhone).Select(f => f.Therapist_Id).FirstOrDefault();
                 List<PatientDto> patients = db.TblPatient
                     .Where(p => p.TblTreats.Any(t => t.Therapist_Id == therapistId))
                     .Select(p => new PatientDto()
