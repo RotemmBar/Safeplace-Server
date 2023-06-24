@@ -15,6 +15,14 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="TblDaysoff">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Dayoff" Type="date" />
+        </EntityType>
         <EntityType Name="TblFile">
           <Key>
             <PropertyRef Name="File_Num" />
@@ -89,6 +97,7 @@
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="YearsOfExperience" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TblTreatment">
           <Key>
@@ -192,6 +201,24 @@ warning 6035: The relationship 'fk13' has columns that are not part of the key o
         <!--Errors Found During Generation:
 warning 6035: The relationship 'fk14' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="fk14" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk17' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk17" />-->
+        <Association Name="fk18">
+          <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="1" />
+          <End Role="TblDaysoff" Type="Self.TblDaysoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblTherapist">
+              <PropertyRef Name="Therapist_Id" />
+            </Principal>
+            <Dependent Role="TblDaysoff">
+              <PropertyRef Name="Therapist_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk19' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk19" />-->
         <Association Name="fk2">
           <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
           <End Role="TblFills" Type="Self.TblFills" Multiplicity="*" />
@@ -290,6 +317,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
         </Association>
         <EntityContainer Name="igroup200_prodModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblDaysoff" EntityType="Self.TblDaysoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFills" EntityType="Self.TblFills" Schema="dbo" store:Type="Tables" />
@@ -318,6 +346,10 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <AssociationSet Name="fk12" Association="Self.fk12">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblTreats" EntitySet="TblTreats" />
+          </AssociationSet>
+          <AssociationSet Name="fk18" Association="Self.fk18">
+            <End Role="TblTherapist" EntitySet="TblTherapist" />
+            <End Role="TblDaysoff" EntitySet="TblDaysoff" />
           </AssociationSet>
           <AssociationSet Name="fk2" Association="Self.fk2">
             <End Role="TblPatient" EntitySet="TblPatient" />
@@ -366,6 +398,15 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TblDaysoff">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dayoff" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="TblTherapist" Relationship="Self.fk18" FromRole="TblDaysoff" ToRole="TblTherapist" />
         </EntityType>
         <EntityType Name="TblFile">
           <Key>
@@ -432,6 +473,8 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="YearsOfExperience" Type="Int32" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblDaysoff" Relationship="Self.fk18" FromRole="TblTherapist" ToRole="TblDaysoff" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk12" FromRole="TblTherapist" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.TblPractices" FromRole="TblTherapist" ToRole="TblType" />
         </EntityType>
@@ -494,6 +537,18 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <NavigationProperty Name="TblSummary" Relationship="Self.fk8" FromRole="TblWrittenFor" ToRole="TblSummary" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.fk9" FromRole="TblWrittenFor" ToRole="TblTreatment" />
         </EntityType>
+        <Association Name="fk18">
+          <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="1" />
+          <End Role="TblDaysoff" Type="Self.TblDaysoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblTherapist">
+              <PropertyRef Name="Therapist_Id" />
+            </Principal>
+            <Dependent Role="TblDaysoff">
+              <PropertyRef Name="Therapist_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
           <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
@@ -600,6 +655,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
         </Association>
         <EntityContainer Name="SafePlaceDbContextt" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TblDaysoff" EntityType="Self.TblDaysoff" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" />
           <EntitySet Name="TblPatient" EntityType="Self.TblPatient" />
@@ -611,6 +667,10 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
           <EntitySet Name="TblType" EntityType="Self.TblType" />
           <EntitySet Name="TblUsers" EntityType="Self.TblUsers" />
           <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" />
+          <AssociationSet Name="fk18" Association="Self.fk18">
+            <End Role="TblTherapist" EntitySet="TblTherapist" />
+            <End Role="TblDaysoff" EntitySet="TblDaysoff" />
+          </AssociationSet>
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -666,6 +726,15 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblDaysoff">
+            <EntityTypeMapping TypeName="igroup200_prodModel.TblDaysoff">
+              <MappingFragment StoreEntitySet="TblDaysoff">
+                <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Dayoff" ColumnName="Dayoff" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -731,6 +800,7 @@ warning 6035: The relationship 'fk14' has columns that are not part of the key o
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="YearsOfExperience" ColumnName="YearsOfExperience" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
