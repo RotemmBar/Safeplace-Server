@@ -88,7 +88,8 @@ namespace WebApplication1.Controllers
             var therEmail = value.Email;
             var therId = db.TblTherapist.Where(o => o.Email == therEmail).Select(p => p.Therapist_Id).FirstOrDefault().ToString();
             var futurearr = value.Free;
-
+            int request_Id = db.TblDaysoff.Any() ? db.TblDaysoff.Max(s => s.Request_Id) + 1 : 1;
+            
 
             List<TblDaysoff> freedays = new List<TblDaysoff>();
             try
@@ -97,11 +98,12 @@ namespace WebApplication1.Controllers
                 {
                     if (DateTime.TryParseExact(i, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
                         freedays.Add(new TblDaysoff
-                    {
-                        Therapist_Id = therId,
-                        Email = therEmail,
-                        Dayoff = date
-                    });
+                        {
+                            Request_Id = request_Id,
+                            Therapist_Id = therId,
+                            Email = therEmail,
+                            Dayoff = date
+                        });
                 }
 
                 db.TblDaysoff.AddRange(freedays);
