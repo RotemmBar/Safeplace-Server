@@ -95,7 +95,47 @@ namespace WebApplication1.Controllers
                     Password = model.PhoneNumber
                 };
 
-                db.TblUsers.Add(newUser);
+                var theramil = model.TherEmail;
+                var therid = db.TblTherapist.Where(o => o.Email == theramil).Select(p => p.Therapist_Id).FirstOrDefault();
+                int demoid = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+                var treat = new TblTreats();
+                var nepatient = new TblPatient();
+
+var temptreat = new TblTreatment();
+                if(therid!=null)
+                {
+                    temptreat = new TblTreatment
+                    {
+                        Treatment_Id = demoid,
+                        Treatment_Date = DateTime.Today,
+                        StartTime = DateTime.Now,
+                        EndTime = DateTime.Now.AddHours(1),
+                        WasDone = "N",
+                        Type_Id = 3,
+                        Room_Num = 3
+                    };
+
+                    db.TblUsers.Add(newUser);
+                    db.TblTreatment.Add(temptreat);
+                    db.SaveChanges();
+
+                    nepatient = new TblPatient
+                    {
+                        Patient_Id = model.PhoneNumber,
+                        PhoneNumber=model.PhoneNumber
+                    };
+
+                    treat = new TblTreats
+                      {
+                          Patient_Id = model.PhoneNumber,
+                          Therapist_Id = therid,
+                          Treatment_Id = demoid
+                      };
+
+                }
+
+                db.TblPatient.Add(nepatient);
+                db.TblTreats.Add(treat);
                 db.SaveChanges();
 
                 return Ok();
