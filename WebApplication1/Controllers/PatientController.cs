@@ -137,13 +137,18 @@ namespace WebApplication1.Controllers
                 string therId = db.TblTreats.Where(p => p.Patient_Id == patientid).Select(r => r.Therapist_Id).FirstOrDefault();
                 var theremail = db.TblTherapist.Where(g => g.Therapist_Id == therId).Select(j => j.Email).FirstOrDefault();
 
-                List<TherapistDto> dayoff = db.TblDaysoff.Where(y => y.Email == theremail).
-                   Select(p => new TherapistDto()
-                   {
-                       Treatment_Date = p.Dayoff,
-                   }).ToList();
+                List<DayoffDto> dayoffbyther = db.TblDaysoff.Where(y => y.Email == theremail).
+                Select(p => new DayoffDto()
+                {
+                    Dayoff=p.Dayoff
+  
+                }).ToList();
 
-                return Ok(dayoff);
+
+                return Ok(dayoffbyther);
+
+
+
             }
             catch (Exception ex)
             {

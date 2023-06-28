@@ -23,4 +23,11 @@ namespace WebApplication1.Dto
 
 
     }
+
+    public class DayoffDto
+    {
+
+        public Nullable<System.DateTime> Dayoff { get; set; }
+
+    }
 }
