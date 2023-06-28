@@ -48,6 +48,43 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/Therapistpreviou")]
+        public List<TherapistDto> Getprevmeeting(string email)
+        {
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                string phone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
+                string id = db.TblTherapist.Where(o => o.PhoneNumber == phone).Select(p => p.Therapist_Id).FirstOrDefault();
+                DateTime lastWeek = DateTime.Today.AddDays(-7);
+                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date >= lastWeek && a.TblTreatment.Treatment_Date <= DateTime.Today)
+                 .Select(x => new TherapistDto
+                {
+                    Therapist_Id = x.Therapist_Id,
+                    FirstName = x.TblTherapist.FirstName,
+                    LastName = x.TblTherapist.LastName,
+                    Treatment_Date = x.TblTreatment.Treatment_Date,
+                    StartTime = x.TblTreatment.StartTime,
+                    EndTime = x.TblTreatment.EndTime,
+                    Room_Num = (int)x.TblTreatment.Room_Num,
+                    WasDone = x.TblTreatment.WasDone,
+                    PatientFirstName = x.TblPatient.FirstName,
+                    PatientLastName = x.TblPatient.LastName,
+                    Treatment_Id = x.TblTreatment.Treatment_Id
+                }).ToList();
+
+
+
+                if (listMeeting.Any())
+                {
+                    return listMeeting;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         [HttpPost]
         [Route("api/PostSummary")]
         public IHttpActionResult Post([FromBody] NewSummaryDto value)
