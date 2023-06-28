@@ -126,5 +126,32 @@ namespace WebApplication1.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/getdayoff")]
+        public IHttpActionResult GetPTherapistDayOff(string email)
+        {
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                var patientid = db.TblPatient.Where(o => o.Email == email).Select(v => v.Patient_Id).FirstOrDefault();
+                string therId = db.TblTreats.Where(p => p.Patient_Id == patientid).Select(r => r.Therapist_Id).FirstOrDefault();
+                var theremail = db.TblTherapist.Where(g => g.Therapist_Id == therId).Select(j => j.Email).FirstOrDefault();
+
+                List<TherapistDto> dayoff = db.TblDaysoff.Where(y => y.Email == theremail).
+                   Select(p => new TherapistDto()
+                   {
+                       Treatment_Date = p.Dayoff,
+                   }).ToList();
+
+                return Ok(dayoff);
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+
+        }
+
+
     }
 }

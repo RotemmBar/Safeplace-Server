@@ -84,11 +84,12 @@ namespace WebApplication1.Controllers
 
             SafePlaceDbContextt db = new SafePlaceDbContextt();
 
-            string patientId = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
+            var patientId = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
             string therapistid = db.TblTreats.Where(u => u.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
 
             List<TblTreatment> treatsbyday = db.TblTreatment.Where(o => o.Treatment_Date == udate).ToList(); //treatment for the day picked
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
+
 
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
@@ -260,12 +261,12 @@ namespace WebApplication1.Controllers
                 }
             }
 
+
             TreatmentDto[] final = new TreatmentDto[0];
             final = freetreatment.Where(c => c.Room_Num != 0 || c.available== "Taken2").ToArray();
             return Ok(final);       
                    
         
-            /////***NEED TO ADD: End times
         }
 
 
@@ -306,7 +307,7 @@ namespace WebApplication1.Controllers
 
                 db.TblTreats.Add(tr);
                 db.TblTreatment.Add(trea);
-                //db.SaveChanges();
+                db.SaveChanges();
 
                 return Ok();
             }

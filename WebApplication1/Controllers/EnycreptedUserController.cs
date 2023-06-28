@@ -95,7 +95,47 @@ namespace WebApplication1.Controllers
                     Password = model.PhoneNumber
                 };
 
-                db.TblUsers.Add(newUser);
+                var theramil = model.TherEmail;
+                var therid = db.TblTherapist.Where(o => o.Email == theramil).Select(p => p.Therapist_Id).FirstOrDefault();
+                int demoid = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+                var treat = new TblTreats();
+                var nepatient = new TblPatient();
+
+                var temptreat = new TblTreatment();
+                if(therid!=null)
+                {
+                    temptreat = new TblTreatment
+                    {
+                        Treatment_Id = demoid,
+                        Treatment_Date = DateTime.Today,
+                        StartTime = DateTime.Now,
+                        EndTime = DateTime.Now.AddHours(1),
+                        WasDone = "N",
+                        Type_Id = 3,
+                        Room_Num = 3
+                    };
+
+                    db.TblUsers.Add(newUser);
+                    db.TblTreatment.Add(temptreat);
+                    db.SaveChanges();
+
+                    nepatient = new TblPatient
+                    {
+                        Patient_Id = model.PhoneNumber,
+                        PhoneNumber=model.PhoneNumber
+                    };
+
+                    treat = new TblTreats
+                      {
+                          Patient_Id = model.PhoneNumber,
+                          Therapist_Id = therid,
+                          Treatment_Id = demoid
+                      };
+
+                }
+
+                db.TblPatient.Add(nepatient);
+                db.TblTreats.Add(treat);
                 db.SaveChanges();
 
                 return Ok();
@@ -112,8 +152,6 @@ namespace WebApplication1.Controllers
         {
             try
             {
-
-
                 var temp = db.TblUsers.Where(o => o.Email == change.Email).FirstOrDefault();
                 temp.Password = EncryptPassword(change.Password);
 
@@ -226,28 +264,37 @@ namespace WebApplication1.Controllers
                 if (login_credentials.UserType == 0)
                 {
                     //Patient Login
-                 
-
-                    var newPatient = new TblPatient
-                    {
-                        FirstName = patientRegisterDto.FirstName,
-                        LastName = patientRegisterDto.LastName,
-                        BirthDate = patientRegisterDto.BirthDate,
-                        StartDate = patientRegisterDto.StartDate,
-                        Patient_Id = patientRegisterDto.Patient_Id,
-                        PhoneNumber = login_credentials.PhoneNumber,
-                        Email = patientRegisterDto.Email ,
-                        Gender=modelGender
-                    };
-                    db.TblPatient.Add(newPatient);
 
                     var newUser = db.TblUsers.Where(o => o.Email == login_credentials.Email).FirstOrDefault();
 
                     newUser.Password = EncryptPassword(patientRegisterDto.Password);
 
 
+                    var newPatient = db.TblPatient.Where(o => o.PhoneNumber == login_credentials.PhoneNumber).FirstOrDefault();
+                    newPatient.FirstName = patientRegisterDto.FirstName;
+                    newPatient.LastName = patientRegisterDto.LastName;
+                    newPatient.BirthDate = patientRegisterDto.BirthDate;
+                    newPatient.StartDate = patientRegisterDto.StartDate;
+                    newPatient.Patient_Id = login_credentials.PhoneNumber;
+                    newPatient.Email = login_credentials.Email;
+                    newPatient.Gender = modelGender;
+
+                    //{
+                    //    FirstName = patientRegisterDto.FirstName,
+                    //    LastName = patientRegisterDto.LastName,
+                    //    BirthDate = patientRegisterDto.BirthDate,
+                    //    StartDate = patientRegisterDto.StartDate,
+                    //    Patient_Id = login_credentials.PhoneNumber,
+                    //    PhoneNumber = login_credentials.PhoneNumber,
+                    //    Email = newUser.Email ,
+                    //    Gender=modelGender
+                    //};
+
+
 
                     db.Entry(newUser).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(newPatient).State = System.Data.Entity.EntityState.Modified;
+
                     db.SaveChanges();
                     return Ok();
                 }
@@ -289,38 +336,10 @@ namespace WebApplication1.Controllers
         }
 
 
-        [HttpGet]
-        [Route("api/GetSummaryByDate/{PatientId}/{Date}")]
-        public IHttpActionResult GetSummaryByNum(string PatientId, string date)
-        {
-            try
-            {
-                SafePlaceDbContextt db = new SafePlaceDbContextt();
-                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
-                {
-                    Summary_Num = x.Summary_Num,
-                    WrittenBy = x.WrittenBy,
-                    Summary_Date = x.Summary_Date.ToString().Substring(0, 10),
-                    ImportanttoNote = x.ImportentToNote,
-                    Content = x.Content,
-                    StartTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.StartTime,
-                    EndTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.EndTime,
-                    FirstNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
-                    LastNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
-                }).FirstOrDefault();
-
-
-                return Ok(Summary);
-            }
-            catch (Exception ex)
-            {
-                return Content(HttpStatusCode.BadRequest, ex);
-            }
-        }
 
 
         [HttpGet]
-        [Route("userexist/")]
+        [Route("userexist")]
         public IHttpActionResult UserExist(string email)
         {
             try
@@ -331,7 +350,7 @@ namespace WebApplication1.Controllers
                 {
                     return Content(HttpStatusCode.BadRequest, "you cant");
                 }
-                return Ok(u);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -339,54 +358,6 @@ namespace WebApplication1.Controllers
             }
 
         }
-
-        //[HttpPost]
-        //[Route("SignUpTherapist")]
-        //public IHttpActionResult SignUpTherapist([FromBody] RegisterTherapistDto therapistDto) 
-
-        //{
-        //    try
-        //    {
-        //        var login_credentials = db.TblUsers.FirstOrDefault(u => u.Email == therapistDto.Email);
-
-        //        if (login_credentials.UserType == 1 || login_credentials.UserType == 2)
-        //        {
-        //            var newTherapist = new TblTherapist
-        //            {
-        //                FirstName = therapistDto.FirstName,
-        //                LastName = therapistDto.LastName,
-        //                BirthDate = therapistDto.BirthDate,
-        //                StartDate = therapistDto.StartDate,
-        //                YearsOfExperience = therapistDto.YearsOfExperience,
-        //                Therapist_Id = therapistDto.Therapist_Id
-        //            };
-        //            db.TblTherapist.Add(newTherapist);
-        //            db.SaveChanges();
-
-
-        //            var newUser = new TblUsers   
-        //            {
-        //                Email = login_credentials.Email,
-        //                Password = EncryptPassword(therapistDto.Password),
-
-        //            };
-
-        //            db.TblUsers.Add(newUser);
-        //            db.SaveChanges();
-        //            return Ok();
-        //        }
-        //        else
-        //        {
-        //            return Content(HttpStatusCode.BadRequest, "Error with values entered");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(HttpStatusCode.BadRequest, ex);
-        //    }
-        //}
-
-
 
         #endregion
 
