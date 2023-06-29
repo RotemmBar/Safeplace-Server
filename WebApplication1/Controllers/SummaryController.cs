@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DATA;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using DATA;
 using WebApplication1.Dto;
 
 namespace WebApplication1.Controllers
@@ -12,19 +11,52 @@ namespace WebApplication1.Controllers
     public class SummaryController : ApiController
     {
 
+        //[HttpGet]
+        //[Route("api/GetSummaryByDate/{PatientId}/{Date}")]
+        //public IHttpActionResult GetSummaryByNum(string PatientId, string date)
+        //{
+        //    try
+        //    {
+        //        SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+        //        string therid = db.TblTreats.Where(p => p.Patient_Id == PatientId).Select(o => o.Therapist_Id).FirstOrDefault();
+
+        //        SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == therid
+        //        && a.TblWrittenFor.FirstOrDefault().WrittenFor == PatientId).Select(x => new SummaryDto()
+
+        //        {
+        //            Summary_Num = x.Summary_Num,
+        //            WrittenBy = x.WrittenBy,
+        //            Summary_Date = x.Summary_Date.ToString().Substring(0, 10),
+        //            ImportanttoNote = x.ImportentToNote,
+        //            Content = x.Content,
+        //            StartTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.StartTime,
+        //            EndTime = (DateTime)x.TblWrittenFor.FirstOrDefault().TblTreatment.EndTime,
+        //            FirstNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.FirstName,
+        //            LastNameP = x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().TblPatient.LastName
+
+        //        }).FirstOrDefault();
+
+
+        //        return Ok(Summary);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, ex);
+        //    }
+        //}
+
         [HttpGet]
-        [Route("api/GetSummaryByDate/{PatientId}/{Date}")]
-        public IHttpActionResult GetSummaryByNum(string PatientId, string date)
+        [Route("api/GetSummaryByNumber/{num}")]
+        public IHttpActionResult SummaryByNumber(string Num)
         {
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
 
-                string therid = db.TblTreats.Where(p => p.Patient_Id == PatientId).Select(o => o.Therapist_Id).ToString();
+                int intnum = int.Parse(Num);
 
-                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == therid 
-                && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
-
+                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Num == intnum).Select(x=> new SummaryDto
                 {
                     Summary_Num = x.Summary_Num,
                     WrittenBy = x.WrittenBy,
@@ -54,11 +86,11 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                List<SummaryDto> allSummaries = db.TblSummary.Where(x => x.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId)
-
-                    .Select(s => new SummaryDto()
+                var therid = db.TblTreats.Where(p => p.Patient_Id == PatientId).Select(o => o.Therapist_Id).FirstOrDefault();
+                List<SummaryDto> allSummaries = db.TblSummary.Where(x => x.TblWrittenFor.FirstOrDefault().WrittenFor == PatientId && x.WrittenById == therid)
+                 .Select(s => new SummaryDto()
                     {
-                        Summary_Num = 0,
+                        Summary_Num = s.Summary_Num,
                         Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
                         Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
 
@@ -81,15 +113,20 @@ namespace WebApplication1.Controllers
             try
             {
                 var usertype = db.TblUsers.Where(o => o.Email == value.WrittenBy).Select(p => p.UserType).FirstOrDefault();
+                var writtenbyid = db.TblUsers.Where(p => p.Email == value.WrittenBy).Select(m => m.PhoneNumber).FirstOrDefault();
+                var writtenforid = "";
+
                 var writtenby = "";
 
-                if (usertype==0)
+                if (usertype == 0)
                 {
                     writtenby = "p";
+                    writtenforid = writtenbyid;
                 }
-                else if (usertype==1)
+                else if (usertype == 1)
                 {
                     writtenby = "t";
+                    writtenforid = db.TblTreats.Where(o => o.Treatment_Id == value.Treatment_Id).Select(p => p.Patient_Id).FirstOrDefault();
                 }
 
                 TblSummary newSummary = new TblSummary();
@@ -99,11 +136,14 @@ namespace WebApplication1.Controllers
                 newSummary.Content = value.Content;
                 newSummary.Summary_Date = value.Summary_Date;
                 newSummary.ImportentToNote = value.ImportanttoNote;
+                newSummary.WrittenById = writtenbyid;
                 db.TblSummary.Add(newSummary);
 
                 TblWrittenFor newWrittenFor = new TblWrittenFor();
                 newWrittenFor.Summary_Num = nextSummaryNum;
                 newWrittenFor.Treatment_Id = value.Treatment_Id;
+                newWrittenFor.WrittenBy = writtenbyid;
+                newWrittenFor.WrittenFor =writtenforid;
                 db.TblWrittenFor.Add(newWrittenFor);
 
 
