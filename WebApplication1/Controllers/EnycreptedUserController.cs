@@ -97,7 +97,7 @@ namespace WebApplication1.Controllers
 
                 var theramil = model.TherEmail;
                 var therid = db.TblTherapist.Where(o => o.Email == theramil).Select(p => p.Therapist_Id).FirstOrDefault();
-                int demoid = db.TblTreatment.Max(o => o.Treatment_Id) + 1;
+                int demoid = db.TblTreatment.Any() ? db.TblTreatment.Max(s => s.Treatment_Id) + 1 : 1;
                 var treat = new TblTreats();
                 var nepatient = new TblPatient();
 
@@ -111,7 +111,7 @@ namespace WebApplication1.Controllers
                         StartTime = DateTime.Now,
                         EndTime = DateTime.Now.AddHours(1),
                         WasDone = "N",
-                        Type_Id = 3,
+                        Type_Id = 1,
                         Room_Num = 3
                     };
 
@@ -309,7 +309,7 @@ namespace WebApplication1.Controllers
                         Gender = modelGender,
                         StartDate = patientRegisterDto.StartDate,
                         YearsOfExperience = patientRegisterDto.YearsOfExperience,
-                        Therapist_Id = patientRegisterDto.Patient_Id,
+                        Therapist_Id = login_credentials.PhoneNumber,
                         PhoneNumber=login_credentials.PhoneNumber,
                         Email=login_credentials.Email
                     };
