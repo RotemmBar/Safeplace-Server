@@ -103,6 +103,9 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+                var therid = db.TblTreats.Where(o => o.Patient_Id == patientId).Select(p => p.Therapist_Id).FirstOrDefault();
+
                 PatientDto patient = db.TblPatient
                     .Where(p => p.Patient_Id == patientId)
                     .Select(p => new PatientDto()
@@ -113,7 +116,8 @@ namespace WebApplication1.Controllers
                         Email = p.Email,
                         Age = DateTime.Now.Year - p.BirthDate.Value.Year,
                         NumTreatments = p.TblTreats.Count(),
-                        phoneNumber = p.PhoneNumber
+                        phoneNumber = p.PhoneNumber,
+                        TherapistId=therid
                     })
                     .SingleOrDefault();
 

@@ -19,7 +19,10 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == "t" 
+
+                string therid = db.TblTreats.Where(p => p.Patient_Id == PatientId).Select(o => o.Therapist_Id).ToString();
+
+                SummaryDto Summary = db.TblSummary.Where(a => a.Summary_Date.ToString().Substring(0, 10) == date && a.WrittenBy == therid 
                 && a.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id == PatientId).Select(x => new SummaryDto()
 
                 {
@@ -112,6 +115,37 @@ namespace WebApplication1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //[HttpGet]
+        //[Route("api/GetPatientSummaries")]
+        //public IHttpActionResult GetPatientSummaries(string email)
+        //{
+        //    try
+        //    {
+        //        SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+        //        List<TblSummary> writtenbyp = db.TblSummary.Where(o => o.WrittenBy == "p").ToList();
+
+        //        List<TblWrittenFor> alltrearmentId = writtenbyp.Where(o => o.TblWrittenFor.Select(p => p.Treatment_Id).ToList();
+
+        //            .Select(s => new SummaryDto()
+        //            {
+        //                Summary_Num = 0,
+        //                Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
+        //                Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
+
+        //            }).ToList();
+
+        //        return Ok(allSummaries);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, ex);
+        //    }
+        //}
+
+
 
 
     }
