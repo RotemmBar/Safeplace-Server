@@ -70,7 +70,52 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/PostSummary")]
+        public IHttpActionResult Post([FromBody] NewSummaryDto value)
+        {
+            SafePlaceDbContextt db = new SafePlaceDbContextt();
+            try
+            {
+                var usertype = db.TblUsers.Where(o => o.Email == value.WrittenBy).Select(p => p.UserType).FirstOrDefault();
+                var writtenby = "";
+
+                if (usertype==0)
+                {
+                    writtenby = "p";
+                }
+                else if (usertype==1)
+                {
+                    writtenby = "t";
+                }
+
+                TblSummary newSummary = new TblSummary();
+                int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
+                newSummary.Summary_Num = nextSummaryNum;
+                newSummary.WrittenBy = writtenby;
+                newSummary.Content = value.Content;
+                newSummary.Summary_Date = value.Summary_Date;
+                newSummary.ImportentToNote = value.ImportanttoNote;
+                db.TblSummary.Add(newSummary);
+
+                TblWrittenFor newWrittenFor = new TblWrittenFor();
+                newWrittenFor.Summary_Num = nextSummaryNum;
+                newWrittenFor.Treatment_Id = value.Treatment_Id;
+                db.TblWrittenFor.Add(newWrittenFor);
+
+
+                db.SaveChanges();
+                return Ok("Save");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
+
 
 
 
