@@ -16,7 +16,8 @@ namespace DATA
     {
         public int Summary_Num { get; set; }
         public int Treatment_Id { get; set; }
-        public string @new { get; set; }
+        public string WrittenBy { get; set; }
+        public string WrittenFor { get; set; }
     
         public virtual TblSummary TblSummary { get; set; }
         public virtual TblTreatment TblTreatment { get; set; }

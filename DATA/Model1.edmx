@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="igroup200_prodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="igroup200_test1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -20,7 +20,7 @@
             <PropertyRef Name="Request_Id" />
           </Key>
           <Property Name="Request_Id" Type="int" Nullable="false" />
-          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
           <Property Name="Dayoff" Type="date" />
         </EntityType>
@@ -46,20 +46,20 @@
             <PropertyRef Name="Patient_Id" />
             <PropertyRef Name="File_Num" />
           </Key>
-          <Property Name="Patient_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Patient_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="File_Num" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
             <PropertyRef Name="Patient_Id" />
           </Key>
-          <Property Name="Patient_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Patient_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="BirthDate" Type="date" />
           <Property Name="StartDate" Type="date" />
           <Property Name="Gender" Type="char" MaxLength="1" />
-          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TblPractices">
@@ -67,7 +67,7 @@
             <PropertyRef Name="Therapist_Id" />
             <PropertyRef Name="Type_Id" />
           </Key>
-          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Type_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblRoom">
@@ -85,19 +85,20 @@
           <Property Name="Content" Type="nvarchar" MaxLength="700" />
           <Property Name="Summary_Date" Type="date" Nullable="false" />
           <Property Name="ImportentToNote" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="WrittenById" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TblTherapist">
           <Key>
             <PropertyRef Name="Therapist_Id" />
           </Key>
-          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Gender" Type="char" MaxLength="1" />
           <Property Name="BirthDate" Type="date" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="YearsOfExperience" Type="int" Nullable="false" />
-          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TblTreatment">
@@ -117,9 +118,9 @@
             <PropertyRef Name="Patient_Id" />
             <PropertyRef Name="Treatment_Id" />
           </Key>
-          <Property Name="Patient_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Patient_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Treatment_Id" Type="int" Nullable="false" />
-          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Therapist_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="TblType">
           <Key>
@@ -136,7 +137,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="UserType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TblWrittenFor">
@@ -146,7 +147,8 @@
           </Key>
           <Property Name="Summary_Num" Type="int" Nullable="false" />
           <Property Name="Treatment_Id" Type="int" Nullable="false" />
-          <Property Name="new" Type="nvarchar" MaxLength="20" />
+          <Property Name="WrittenBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="WrittenFor" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
@@ -203,9 +205,9 @@ warning 6035: The relationship 'fk13' has columns that are not part of the key o
 warning 6035: The relationship 'fk14' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="fk14" />-->
         <!--Errors Found During Generation:
-warning 6035: The relationship 'fk17' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="fk17" />-->
-        <Association Name="fk18">
+warning 6035: The relationship 'fk15' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk15" />-->
+        <Association Name="fk16">
           <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="1" />
           <End Role="TblDaysoff" Type="Self.TblDaysoff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -217,6 +219,12 @@ warning 6035: The relationship 'fk17' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk17' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk17" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk18' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk18" />-->
         <!--Errors Found During Generation:
 warning 6035: The relationship 'fk19' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="fk19" />-->
@@ -232,6 +240,9 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'fk20' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="fk20" />-->
         <Association Name="fk3">
           <End Role="TblFile" Type="Self.TblFile" Multiplicity="1" />
           <End Role="TblFills" Type="Self.TblFills" Multiplicity="*" />
@@ -316,7 +327,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="igroup200_prodModelStoreContainer">
+        <EntityContainer Name="igroup200_test1ModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblDaysoff" EntityType="Self.TblDaysoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" Schema="dbo" store:Type="Tables" />
@@ -348,7 +359,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblTreats" EntitySet="TblTreats" />
           </AssociationSet>
-          <AssociationSet Name="fk18" Association="Self.fk18">
+          <AssociationSet Name="fk16" Association="Self.fk16">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblDaysoff" EntitySet="TblDaysoff" />
           </AssociationSet>
@@ -385,10 +396,11 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="igroup200_prodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="igroup200_test1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -404,10 +416,10 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             <PropertyRef Name="Request_Id" />
           </Key>
           <Property Name="Request_Id" Type="Int32" Nullable="false" />
-          <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Therapist_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Dayoff" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="TblTherapist" Relationship="Self.fk18" FromRole="TblDaysoff" ToRole="TblTherapist" />
+          <NavigationProperty Name="TblTherapist" Relationship="Self.fk16" FromRole="TblDaysoff" ToRole="TblTherapist" />
         </EntityType>
         <EntityType Name="TblFile">
           <Key>
@@ -433,13 +445,13 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           <Key>
             <PropertyRef Name="Patient_Id" />
           </Key>
-          <Property Name="Patient_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patient_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Precision="0" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblPatient" ToRole="TblTreats" />
           <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblPatient" ToRole="TblFile" />
@@ -460,22 +472,23 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           <Property Name="Content" Type="String" MaxLength="700" FixedLength="false" Unicode="true" />
           <Property Name="Summary_Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ImportentToNote" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WrittenById" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TblWrittenFor" Relationship="Self.fk8" FromRole="TblSummary" ToRole="TblWrittenFor" />
         </EntityType>
         <EntityType Name="TblTherapist">
           <Key>
             <PropertyRef Name="Therapist_Id" />
           </Key>
-          <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Therapist_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="YearsOfExperience" Type="Int32" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TblDaysoff" Relationship="Self.fk18" FromRole="TblTherapist" ToRole="TblDaysoff" />
+          <NavigationProperty Name="TblDaysoff" Relationship="Self.fk16" FromRole="TblTherapist" ToRole="TblDaysoff" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk12" FromRole="TblTherapist" ToRole="TblTreats" />
           <NavigationProperty Name="TblType" Relationship="Self.TblPractices" FromRole="TblTherapist" ToRole="TblType" />
         </EntityType>
@@ -500,9 +513,9 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             <PropertyRef Name="Patient_Id" />
             <PropertyRef Name="Treatment_Id" />
           </Key>
-          <Property Name="Patient_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patient_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Treatment_Id" Type="Int32" Nullable="false" />
-          <Property Name="Therapist_Id" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Therapist_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TblPatient" Relationship="Self.fk10" FromRole="TblTreats" ToRole="TblPatient" />
           <NavigationProperty Name="TblTherapist" Relationship="Self.fk12" FromRole="TblTreats" ToRole="TblTherapist" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.fk11" FromRole="TblTreats" ToRole="TblTreatment" />
@@ -524,7 +537,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserType" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TblWrittenFor">
@@ -534,11 +547,12 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           </Key>
           <Property Name="Summary_Num" Type="Int32" Nullable="false" />
           <Property Name="Treatment_Id" Type="Int32" Nullable="false" />
-          <Property Name="new" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="WrittenBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="WrittenFor" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblSummary" Relationship="Self.fk8" FromRole="TblWrittenFor" ToRole="TblSummary" />
           <NavigationProperty Name="TblTreatment" Relationship="Self.fk9" FromRole="TblWrittenFor" ToRole="TblTreatment" />
         </EntityType>
-        <Association Name="fk18">
+        <Association Name="fk16">
           <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="1" />
           <End Role="TblDaysoff" Type="Self.TblDaysoff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -668,7 +682,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
           <EntitySet Name="TblType" EntityType="Self.TblType" />
           <EntitySet Name="TblUsers" EntityType="Self.TblUsers" />
           <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" />
-          <AssociationSet Name="fk18" Association="Self.fk18">
+          <AssociationSet Name="fk16" Association="Self.fk16">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblDaysoff" EntitySet="TblDaysoff" />
           </AssociationSet>
@@ -718,9 +732,9 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="igroup200_prodModelStoreContainer" CdmEntityContainer="SafePlaceDbContextt">
+        <EntityContainerMapping StorageEntityContainer="igroup200_test1ModelStoreContainer" CdmEntityContainer="SafePlaceDbContextt">
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="igroup200_prodModel.sysdiagrams">
+            <EntityTypeMapping TypeName="igroup200_test1Model.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -731,7 +745,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblDaysoff">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblDaysoff">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblDaysoff">
               <MappingFragment StoreEntitySet="TblDaysoff">
                 <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
                 <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
@@ -741,7 +755,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblFile">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblFile">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblFile">
               <MappingFragment StoreEntitySet="TblFile">
                 <ScalarProperty Name="File_Num" ColumnName="File_Num" />
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
@@ -751,7 +765,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblFileType">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblFileType">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblFileType">
               <MappingFragment StoreEntitySet="TblFileType">
                 <ScalarProperty Name="FileType_Num" ColumnName="FileType_Num" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -760,7 +774,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblPatient">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblPatient">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblPatient">
               <MappingFragment StoreEntitySet="TblPatient">
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -774,25 +788,26 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblRoom">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblRoom">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblRoom">
               <MappingFragment StoreEntitySet="TblRoom">
                 <ScalarProperty Name="Room_Num" ColumnName="Room_Num" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblSummary">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblSummary">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblSummary">
               <MappingFragment StoreEntitySet="TblSummary">
                 <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
                 <ScalarProperty Name="WrittenBy" ColumnName="WrittenBy" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Summary_Date" ColumnName="Summary_Date" />
                 <ScalarProperty Name="ImportentToNote" ColumnName="ImportentToNote" />
+                <ScalarProperty Name="WrittenById" ColumnName="WrittenById" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTherapist">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblTherapist">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblTherapist">
               <MappingFragment StoreEntitySet="TblTherapist">
                 <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -807,7 +822,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTreatment">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblTreatment">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblTreatment">
               <MappingFragment StoreEntitySet="TblTreatment">
                 <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
                 <ScalarProperty Name="Treatment_Date" ColumnName="Treatment_Date" />
@@ -820,7 +835,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblTreats">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblTreats">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblTreats">
               <MappingFragment StoreEntitySet="TblTreats">
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
@@ -829,7 +844,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblType">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblType">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblType">
               <MappingFragment StoreEntitySet="TblType">
                 <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
                 <ScalarProperty Name="Type_Name" ColumnName="Type_Name" />
@@ -838,7 +853,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblUsers">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblUsers">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblUsers">
               <MappingFragment StoreEntitySet="TblUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -849,15 +864,16 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TblWrittenFor">
-            <EntityTypeMapping TypeName="igroup200_prodModel.TblWrittenFor">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblWrittenFor">
               <MappingFragment StoreEntitySet="TblWrittenFor">
                 <ScalarProperty Name="Summary_Num" ColumnName="Summary_Num" />
                 <ScalarProperty Name="Treatment_Id" ColumnName="Treatment_Id" />
-                <ScalarProperty Name="new" ColumnName="new" />
+                <ScalarProperty Name="WrittenBy" ColumnName="WrittenBy" />
+                <ScalarProperty Name="WrittenFor" ColumnName="WrittenFor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TblFills" TypeName="igroup200_prodModel.TblFills" StoreEntitySet="TblFills">
+          <AssociationSetMapping Name="TblFills" TypeName="igroup200_test1Model.TblFills" StoreEntitySet="TblFills">
             <EndProperty Name="TblPatient">
               <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
             </EndProperty>
@@ -865,7 +881,7 @@ warning 6035: The relationship 'fk19' has columns that are not part of the key o
               <ScalarProperty Name="File_Num" ColumnName="File_Num" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TblPractices" TypeName="igroup200_prodModel.TblPractices" StoreEntitySet="TblPractices">
+          <AssociationSetMapping Name="TblPractices" TypeName="igroup200_test1Model.TblPractices" StoreEntitySet="TblPractices">
             <EndProperty Name="TblTherapist">
               <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />
             </EndProperty>
