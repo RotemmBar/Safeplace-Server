@@ -156,43 +156,43 @@ namespace WebApplication1.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("api/GetPatientSummaries")]
-        //public IHttpActionResult GetPatientSummaries(string email)
-        //{
-        //    try
-        //    {
-        //        SafePlaceDbContextt db = new SafePlaceDbContextt();
+        [HttpGet]
+        [Route("api/GetPatientSummaries")]
+        public IHttpActionResult GetPatientSummaries(string email)
+        {
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
 
-        //        List<TblSummary> writtenbyp = db.TblSummary.Where(o => o.WrittenBy == "p").ToList();
+                var patientid = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
 
-        //        List<TblWrittenFor> alltrearmentId = writtenbyp.Where(o => o.TblWrittenFor.Select(p => p.Treatment_Id).ToList();
+                List<SummaryDto> allSummaries = db.TblSummary.Where(x => x.TblWrittenFor.FirstOrDefault().WrittenFor == patientid && x.WrittenById == patientid)
+                 .Select(s => new SummaryDto()
+                 {
+                     Summary_Num = s.Summary_Num,
+                     Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
+                     Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
 
-        //            .Select(s => new SummaryDto()
-        //            {
-        //                Summary_Num = 0,
-        //                Summary_Date = s.Summary_Date.ToString().Substring(0, 10),
-        //                Patient_Id = s.TblWrittenFor.FirstOrDefault().TblTreatment.TblTreats.FirstOrDefault().Patient_Id
+                 }).ToList();
 
-        //            }).ToList();
+                return Ok(allSummaries);
 
-        //        return Ok(allSummaries);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content(HttpStatusCode.BadRequest, ex);
-        //    }
-        //}
-
-
-
-
-    }
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+        }
 
 
 
 
+  }
 
 
-}
+
+
+
+
+
