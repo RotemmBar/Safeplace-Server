@@ -19,5 +19,8 @@ namespace WebApplication1.Dto
         public System.DateTime EndTime { get; set; }
         public string ImportanttoNote { get; set; }
         public List<TblTreatment> TblTreatment { get; set; }
+        public string WrittenById { get; set; }
+
     }
+
 }

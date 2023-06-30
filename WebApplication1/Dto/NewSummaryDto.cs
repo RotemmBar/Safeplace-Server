@@ -14,6 +14,8 @@ namespace WebApplication1.Dto
         public System.DateTime Summary_Date { get; set; }
         public int Treatment_Id { get; set; }
         public string Email;
+        public string WrittenById { get; set; }
+
 
     }
 }

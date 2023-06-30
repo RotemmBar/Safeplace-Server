@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
                 string phone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
                 string id = db.TblTherapist.Where(o => o.PhoneNumber == phone).Select(p => p.Therapist_Id).FirstOrDefault();
                 DateTime lastWeek = DateTime.Today.AddDays(-7);
-                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date >= lastWeek && a.TblTreatment.Treatment_Date <= DateTime.Today)
+                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date >= lastWeek && a.TblTreatment.Treatment_Date < DateTime.Today)
                  .Select(x => new TherapistDto
                 {
                     Therapist_Id = x.Therapist_Id,
@@ -85,38 +85,6 @@ namespace WebApplication1.Controllers
                 }
             }
         }
-
-        //[HttpPost]
-        //[Route("api/PostSummary")]
-        //public IHttpActionResult Post([FromBody] NewSummaryDto value)
-        //{
-        //    SafePlaceDbContextt db = new SafePlaceDbContextt();
-        //    try
-        //    {
-        //        TblSummary newSummary = new TblSummary();
-        //        int nextSummaryNum = db.TblSummary.Any() ? db.TblSummary.Max(s => s.Summary_Num) + 1 : 1;
-        //        newSummary.Summary_Num = nextSummaryNum;
-        //        newSummary.WrittenBy = value.WrittenBy;
-        //        newSummary.Content = value.Content;
-        //        newSummary.Summary_Date = value.Summary_Date;
-        //        newSummary.ImportentToNote = value.ImportanttoNote;
-        //        //newSummary.TblTreatments = new List<TblTreatment>();
-        //        db.TblSummary.Add(newSummary);
-
-        //        TblWrittenFor newWrittenFor = new TblWrittenFor();
-        //        newWrittenFor.Summary_Num = nextSummaryNum;
-        //        newWrittenFor.Treatment_Id = value.Treatment_Id;
-        //        db.TblWrittenFor.Add(newWrittenFor);
-
-
-        //        db.SaveChanges();
-        //        return Ok("Save");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
 
         [HttpPost]
         [Route("api/Daysoff")]
