@@ -4,11 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1a8455465c094461b2ec0c9c34ddf694" Name="Diagram1">
+      <Diagram DiagramId="74397d624be74645892d303446f48db5" Name="Diagram1">
         <EntityTypeShape EntityType="igroup200_test1Model.sysdiagrams" Width="1.5" PointX="8.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblDaysoff" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblFile" Width="1.5" PointX="6" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblFileType" Width="1.5" PointX="3.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblFile" Width="1.5" PointX="3.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblFileType" Width="1.5" PointX="1.5" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblFills" Width="1.5" PointX="6" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblPatient" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblRoom" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblSummary" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
@@ -20,6 +21,8 @@
         <EntityTypeShape EntityType="igroup200_test1Model.TblWrittenFor" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
         <AssociationConnector Association="igroup200_test1Model.fk16" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk1" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_test1Model.fk3" ManuallyRouted="false" />
+        <AssociationConnector Association="igroup200_test1Model.fk2" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk10" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk7" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk8" ManuallyRouted="false" />
@@ -27,7 +30,6 @@
         <AssociationConnector Association="igroup200_test1Model.fk11" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk6" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk9" ManuallyRouted="false" />
-        <AssociationConnector Association="igroup200_test1Model.TblFills" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.TblPractices" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
