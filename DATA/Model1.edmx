@@ -430,7 +430,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="FileType_Num" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="TblFileType" Relationship="Self.fk1" FromRole="TblFile" ToRole="TblFileType" />
-          <NavigationProperty Name="TblPatient" Relationship="Self.TblFills" FromRole="TblFile" ToRole="TblPatient" />
+          <NavigationProperty Name="TblFills" Relationship="Self.fk3" FromRole="TblFile" ToRole="TblFills" />
         </EntityType>
         <EntityType Name="TblFileType">
           <Key>
@@ -440,6 +440,17 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Template" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblFile" Relationship="Self.fk1" FromRole="TblFileType" ToRole="TblFile" />
+        </EntityType>
+        <EntityType Name="TblFills">
+          <Key>
+            <PropertyRef Name="Patient_Id" />
+            <PropertyRef Name="File_Num" />
+          </Key>
+          <Property Name="Patient_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="File_Num" Type="Int32" Nullable="false" />
+          <Property Name="temp" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblFile" Relationship="Self.fk3" FromRole="TblFills" ToRole="TblFile" />
+          <NavigationProperty Name="TblPatient" Relationship="Self.fk2" FromRole="TblFills" ToRole="TblPatient" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
@@ -453,8 +464,8 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblFills" Relationship="Self.fk2" FromRole="TblPatient" ToRole="TblFills" />
           <NavigationProperty Name="TblTreats" Relationship="Self.fk10" FromRole="TblPatient" ToRole="TblTreats" />
-          <NavigationProperty Name="TblFile" Relationship="Self.TblFills" FromRole="TblPatient" ToRole="TblFile" />
         </EntityType>
         <EntityType Name="TblRoom">
           <Key>
@@ -576,6 +587,30 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk3">
+          <End Role="TblFile" Type="Self.TblFile" Multiplicity="1" />
+          <End Role="TblFills" Type="Self.TblFills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblFile">
+              <PropertyRef Name="File_Num" />
+            </Principal>
+            <Dependent Role="TblFills">
+              <PropertyRef Name="File_Num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2">
+          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
+          <End Role="TblFills" Type="Self.TblFills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblPatient">
+              <PropertyRef Name="Patient_Id" />
+            </Principal>
+            <Dependent Role="TblFills">
+              <PropertyRef Name="Patient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk10">
           <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="1" />
           <End Role="TblTreats" Type="Self.TblTreats" Multiplicity="*" />
@@ -660,10 +695,6 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TblFills">
-          <End Role="TblPatient" Type="Self.TblPatient" Multiplicity="*" />
-          <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
-        </Association>
         <Association Name="TblPractices">
           <End Role="TblTherapist" Type="Self.TblTherapist" Multiplicity="*" />
           <End Role="TblType" Type="Self.TblType" Multiplicity="*" />
@@ -673,6 +704,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <EntitySet Name="TblDaysoff" EntityType="Self.TblDaysoff" />
           <EntitySet Name="TblFile" EntityType="Self.TblFile" />
           <EntitySet Name="TblFileType" EntityType="Self.TblFileType" />
+          <EntitySet Name="TblFills" EntityType="Self.TblFills" />
           <EntitySet Name="TblPatient" EntityType="Self.TblPatient" />
           <EntitySet Name="TblRoom" EntityType="Self.TblRoom" />
           <EntitySet Name="TblSummary" EntityType="Self.TblSummary" />
@@ -689,6 +721,14 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
+          </AssociationSet>
+          <AssociationSet Name="fk3" Association="Self.fk3">
+            <End Role="TblFile" EntitySet="TblFile" />
+            <End Role="TblFills" EntitySet="TblFills" />
+          </AssociationSet>
+          <AssociationSet Name="fk2" Association="Self.fk2">
+            <End Role="TblPatient" EntitySet="TblPatient" />
+            <End Role="TblFills" EntitySet="TblFills" />
           </AssociationSet>
           <AssociationSet Name="fk10" Association="Self.fk10">
             <End Role="TblPatient" EntitySet="TblPatient" />
@@ -717,10 +757,6 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <AssociationSet Name="fk9" Association="Self.fk9">
             <End Role="TblTreatment" EntitySet="TblTreatment" />
             <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
-          </AssociationSet>
-          <AssociationSet Name="TblFills" Association="Self.TblFills">
-            <End Role="TblPatient" EntitySet="TblPatient" />
-            <End Role="TblFile" EntitySet="TblFile" />
           </AssociationSet>
           <AssociationSet Name="TblPractices" Association="Self.TblPractices">
             <End Role="TblTherapist" EntitySet="TblTherapist" />
@@ -770,6 +806,15 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
                 <ScalarProperty Name="FileType_Num" ColumnName="FileType_Num" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Template" ColumnName="Template" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblFills">
+            <EntityTypeMapping TypeName="igroup200_test1Model.TblFills">
+              <MappingFragment StoreEntitySet="TblFills">
+                <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+                <ScalarProperty Name="File_Num" ColumnName="File_Num" />
+                <ScalarProperty Name="temp" ColumnName="temp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -873,14 +918,6 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TblFills" TypeName="igroup200_test1Model.TblFills" StoreEntitySet="TblFills">
-            <EndProperty Name="TblPatient">
-              <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
-            </EndProperty>
-            <EndProperty Name="TblFile">
-              <ScalarProperty Name="File_Num" ColumnName="File_Num" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="TblPractices" TypeName="igroup200_test1Model.TblPractices" StoreEntitySet="TblPractices">
             <EndProperty Name="TblTherapist">
               <ScalarProperty Name="Therapist_Id" ColumnName="Therapist_Id" />

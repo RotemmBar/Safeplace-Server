@@ -17,8 +17,8 @@ namespace DATA
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TblPatient()
         {
+            this.TblFills = new HashSet<TblFills>();
             this.TblTreats = new HashSet<TblTreats>();
-            this.TblFile = new HashSet<TblFile>();
         }
     
         public string Patient_Id { get; set; }
@@ -31,8 +31,8 @@ namespace DATA
         public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblTreats> TblTreats { get; set; }
+        public virtual ICollection<TblFills> TblFills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TblFile> TblFile { get; set; }
+        public virtual ICollection<TblTreats> TblTreats { get; set; }
     }
 }

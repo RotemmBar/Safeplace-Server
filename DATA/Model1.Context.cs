@@ -29,6 +29,7 @@ namespace DATA
         public virtual DbSet<TblDaysoff> TblDaysoff { get; set; }
         public virtual DbSet<TblFile> TblFile { get; set; }
         public virtual DbSet<TblFileType> TblFileType { get; set; }
+        public virtual DbSet<TblFills> TblFills { get; set; }
         public virtual DbSet<TblPatient> TblPatient { get; set; }
         public virtual DbSet<TblRoom> TblRoom { get; set; }
         public virtual DbSet<TblSummary> TblSummary { get; set; }
