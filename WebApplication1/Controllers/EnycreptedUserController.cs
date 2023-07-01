@@ -236,7 +236,12 @@ namespace WebApplication1.Controllers
                             return Content(HttpStatusCode.Accepted, "pleae");
 
                         }
-                  
+                        if(hasdedPassword.UserType== 2)
+                        {
+                            return Content(HttpStatusCode.Created, "Admin login successful");
+
+                        }
+
                         else
                         {
                             return BadRequest();
