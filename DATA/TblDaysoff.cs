@@ -12,14 +12,13 @@ namespace DATA
     using System;
     using System.Collections.Generic;
     
-    public partial class TblWrittenFor
+    public partial class TblDaysoff
     {
-        public int Summary_Num { get; set; }
-        public int Treatment_Id { get; set; }
-        public string WrittenBy { get; set; }
-        public string WrittenFor { get; set; }
+        public int Request_Id { get; set; }
+        public string Therapist_Id { get; set; }
+        public string Email { get; set; }
+        public Nullable<System.DateTime> Dayoff { get; set; }
     
-        public virtual TblSummary TblSummary { get; set; }
-        public virtual TblTreatment TblTreatment { get; set; }
+        public virtual TblTherapist TblTherapist { get; set; }
     }
 }

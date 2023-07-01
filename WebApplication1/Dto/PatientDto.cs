@@ -16,5 +16,7 @@ namespace WebApplication1.Dto
         public string phoneNumber;
         public string TherapistFirstName;
         public string TherapistLastName;
+        public string TherapistId;
+
     }
 }
