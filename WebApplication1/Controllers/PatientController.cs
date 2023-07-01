@@ -26,7 +26,10 @@ namespace WebApplication1.Controllers
 
                 string TherapistName = FirstName +' '+ LastName;
 
-                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date >= DateTime.Today).
+                
+
+                List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.
+                Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date >= DateTime.Today && c.Room_Num!=3).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,
@@ -179,7 +182,7 @@ namespace WebApplication1.Controllers
 
                 List<TreatmentDto> treatment = db.TblTreatment
                     .Where(o => o.TblTreats.Any(y => y.Patient_Id == id))
-                    .Where(c => c.Treatment_Date >= lastMonth && c.Treatment_Date < DateTime.Now)
+                    .Where(c => c.Treatment_Date >= lastMonth && c.Treatment_Date < DateTime.Now && c.Room_Num!=3)
                     .Select(p => new TreatmentDto()
                     {
                     Treatment_Id = p.Treatment_Id,
