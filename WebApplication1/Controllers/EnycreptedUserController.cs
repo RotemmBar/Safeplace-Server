@@ -238,8 +238,7 @@ namespace WebApplication1.Controllers
                         }
                         if(hasdedPassword.UserType== 2)
                         {
-                            return Content(HttpStatusCode.Created, "Admin login successful");
-
+                            return Content((HttpStatusCode)226, "Admin login successful");
                         }
 
                         else
