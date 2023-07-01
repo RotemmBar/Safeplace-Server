@@ -210,39 +210,52 @@ namespace WebApplication1.Controllers
         [Route("login")]
         public IHttpActionResult Login ([FromBody] FirstLoginDto model) //activated by login
         {
-            //Check if passowrd was Changed from the default
-            var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
-            if (default_password.Password == model.Password && model.Password == default_password.PhoneNumber)
+            try
             {
-                //Default login wasn't changed
-                return Content(HttpStatusCode.Created, $"Change Password {default_password.UserType}");
-            }
-            else
-            {
-                var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
-                string hasded = hasdedPassword.Password;
-                if (IsPasswordMatch(model.Password, hasded))
+                //Check if passowrd was Changed from the default
+                var default_password = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
+                if (default_password.Password == model.Password && model.Password == default_password.PhoneNumber)
                 {
-                    if (hasdedPassword.UserType == 0)
+                    //Default login wasn't changed
+                    return Content(HttpStatusCode.Created, $"Change Password {default_password.UserType}");
+                }
+                else
+                {
+                    var hasdedPassword = db.TblUsers.FirstOrDefault(u => u.Email == model.Email);
+                    string hasded = hasdedPassword.Password;
+                    if (IsPasswordMatch(model.Password, hasded))
                     {
-                        return Ok();
-                    }
+                        if (hasdedPassword.UserType == 0)
+                        {
+                            return Ok();
+                        }
 
-                    if (hasdedPassword.UserType == 1)
-                    {
+                        if (hasdedPassword.UserType == 1)
+                        {
 
-                        return Content(HttpStatusCode.Accepted, "pleae");
+                            return Content(HttpStatusCode.Accepted, "pleae");
 
+                        }
+                        if(hasdedPassword.UserType== 2)
+                        {
+                            return Content(HttpStatusCode.Created, "Admin login successful");
+
+                        }
+
+                        else
+                        {
+                            return BadRequest();
+                        }
                     }
                     else
                     {
                         return BadRequest();
                     }
                 }
-                else 
-                {
-                    return BadRequest();
-                }
+            }
+            catch(Exception e)
+            {
+                return Content(HttpStatusCode.BadRequest, e);
             }
         }
 

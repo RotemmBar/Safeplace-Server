@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
                 string phone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
                 string id = db.TblTherapist.Where(o => o.PhoneNumber == phone).Select(p => p.Therapist_Id).FirstOrDefault();
-                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date == DateTime.Today)
+                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date == DateTime.Today && a.TblTreatment.Room_Num!=3 )
                 .Select(x => new TherapistDto
                 {
                     Therapist_Id = x.Therapist_Id,
@@ -56,8 +56,13 @@ namespace WebApplication1.Controllers
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
                 string phone = db.TblUsers.Where(o => o.Email == email).Select(p => p.PhoneNumber).FirstOrDefault();
                 string id = db.TblTherapist.Where(o => o.PhoneNumber == phone).Select(p => p.Therapist_Id).FirstOrDefault();
-                DateTime lastWeek = DateTime.Today.AddDays(-7);
-                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && a.TblTreatment.Treatment_Date >= lastWeek && a.TblTreatment.Treatment_Date < DateTime.Today)
+
+                DateTime currentHour = DateTime.Now.Date.AddHours(DateTime.Now.Hour); // Get the current hour
+                DateTime threeDaysAgo = currentHour.AddDays(-4);
+
+                List<TherapistDto> listMeeting = db.TblTreats.Where(a => a.Therapist_Id == id && 
+                a.TblTreatment.StartTime >= threeDaysAgo && a.TblTreatment.StartTime <= currentHour &&
+                a.TblTreatment.Room_Num!=3)
                  .Select(x => new TherapistDto
                 {
                     Therapist_Id = x.Therapist_Id,
