@@ -168,10 +168,12 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\EnycreptedUserController.cs" />
+    <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\SummaryController.cs" />
     <Compile Include="Controllers\TherapistController.cs" />
     <Compile Include="Controllers\TreatmentController.cs" />
+    <Compile Include="Dto\FilesDto.cs" />
     <Compile Include="Dto\NewSummaryDto.cs" />
     <Compile Include="Dto\PatientRegisterDto.cs" />
     <Compile Include="Dto\DecryptUserDto.cs" />
