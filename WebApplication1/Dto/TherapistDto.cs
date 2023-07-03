@@ -22,6 +22,19 @@ namespace WebApplication1.Dto
         public string[] Free;
 
 
+
+        public string Gender { get; set; }
+        public System.DateTime BirthDate { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public int YearsOfExperience { get; set; }
+
+
+        public int Age;
+        public int NumTreatments;
+
+
+
+
     }
 
     public class DayoffDto
