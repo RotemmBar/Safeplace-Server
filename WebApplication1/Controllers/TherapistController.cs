@@ -110,7 +110,7 @@ namespace WebApplication1.Controllers
                     if (DateTime.TryParseExact(i, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
                         freedays.Add(new TblDaysoff
                         {
-                            Request_Id = request_Id,
+                            Request_Id = request_Id++,
                             Therapist_Id = therId,
                             Email = therEmail,
                             Dayoff = date
