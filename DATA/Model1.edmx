@@ -49,6 +49,7 @@
           <Property Name="Patient_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="File_Num" Type="int" Nullable="false" />
           <Property Name="temp" Type="nvarchar" MaxLength="300" />
+          <Property Name="TherapistId" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
@@ -451,6 +452,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="temp" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblFile" Relationship="Self.fk3" FromRole="TblFills" ToRole="TblFile" />
           <NavigationProperty Name="TblPatient" Relationship="Self.fk2" FromRole="TblFills" ToRole="TblPatient" />
+          <Property Name="TherapistId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
@@ -812,6 +814,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <EntitySetMapping Name="TblFills">
             <EntityTypeMapping TypeName="igroup200_test1Model.TblFills">
               <MappingFragment StoreEntitySet="TblFills">
+                <ScalarProperty Name="TherapistId" ColumnName="TherapistId" />
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="File_Num" ColumnName="File_Num" />
                 <ScalarProperty Name="temp" ColumnName="temp" />

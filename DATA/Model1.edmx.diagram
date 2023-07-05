@@ -17,7 +17,7 @@
         <EntityTypeShape EntityType="igroup200_test1Model.TblTreatment" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblTreats" Width="1.5" PointX="6" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblType" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblUsers" Width="1.5" PointX="8.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblUsers" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblWrittenFor" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
         <AssociationConnector Association="igroup200_test1Model.fk16" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.fk1" ManuallyRouted="false" />

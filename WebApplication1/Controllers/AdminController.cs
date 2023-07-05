@@ -19,9 +19,10 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
-                List<TherapistDto> listTherapist = db.TblTherapist.Where(u=>u.Email!=email)
-                .Select(x => new TherapistDto
-                {
+                List<TherapistDto> listTherapist = db.TblTherapist.
+                    Where(u => u.Email != email).
+                    Select(x => new TherapistDto
+    {
                     Therapist_Id = x.Therapist_Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -54,6 +55,8 @@ namespace WebApplication1.Controllers
             try
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+
 
                 TherapistDto the = db.TblTherapist.Where(o => o.Therapist_Id == therapistId).Select(o => new TherapistDto()
                 {
