@@ -11,5 +11,7 @@ namespace WebApplication1.Dto
         public DateTime date_sent { get; set; }
         public int file_type_num { get; set; }
         public string content { get; set; }
+        //public string email { get; set; }
+
     }
 }

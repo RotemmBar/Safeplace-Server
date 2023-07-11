@@ -174,6 +174,7 @@
     <Compile Include="Controllers\TherapistController.cs" />
     <Compile Include="Controllers\TreatmentController.cs" />
     <Compile Include="Dto\FilesDto.cs" />
+    <Compile Include="Dto\FillsDto.cs" />
     <Compile Include="Dto\NewSummaryDto.cs" />
     <Compile Include="Dto\PatientRegisterDto.cs" />
     <Compile Include="Dto\DecryptUserDto.cs" />
