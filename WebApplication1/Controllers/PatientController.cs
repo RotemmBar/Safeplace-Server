@@ -209,7 +209,5 @@ namespace WebApplication1.Controllers
                 return Content(HttpStatusCode.BadRequest, ex);
             }
         }
-
-
     }
 }

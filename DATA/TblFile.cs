@@ -24,7 +24,10 @@ namespace DATA
         public System.DateTime DateSent { get; set; }
         public int FileType_Num { get; set; }
         public byte[] Content { get; set; }
+        public string File_name { get; set; }
+        public Nullable<int> Id { get; set; }
     
+        public virtual TblUsers TblUsers { get; set; }
         public virtual TblFileType TblFileType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TblFills> TblFills { get; set; }

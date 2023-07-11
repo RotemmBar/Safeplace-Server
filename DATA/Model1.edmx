@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="igroup200_test1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="igroup200_test1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -32,6 +32,8 @@
           <Property Name="DateSent" Type="date" Nullable="false" />
           <Property Name="FileType_Num" Type="int" Nullable="false" />
           <Property Name="Content" Type="varbinary(max)" />
+          <Property Name="File_name" Type="varchar" MaxLength="255" />
+          <Property Name="Id" Type="int" />
         </EntityType>
         <EntityType Name="TblFileType">
           <Key>
@@ -49,7 +51,7 @@
           <Property Name="Patient_Id" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="File_Num" Type="int" Nullable="false" />
           <Property Name="temp" Type="nvarchar" MaxLength="300" />
-          <Property Name="TherapistId" Type="nvarchar" MaxLength="20" />
+          <Property Name="Filler_Id" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
@@ -152,6 +154,18 @@
           <Property Name="WrittenBy" Type="nvarchar" MaxLength="20" />
           <Property Name="WrittenFor" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <Association Name="FK_Users">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
+          <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TblFile">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk1">
           <End Role="TblFileType" Type="Self.TblFileType" Multiplicity="1" />
           <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
@@ -345,6 +359,10 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <EntitySet Name="TblType" EntityType="Self.TblType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TblWrittenFor" EntityType="Self.TblWrittenFor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Users" Association="Self.FK_Users">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblFile" EntitySet="TblFile" />
+          </AssociationSet>
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -398,7 +416,8 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
             <End Role="TblWrittenFor" EntitySet="TblWrittenFor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="igroup200_test1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -430,6 +449,9 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="DateSent" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="FileType_Num" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="File_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" />
+          <NavigationProperty Name="TblUsers" Relationship="Self.FK_Users" FromRole="TblFile" ToRole="TblUsers" />
           <NavigationProperty Name="TblFileType" Relationship="Self.fk1" FromRole="TblFile" ToRole="TblFileType" />
           <NavigationProperty Name="TblFills" Relationship="Self.fk3" FromRole="TblFile" ToRole="TblFills" />
         </EntityType>
@@ -450,9 +472,9 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="Patient_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="File_Num" Type="Int32" Nullable="false" />
           <Property Name="temp" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Filler_Id" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TblFile" Relationship="Self.fk3" FromRole="TblFills" ToRole="TblFile" />
           <NavigationProperty Name="TblPatient" Relationship="Self.fk2" FromRole="TblFills" ToRole="TblPatient" />
-          <Property Name="TherapistId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TblPatient">
           <Key>
@@ -552,6 +574,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TblFile" Relationship="Self.FK_Users" FromRole="TblUsers" ToRole="TblFile" />
         </EntityType>
         <EntityType Name="TblWrittenFor">
           <Key>
@@ -574,6 +597,18 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
             </Principal>
             <Dependent Role="TblDaysoff">
               <PropertyRef Name="Therapist_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
+          <End Role="TblFile" Type="Self.TblFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TblFile">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -720,6 +755,10 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
             <End Role="TblTherapist" EntitySet="TblTherapist" />
             <End Role="TblDaysoff" EntitySet="TblDaysoff" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users" Association="Self.FK_Users">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblFile" EntitySet="TblFile" />
+          </AssociationSet>
           <AssociationSet Name="fk1" Association="Self.fk1">
             <End Role="TblFileType" EntitySet="TblFileType" />
             <End Role="TblFile" EntitySet="TblFile" />
@@ -799,6 +838,8 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
                 <ScalarProperty Name="DateSent" ColumnName="DateSent" />
                 <ScalarProperty Name="FileType_Num" ColumnName="FileType_Num" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="File_name" ColumnName="File_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -814,10 +855,10 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <EntitySetMapping Name="TblFills">
             <EntityTypeMapping TypeName="igroup200_test1Model.TblFills">
               <MappingFragment StoreEntitySet="TblFills">
-                <ScalarProperty Name="TherapistId" ColumnName="TherapistId" />
                 <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
                 <ScalarProperty Name="File_Num" ColumnName="File_Num" />
                 <ScalarProperty Name="temp" ColumnName="temp" />
+                <ScalarProperty Name="Filler_Id" ColumnName="Filler_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
