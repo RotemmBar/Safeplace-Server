@@ -23,10 +23,15 @@ namespace WebApplication1.Controllers
                 string id = db.TblPatient.Where(o => o.Email == email).Select(p => p.Patient_Id).FirstOrDefault();
                 string FirstName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.FirstName).FirstOrDefault();
                 string LastName = db.TblTreats.Where(t => t.Patient_Id == id).Select(t => t.TblTherapist.LastName).FirstOrDefault();
+                string patientfirst = db.TblPatient.Where(o => o.Email == email).Select(p => p.FirstName).FirstOrDefault();
+                string patientlast = db.TblPatient.Where(o => o.Email == email).Select(p => p.LastName).FirstOrDefault();
+
 
                 string TherapistName = FirstName +' '+ LastName;
+                string patientname = patientfirst + ' ' + patientlast;
 
-                
+
+
 
                 List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.
                 Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date >= DateTime.Today && c.Room_Num!=3).
@@ -40,6 +45,8 @@ namespace WebApplication1.Controllers
                     startTimetemp = p.StartTime.ToString().Substring(13),
                     endtimetemp = p.EndTime.ToString().Substring(13),
                     TherapistName = TherapistName,
+                    PatientName=patientname
+
                 }).ToList();
 
                 return Ok(treatment);

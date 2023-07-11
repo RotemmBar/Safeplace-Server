@@ -17,6 +17,7 @@ namespace DATA
         public string Patient_Id { get; set; }
         public int File_Num { get; set; }
         public string temp { get; set; }
+        public string TherapistId { get; set; }
     
         public virtual TblFile TblFile { get; set; }
         public virtual TblPatient TblPatient { get; set; }
