@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c406081fb44d41d1a0ee1485612aef29" Name="Diagram1">
+      <Diagram DiagramId="3ca92ce6a0904a02b8be4819f44e7941" Name="Diagram1">
         <EntityTypeShape EntityType="igroup200_test1Model.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblDaysoff" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblFile" Width="1.5" PointX="11" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblFileType" Width="1.5" PointX="8.75" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblFills" Width="1.5" PointX="13.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblFileType" Width="1.5" PointX="8.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblFills" Width="1.5" PointX="13.25" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblPatient" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblRoom" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblSummary" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
@@ -17,7 +17,7 @@
         <EntityTypeShape EntityType="igroup200_test1Model.TblTreatment" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblTreats" Width="1.5" PointX="6" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblType" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="igroup200_test1Model.TblUsers" Width="1.5" PointX="8.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="igroup200_test1Model.TblUsers" Width="1.5" PointX="8.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="igroup200_test1Model.TblWrittenFor" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
         <AssociationConnector Association="igroup200_test1Model.fk16" ManuallyRouted="false" />
         <AssociationConnector Association="igroup200_test1Model.FK_Users" ManuallyRouted="false" />
