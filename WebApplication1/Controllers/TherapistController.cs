@@ -64,19 +64,19 @@ namespace WebApplication1.Controllers
                 a.TblTreatment.StartTime >= threeDaysAgo && a.TblTreatment.StartTime <= currentHour &&
                 a.TblTreatment.Room_Num != 3)
                  .Select(x => new TherapistDto
-                {
-                    Therapist_Id = x.Therapist_Id,
-                    FirstName = x.TblTherapist.FirstName,
-                    LastName = x.TblTherapist.LastName,
-                    Treatment_Date = x.TblTreatment.Treatment_Date,
-                    StartTime = x.TblTreatment.StartTime,
-                    EndTime = x.TblTreatment.EndTime,
-                    Room_Num = (int)x.TblTreatment.Room_Num,
-                    WasDone = x.TblTreatment.WasDone,
-                    PatientFirstName = x.TblPatient.FirstName,
-                    PatientLastName = x.TblPatient.LastName,
-                    Treatment_Id = x.TblTreatment.Treatment_Id
-                }).ToList();
+                 {
+                     Therapist_Id = x.Therapist_Id,
+                     FirstName = x.TblTherapist.FirstName,
+                     LastName = x.TblTherapist.LastName,
+                     Treatment_Date = x.TblTreatment.Treatment_Date,
+                     StartTime = x.TblTreatment.StartTime,
+                     EndTime = x.TblTreatment.EndTime,
+                     Room_Num = (int)x.TblTreatment.Room_Num,
+                     WasDone = x.TblTreatment.WasDone,
+                     PatientFirstName = x.TblPatient.FirstName,
+                     PatientLastName = x.TblPatient.LastName,
+                     Treatment_Id = x.TblTreatment.Treatment_Id
+                 }).ToList();
 
 
 
@@ -100,12 +100,12 @@ namespace WebApplication1.Controllers
             var therId = db.TblTherapist.Where(o => o.Email == therEmail).Select(p => p.Therapist_Id).FirstOrDefault().ToString();
             var futurearr = value.Free;
             int request_Id = db.TblDaysoff.Any() ? db.TblDaysoff.Max(s => s.Request_Id) + 1 : 1;
-            
+
 
             List<TblDaysoff> freedays = new List<TblDaysoff>();
             try
             {
-                foreach(var i in futurearr)
+                foreach (var i in futurearr)
                 {
                     if (DateTime.TryParseExact(i, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
                         freedays.Add(new TblDaysoff
@@ -130,5 +130,30 @@ namespace WebApplication1.Controllers
 
 
 
+        [HttpPut]
+        [Route("api/Update")]
+        public IHttpActionResult UpdateStatus([FromBody] int value)
+        {
+            try
+            {
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+                var treat = db.TblTreatment.Where(x => x.Treatment_Id == value).FirstOrDefault();
+                if (treat != null)
+                {
+                    treat.WasDone = "C";
+                    db.SaveChanges();
+                    return Ok("Update status complete! ");
+                }
+                return BadRequest("Didnt found treatment Id:");
+
+            }
+
+            catch (Exception ex)
+            {
+
+                return BadRequest("UpdateStatus: " + ex.Message);
+
+            }
+        }
     }
 }
