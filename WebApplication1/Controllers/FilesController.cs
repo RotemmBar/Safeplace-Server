@@ -76,7 +76,7 @@ namespace WebApplication1.Controllers
                          f.File_Num,
                         f.DateSent,
                         f.FileType_Num,
-                        f.Content
+                        //f.Content
          })
          .ToList();
 
