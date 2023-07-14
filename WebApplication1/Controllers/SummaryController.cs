@@ -137,13 +137,14 @@ namespace WebApplication1.Controllers
                 newSummary.Summary_Date = value.Summary_Date;
                 newSummary.ImportentToNote = value.ImportanttoNote;
                 newSummary.WrittenById = writtenbyid;
+                db.TblTreatment.FirstOrDefault(t => t.Treatment_Id == value.Treatment_Id).WasDone = "S";
                 db.TblSummary.Add(newSummary);
 
                 TblWrittenFor newWrittenFor = new TblWrittenFor();
                 newWrittenFor.Summary_Num = nextSummaryNum;
                 newWrittenFor.Treatment_Id = value.Treatment_Id;
                 newWrittenFor.WrittenBy = writtenbyid;
-                newWrittenFor.WrittenFor =writtenforid;
+                newWrittenFor.WrittenFor = writtenforid;
                 db.TblWrittenFor.Add(newWrittenFor);
 
 
