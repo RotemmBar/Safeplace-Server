@@ -26,6 +26,7 @@ namespace DATA
         public byte[] Content { get; set; }
         public string File_name { get; set; }
         public Nullable<int> Id { get; set; }
+        public string FilePath { get; set; }
     
         public virtual TblUsers TblUsers { get; set; }
         public virtual TblFileType TblFileType { get; set; }
