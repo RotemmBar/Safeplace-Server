@@ -34,6 +34,7 @@
           <Property Name="Content" Type="varbinary(max)" />
           <Property Name="File_name" Type="varchar" MaxLength="255" />
           <Property Name="Id" Type="int" />
+          <Property Name="FilePath" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="TblFileType">
           <Key>
@@ -451,6 +452,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
           <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="File_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int32" />
+          <Property Name="FilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TblUsers" Relationship="Self.FK_Users" FromRole="TblFile" ToRole="TblUsers" />
           <NavigationProperty Name="TblFileType" Relationship="Self.fk1" FromRole="TblFile" ToRole="TblFileType" />
           <NavigationProperty Name="TblFills" Relationship="Self.fk3" FromRole="TblFile" ToRole="TblFills" />
@@ -840,6 +842,7 @@ warning 6035: The relationship 'fk20' has columns that are not part of the key o
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="File_name" ColumnName="File_name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

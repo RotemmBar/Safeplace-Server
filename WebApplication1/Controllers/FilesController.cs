@@ -1,6 +1,10 @@
 ﻿using DATA;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Google.Cloud.Storage.V1;
+using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,47 +20,85 @@ namespace WebApplication1.Controllers
 
         SafePlaceDbContextt db = new SafePlaceDbContextt();
 
+        //[HttpPost]
+        //[Route("api/files")]
+        //public IHttpActionResult UploadFile([FromBody] FilesDto model)
+        //{
+
+        //    if (!string.IsNullOrEmpty(model.content))
+        //    {
+        //        byte[] fileContent = Convert.FromBase64String(model.content);
+
+        //        //string id = db.TblUsers.Where(o => o.Email == model.email).Select(p => p.Patient_Id).FirstOrDefault();
+        //        int userFileNum = model.file_num;
+
+        //        TblFile tblFile = new TblFile();
+        //        tblFile.Content = fileContent;
+        //        tblFile.DateSent = model.date_sent;
+        //        tblFile.File_Num = model.file_num;
+        //        tblFile.FileType_Num = model.file_type_num;
+
+        //        string Patient_Id_test = "0506369673";
+        //        TblFills tblFills = new TblFills();
+        //        tblFills.Patient_Id = Patient_Id_test;
+        //        tblFills.File_Num = userFileNum;
+
+
+
+        //        db.TblFile.Add(tblFile);
+        //        db.TblFills.Add(tblFills);
+
+
+        //        db.SaveChanges();
+
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Invalid file data");
+        //    }
+        //}
         [HttpPost]
         [Route("api/files")]
         public IHttpActionResult UploadFile([FromBody] FilesDto model)
         {
-
-            if (!string.IsNullOrEmpty(model.content))
+            if (model.FileName != null || model.FilePath != null)
             {
-                byte[] fileContent = Convert.FromBase64String(model.content);
+                //Get the max file num
+                int maxFileNum = db.TblFile.Max(o => o.File_Num);
 
-                //string id = db.TblUsers.Where(o => o.Email == model.email).Select(p => p.Patient_Id).FirstOrDefault();
-                int userFileNum = model.file_num;
+                //increase the max file num by one to get a new file num
+                int newFileNum = maxFileNum + 1;
 
+
+                // Save this file path to your SQL Server database
                 TblFile tblFile = new TblFile();
-                tblFile.Content = fileContent;
-                tblFile.DateSent = model.date_sent;
-                tblFile.File_Num = model.file_num;
+                tblFile.FilePath = model.FilePath; // Assuming ContentPath is the property where you want to save the path
+                tblFile.DateSent = DateTime.Today;
+                tblFile.File_Num = newFileNum;
                 tblFile.FileType_Num = model.file_type_num;
+                tblFile.File_name = model.FileName;
 
                 string Patient_Id_test = "0506369673";
                 TblFills tblFills = new TblFills();
                 tblFills.Patient_Id = Patient_Id_test;
-                tblFills.File_Num = userFileNum;
-
-
+                tblFills.File_Num = newFileNum;
+                tblFills.Filler_Id = Patient_Id_test;
 
                 db.TblFile.Add(tblFile);
                 db.TblFills.Add(tblFills);
-
 
                 db.SaveChanges();
 
                 return Ok();
             }
-            else
-            {
-                return BadRequest("Invalid file data");
+            else {
+                return BadRequest();
             }
+   
         }
 
-
-        [HttpPost]
+            [HttpPost]
         [Route("api/getpdffiles")]
         public IHttpActionResult LoadFile([FromBody] FillsDto model)
         {
@@ -73,11 +115,12 @@ namespace WebApplication1.Controllers
             var files = db.TblFile
                 .Where(f => fileNumbers.Contains(f.File_Num))
                 .Select(f => new {
+                          f.File_name,
                          f.File_Num,
                         f.DateSent,
                         f.FileType_Num,
-                        //f.Content
-         })
+                        f.FilePath
+                })
          .ToList();
 
             // Return the files as a response

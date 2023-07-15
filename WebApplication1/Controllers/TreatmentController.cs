@@ -76,7 +76,9 @@ namespace WebApplication1.Controllers
                 {
                     Room_Num = 0,
                     startTimetemp = hour.ToString("00") + ":00",
-                    available = "Y"
+                    available = "Y",
+                    recommended = false,
+                    StartTime = DateTime.Now
                 };
             };
 
@@ -103,83 +105,6 @@ namespace WebApplication1.Controllers
                 string stringstarttime = temp.ToShortTimeString();
                 lis[treatment.Treatment_Id] = stringstarttime; //Dictionary ordered by Treatment number- the value is the string of the start time
             } //Inserts hours to dictionary. (Therapist+Day) Based on Treatment Id
-            #region trash
-            //foreach (var tre in lis)
-            //{
-            //    for (int i = 0; i < hours.Length; i++)
-            //    {
-            //        if (tre.Value == hours[i])
-            //        {
-            //            hours[i] = "Taken";
-            //        }
-            //    }
-            //} //Checks if any of the hours are taken based on theapist+day
-            ////proceed to check if rooms are available in chosen time.
-            ///
-               //foreach (var r1 in room1)
-            //{
-            //    DateTime t = (DateTime)r1.StartTime;
-            //    string r1time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
-
-            //    for (int i = 0; i < hours.Length; i++)
-            //    {
-            //        if (hours[i] == "Taken")
-            //        {
-            //            continue;
-            //        }
-
-            //        if (hours[i] == r1time)
-            //        {
-            //            hours[i] = "Taken";
-            //        }
-
-            //        if (hours[i] != "Taken")
-            //        {
-            //            foreach (var d in freetreatment)
-            //            {
-            //                if(hours[i]==d.startTimetemp)
-            //                {
-            //                    d.Room_Num = 1;
-            //                }
-            //            }
-            //        }            
-            //    }
-
-            //} //Checks if any of the hours are taken based on Room1 and day
-
-            //foreach (var r2 in room2)
-            //{
-            //    DateTime t = (DateTime)r2.StartTime;
-            //    string r2time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
-
-            //    for (int i = 0; i < hours.Length; i++)
-            //    {
-            //        if (hours[i] == "Taken")
-            //        {
-            //            continue;
-            //        }
-
-            //        if (hours[i] == r2time)
-            //        {
-            //            hours[i] = "Taken";
-            //        }
-
-            //        if(hours[i]!="Taken")
-            //        {
-            //            foreach (var d in freetreatment)
-            //            {
-            //                if (hours[i] == d.startTimetemp)
-            //                {
-            //                    d.Room_Num = 2;
-            //                }
-            //            }                  
-
-            //        }
-            //    }
-
-            //}
-            //return Ok(freetreatment);
-            #endregion
 
             foreach (var tre in lis)
             {
@@ -188,6 +113,11 @@ namespace WebApplication1.Controllers
                     if (tre.Value == free.startTimetemp)
                     {
                        free.available = "No";
+                        DateTime startTime;
+                        if (DateTime.TryParse(tre.Value, out startTime))
+                        {
+                            free.StartTime = startTime;
+                        }
                     }
                 }
             } //Checks if any of the hours are taken based on theapist+day
@@ -264,6 +194,61 @@ namespace WebApplication1.Controllers
 
             TreatmentDto[] final = new TreatmentDto[0];
             final = freetreatment.Where(c => c.Room_Num != 0 || c.available== "Taken2").ToArray();
+
+            List<TblTreatment> alltreatment = db.TblTreatment.ToList(); ///a list of all treatments
+
+            Dictionary<string, int> score = new Dictionary<string, int>(); // cancelled each hour
+
+            foreach (var i in freetreatment)
+            {
+                if (!score.ContainsKey(i.startTimetemp))
+                {
+                    if (treatsbydayandtherapist.Count==0)
+                    {
+                        score[i.startTimetemp] = 0;
+                        continue;
+                    }
+
+                    foreach (var temp in treatsbydayandtherapist)
+                    {
+                        DateTime t = (DateTime)temp.StartTime;
+                        string timetemp = t.ToShortTimeString();
+                        int inttreatmenthour = int.Parse(timetemp.Split(':')[0]);
+
+                        int freehour = int.Parse(i.startTimetemp.Split(':')[0]);
+
+                        int point = Math.Abs(inttreatmenthour - freehour);
+                        score[i.startTimetemp] = point;
+                    }
+                }
+            }
+            foreach (var i in alltreatment)
+            {
+                DateTime t = (DateTime)i.StartTime;
+                string timetemp = t.ToShortTimeString();
+
+                if (i.WasDone == "C")
+                {
+                    score[timetemp] += 1;
+                }
+            }
+
+            int minumuncancel = score.Values.Min();
+
+            foreach(var treatment in final)
+            {            
+                if (score[treatment.startTimetemp]==minumuncancel)
+                {
+                    treatment.recommended = true;
+                }
+            }
+
+       
+
+
+
+
+
             return Ok(final);       
                    
         
