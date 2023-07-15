@@ -11,6 +11,8 @@ namespace WebApplication1.Dto
         public string WasDone { get; set; }
         public int Type_Id { get; set; }
         public int Room_Num { get; set; }
+
+        public bool recommended;
         public DateTime TreatmentDate { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
