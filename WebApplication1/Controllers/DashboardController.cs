@@ -38,10 +38,26 @@ namespace WebApplication1.Controllers
                 }
 
 
+                List<TblTreats> treat = db.TblTreats.ToList();
+
+                var result = new Dictionary<string,HashSet<string>>();
+
+                foreach (var i in treat)
+                {
+                    var thername = therdic[i.Therapist_Id];
+                    var pateintname = patientdic[i.Patient_Id];
+
+                    if (!result.ContainsKey(thername))
+                        {
+                        result[thername] = new HashSet<string>();
+                    }
+                    result[thername].Add(pateintname);
+                }
 
 
 
-                return Ok(therdic);
+
+                return Ok(result);
 
 
             }
