@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
     {
         [HttpGet]
         [Route("api/DaAllTher")]
-        public IHttpActionResult Get()
+        public IHttpActionResult GetAllTherapists()
         {
             {
                 SafePlaceDbContextt db = new SafePlaceDbContextt();
@@ -63,19 +63,45 @@ namespace WebApplication1.Controllers
             }
         }
 
-        // POST: api/Dashboard
-        public void Post([FromBody]string value)
+
+        [HttpGet]
+        [Route("api/DaTreatmentsperDay")]
+        public IHttpActionResult GetTreatmentsPerDay()
         {
+            {
+
+                SafePlaceDbContextt db = new SafePlaceDbContextt();
+
+                List<TblTreatment> treatments = db.TblTreatment.ToList();
+
+                var weekday = new Dictionary<string, int>();
+
+                foreach (var treatment in treatments)
+                {
+                    DateTime treatmentDate = treatment.Treatment_Date;
+                    string dayOfWeek = treatmentDate.ToString("dddd", CultureInfo.InvariantCulture);
+
+                    if (weekday.ContainsKey(dayOfWeek))
+                    {
+                        weekday[dayOfWeek]++;
+                    }
+                    else
+                    {
+                        weekday[dayOfWeek] = 1;
+                    }
+                }
+
+                // Arrange weekdays in the correct order (Sunday to Friday)
+                var orderedWeekdays = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+                var result = orderedWeekdays.ToDictionary(day => day, day => weekday.ContainsKey(day) ? weekday[day] : 0);
+
+                return Ok(result);
+
+
+            }
         }
 
-        // PUT: api/Dashboard/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE: api/Dashboard/5
-        public void Delete(int id)
-        {
-        }
+
     }
 }
