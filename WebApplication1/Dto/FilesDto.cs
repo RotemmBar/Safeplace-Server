@@ -14,6 +14,14 @@ namespace WebApplication1.Dto
         public string FileName { get; set; }
         public string FilePath { get; set; }
 
+        public string Patient_Id { get; set; }
+
+        public string filler_Id { get; set; }
+
+        public string Email { get; set; }
+
+        public int  TreatmentId { get; set; }
+
 
     }
 }
