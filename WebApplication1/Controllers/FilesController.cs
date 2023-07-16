@@ -79,11 +79,14 @@ namespace WebApplication1.Controllers
                 tblFile.FileType_Num = model.file_type_num;
                 tblFile.File_name = model.FileName;
 
-                string Patient_Id_test = "0506369673";
+                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.Id).ToString(); //אימייל של המשתמש
+                string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).ToString();
+                string TherapistId = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Therapist_Id).ToString();
+
                 TblFills tblFills = new TblFills();
-                tblFills.Patient_Id = Patient_Id_test;
+                tblFills.Patient_Id = patientId1;
                 tblFills.File_Num = newFileNum;
-                tblFills.Filler_Id = Patient_Id_test;
+                tblFills.Filler_Id = filler_id1;
 
                 db.TblFile.Add(tblFile);
                 db.TblFills.Add(tblFills);
