@@ -1,15 +1,6 @@
 ﻿using DATA;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using Google.Cloud.Storage.V1;
-using Google.Apis.Auth.OAuth2;
-using Newtonsoft.Json;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Web.Helpers;
 using System.Web.Http;
 using WebApplication1.Dto;
 
@@ -102,7 +93,8 @@ namespace WebApplication1.Controllers
    
         }
 
-            [HttpPost]
+
+        [HttpPost]
         [Route("api/getpdffiles")]
         public IHttpActionResult LoadFile([FromBody] FillsDto model)
         {
@@ -138,3 +130,94 @@ namespace WebApplication1.Controllers
 
 
 }
+=======
+        [HttpGet]
+        [Route("api/patientfiles/{fillerId}")]
+        public IHttpActionResult GetPatientFiles1(string fillerId)
+        {
+
+                //All the files by the filler id
+                var fileNumbers = db.TblFills
+                    .Where(f => f.Filler_Id == fillerId.ToString() && f.Patient_Id == fillerId)
+                    .Select(f => f.File_Num).ToList();
+
+                // Query the database to retrieve the files based on the file numbers
+                var files = db.TblFile
+                    .Where(f => fileNumbers.Contains(f.File_Num))
+                    .Select(f => new
+                    {
+                        f.File_name,
+                        f.File_Num,
+                        f.DateSent,
+                        f.FileType_Num,
+                        f.FilePath
+                    })
+                    .ToList();
+
+                // Return the files as a response
+                return Ok(files);
+
+        }
+
+        [HttpGet]
+        [Route("api/gettherapistpatientsfiles/{therapistId}")]
+        public IHttpActionResult GetPatientFiles(string therapistId)
+        {
+            var therapist_Patientlist = db.TblTreats
+                .Where(f => f.Therapist_Id == therapistId)
+                .Select(f => f.Patient_Id).ToList();
+
+            // Get files associated with patients treated by the therapist
+            var fills = db.TblFills
+                .Where(f => therapist_Patientlist.Contains(f.Patient_Id))
+                .Select(f => new
+                {
+                    f.File_Num,
+                    f.Patient_Id,
+                    f.Filler_Id
+                })
+                .ToList();
+
+        }
+            [HttpGet]
+            [Route("api/gettherapistpatientsfiles2/{therapistId}")]
+            public IHttpActionResult GetPatientFiles(string therapistId)
+            {
+                var therapist_Patientlist = db.TblTreats
+                    .Where(f => f.Therapist_Id == therapistId)
+                    .Select(f => f.Patient_Id).ToList();
+
+                // Get files associated with patients treated by the therapist
+                var fills = db.TblFills
+                    .Where(f => therapist_Patientlist.Contains(f.Patient_Id))
+                    .Select(f => new
+                    {
+                        f.File_Num,
+                        f.Patient_Id,
+                        f.Filler_Id
+                    })
+                    .ToList();
+
+                // Extract FileNums from fills
+                var fileNums = fills.Select(f => f.File_Num).ToList();
+
+                // Get files from TblFile that have the same File_Num
+                var files = db.TblFile
+                    .Where(f => fileNums.Contains(f.File_Num))
+                    .Select(f => new
+                    {
+                        f.File_name,
+                        f.File_Num,
+                        f.DateSent,
+                        f.FileType_Num,
+                        f.FilePath
+                    })
+                    .ToList();
+
+                // Return the files as a response
+                return Ok(files);
+            }
+
+        }
+    }
+>>>>>>> master
