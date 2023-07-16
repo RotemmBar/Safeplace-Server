@@ -70,10 +70,11 @@ namespace WebApplication1.Controllers
                 tblFile.FileType_Num = model.file_type_num;
                 tblFile.File_name = model.FileName;
 
-                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.Id).ToString(); //אימייל של המשתמש
-                string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).ToString();
-                string TherapistId = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Therapist_Id).ToString();
+                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.Id).FirstOrDefault().ToString(); //אימייל של המשתמש
+                //string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).ToString();
+                //string TherapistId = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Therapist_Id).ToString();
 
+                string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).FirstOrDefault().ToString();
                 TblFills tblFills = new TblFills();
                 tblFills.Patient_Id = patientId1;
                 tblFills.File_Num = newFileNum;
@@ -125,9 +126,14 @@ namespace WebApplication1.Controllers
         }
 
 
+    }
+
+
+}
+=======
         [HttpGet]
         [Route("api/patientfiles/{fillerId}")]
-        public IHttpActionResult GetPatientFiles(string fillerId)
+        public IHttpActionResult GetPatientFiles1(string fillerId)
         {
 
                 //All the files by the filler id
@@ -174,7 +180,7 @@ namespace WebApplication1.Controllers
 
         }
             [HttpGet]
-            [Route("api/gettherapistpatientsfiles/{therapistId}")]
+            [Route("api/gettherapistpatientsfiles2/{therapistId}")]
             public IHttpActionResult GetPatientFiles(string therapistId)
             {
                 var therapist_Patientlist = db.TblTreats
@@ -214,3 +220,4 @@ namespace WebApplication1.Controllers
 
         }
     }
+>>>>>>> master
