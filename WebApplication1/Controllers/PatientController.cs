@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
 
                 List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.
-               Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Now && c.Room_Num!=3 && c.WasDone == "n" || c.WasDone == "N").
+               Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Now && c.Room_Num != 3 && (c.WasDone == "n" || c.WasDone == "N")).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,
@@ -45,7 +45,7 @@ namespace WebApplication1.Controllers
                     startTimetemp = p.StartTime.ToString().Substring(13),
                     endtimetemp = p.EndTime.ToString().Substring(13),
                     TherapistName = TherapistName,
-                    PatientName=patientname
+                    PatientName=patientname,
 
                 }).ToList();
 
@@ -57,24 +57,6 @@ namespace WebApplication1.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("api/patient")]
-        //public List<PatientDto> Get()
-        //{
-        //    SafePlaceDbContextt db = new SafePlaceDbContextt();
-        //    List<PatientDto> patients = db.TblPatient.Select(p => new PatientDto()
-        //    {
-        //        patientId = p.Patient_Id,
-        //        FirstName = p.FirstName,
-        //        LastName = p.LastName,
-        //        //Email = p., ////Go Over
-        //        Age = DateTime.Now.Year - p.BirthDate.Value.Year,
-        //        NumTreatments = p.TblTreats.Count(),
-        //        phoneNumber = p.PhoneNumber
-        //    }).ToList();
-
-        //    return patients;
-        //}
 
         [HttpGet]
         [Route("api/getpatient")]
