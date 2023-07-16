@@ -95,47 +95,54 @@ namespace WebApplication1.Controllers
                     Password = model.PhoneNumber
                 };
 
-                var theramil = model.TherEmail;
-                var therid = db.TblTherapist.Where(o => o.Email == theramil).Select(p => p.Therapist_Id).FirstOrDefault();
-                int demoid = db.TblTreatment.Any() ? db.TblTreatment.Max(s => s.Treatment_Id) + 1 : 1;
-                var treat = new TblTreats();
-                var nepatient = new TblPatient();
+                db.TblUsers.Add(newUser);
 
-                var temptreat = new TblTreatment();
-                if(therid!=null)
+
+                if (modelUserType==0)
                 {
-                    temptreat = new TblTreatment
+                    var theramil = model.TherEmail;
+                    var therid = db.TblTherapist.Where(o => o.Email == theramil).Select(p => p.Therapist_Id).FirstOrDefault();
+                    int demoid = db.TblTreatment.Any() ? db.TblTreatment.Max(s => s.Treatment_Id) + 1 : 1;
+                    var treat = new TblTreats();
+                    var nepatient = new TblPatient();
+
+                    var temptreat = new TblTreatment();
+                    if (therid != null)
                     {
-                        Treatment_Id = demoid,
-                        Treatment_Date = DateTime.Today,
-                        StartTime = DateTime.Now,
-                        EndTime = DateTime.Now.AddHours(1),
-                        WasDone = "N",
-                        Type_Id = 1,
-                        Room_Num = 3
-                    };
+                        temptreat = new TblTreatment
+                        {
+                            Treatment_Id = demoid,
+                            Treatment_Date = DateTime.Today,
+                            StartTime = DateTime.Now,
+                            EndTime = DateTime.Now.AddHours(1),
+                            WasDone = "N",
+                            Type_Id = 1,
+                            Room_Num = 3
+                        };
 
-                    db.TblUsers.Add(newUser);
-                    db.TblTreatment.Add(temptreat);
-                    db.SaveChanges();
+                        db.TblTreatment.Add(temptreat);
+                        db.SaveChanges();
 
-                    nepatient = new TblPatient
-                    {
-                        Patient_Id = model.PhoneNumber,
-                        PhoneNumber=model.PhoneNumber
-                    };
+                        nepatient = new TblPatient
+                        {
+                            Patient_Id = model.PhoneNumber,
+                            PhoneNumber = model.PhoneNumber
+                        };
 
-                    treat = new TblTreats
-                      {
-                          Patient_Id = model.PhoneNumber,
-                          Therapist_Id = therid,
-                          Treatment_Id = demoid
-                      };
+                        treat = new TblTreats
+                        {
+                            Patient_Id = model.PhoneNumber,
+                            Therapist_Id = therid,
+                            Treatment_Id = demoid
+                        };
 
+                    }
+
+                    db.TblPatient.Add(nepatient);
+                    db.TblTreats.Add(treat);
                 }
 
-                db.TblPatient.Add(nepatient);
-                db.TblTreats.Add(treat);
+             
                 db.SaveChanges();
 
                 return Ok();
