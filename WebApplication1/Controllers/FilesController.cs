@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                 tblFile.FileType_Num = model.file_type_num;
                 tblFile.File_name = model.FileName;
 
-                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.Id).FirstOrDefault().ToString(); //אימייל של המשתמש
+                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.PhoneNumber).FirstOrDefault().ToString(); //אימייל של המשתמש
                 //string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).ToString();
                 //string TherapistId = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Therapist_Id).ToString();
 
@@ -136,7 +136,7 @@ namespace WebApplication1.Controllers
 
             // Get files associated with patients treated by the therapist
             var fills = db.TblFills
-                .Where(f => therapist_Patientlist.Contains(f.Patient_Id))
+                .Where(f => therapist_Patientlist.Contains(f.Filler_Id))
                 .Select(f => new
                 {
                     f.File_Num,
