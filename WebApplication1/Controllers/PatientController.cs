@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
 
                 List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.
-               Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Today && c.Room_Num!=3 && c.WasDone == "n" || c.WasDone == "N").
+               Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Now && c.Room_Num != 3 && (c.WasDone == "n" || c.WasDone == "N")).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,

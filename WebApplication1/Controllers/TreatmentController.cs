@@ -95,9 +95,9 @@ namespace WebApplication1.Controllers
 
             List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
             List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
-            
 
-            var lis = new Dictionary<int, string>(); 
+
+            var lis = new Dictionary<int, string>();
 
             foreach (var treatment in treatsbydayandtherapist)
             {
@@ -112,7 +112,7 @@ namespace WebApplication1.Controllers
                 {
                     if (tre.Value == free.startTimetemp)
                     {
-                       free.available = "No";
+                        free.available = "No";
                         DateTime startTime;
                         if (DateTime.TryParse(tre.Value, out startTime))
                         {
@@ -128,7 +128,7 @@ namespace WebApplication1.Controllers
                 DateTime t = (DateTime)r1.StartTime;
                 string r1time = t.ToShortTimeString(); //a string of all hours hapenning in room 1 for given day
 
-               foreach(var free in freetreatment)
+                foreach (var free in freetreatment)
                 {
                     if (free.available != "No")
                     {
@@ -171,21 +171,21 @@ namespace WebApplication1.Controllers
                             free.Room_Num = 2;
                         }
                     }
-  
+
                 }
 
             } //Checks if any of the hours are taken based on Room1 and day
 
-            if(room1.Count==0)
+            if (room1.Count == 0)
             {
-                foreach(var option in freetreatment)
+                foreach (var option in freetreatment)
                 {
                     option.Room_Num = 1;
                 }
             }
-            else if(room2.Count==0)
+            else if (room2.Count == 0)
             {
-                foreach(var option in freetreatment)
+                foreach (var option in freetreatment)
                 {
                     option.Room_Num = 2;
                 }
@@ -193,7 +193,7 @@ namespace WebApplication1.Controllers
 
 
             TreatmentDto[] final = new TreatmentDto[0];
-            final = freetreatment.Where(c => c.Room_Num != 0 || c.available== "Taken2").ToArray();
+            final = freetreatment.Where(c => c.Room_Num != 0 || c.available == "Taken2").ToArray();
 
             List<TblTreatment> alltreatment = db.TblTreatment.ToList(); ///a list of all treatments
 
@@ -203,7 +203,7 @@ namespace WebApplication1.Controllers
             {
                 if (!score.ContainsKey(i.startTimetemp))
                 {
-                    if (treatsbydayandtherapist.Count==0)
+                    if (treatsbydayandtherapist.Count == 0)
                     {
                         score[i.startTimetemp] = 0;
                         continue;
@@ -222,38 +222,38 @@ namespace WebApplication1.Controllers
                     }
                 }
             }
-            foreach (var i in alltreatment)
+            foreach(var i in alltreatment)
             {
                 DateTime t = (DateTime)i.StartTime;
                 string timetemp = t.ToShortTimeString();
 
                 if (i.WasDone == "C")
                 {
-                    score[timetemp] += 1;
+                    if (score.ContainsKey(timetemp))
+                    {
+                        score[timetemp] += 1;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
 
             int minumuncancel = score.Values.Min();
 
-            foreach(var treatment in final)
-            {            
-                if (score[treatment.startTimetemp]==minumuncancel)
+            foreach (var treatment in final)
+            {
+                if (score[treatment.startTimetemp] == minumuncancel)
                 {
                     treatment.recommended = true;
                 }
             }
 
-       
+            return Ok(final);
 
 
-
-
-
-            return Ok(final);       
-                   
-        
         }
-
 
         // POST: api/Treatment
         [HttpPost]

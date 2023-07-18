@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                 tblFile.FileType_Num = model.file_type_num;
                 tblFile.File_name = model.FileName;
 
-                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.Id).FirstOrDefault().ToString(); //אימייל של המשתמש
+                string filler_id1 = db.TblUsers.Where(x => x.Email == model.filler_Id).Select(y => y.PhoneNumber).FirstOrDefault().ToString(); //אימייל של המשתמש
                 //string patientId1 = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Patient_Id).ToString();
                 //string TherapistId = db.TblTreats.Where(x => x.Treatment_Id == model.TreatmentId).Select(y => y.Therapist_Id).ToString();
 
@@ -126,41 +126,8 @@ namespace WebApplication1.Controllers
         }
 
 
-    }
-
-
-}
-=======
         [HttpGet]
-        [Route("api/patientfiles/{fillerId}")]
-        public IHttpActionResult GetPatientFiles1(string fillerId)
-        {
-
-                //All the files by the filler id
-                var fileNumbers = db.TblFills
-                    .Where(f => f.Filler_Id == fillerId.ToString() && f.Patient_Id == fillerId)
-                    .Select(f => f.File_Num).ToList();
-
-                // Query the database to retrieve the files based on the file numbers
-                var files = db.TblFile
-                    .Where(f => fileNumbers.Contains(f.File_Num))
-                    .Select(f => new
-                    {
-                        f.File_name,
-                        f.File_Num,
-                        f.DateSent,
-                        f.FileType_Num,
-                        f.FilePath
-                    })
-                    .ToList();
-
-                // Return the files as a response
-                return Ok(files);
-
-        }
-
-        [HttpGet]
-        [Route("api/gettherapistpatientsfiles/{therapistId}")]
+        [Route("api/gettherapistpatientsfiles2/{therapistId}")]
         public IHttpActionResult GetPatientFiles(string therapistId)
         {
             var therapist_Patientlist = db.TblTreats
@@ -169,7 +136,7 @@ namespace WebApplication1.Controllers
 
             // Get files associated with patients treated by the therapist
             var fills = db.TblFills
-                .Where(f => therapist_Patientlist.Contains(f.Patient_Id))
+                .Where(f => therapist_Patientlist.Contains(f.Filler_Id))
                 .Select(f => new
                 {
                     f.File_Num,
@@ -178,46 +145,31 @@ namespace WebApplication1.Controllers
                 })
                 .ToList();
 
+            // Extract FileNums from fills
+            var fileNums = fills.Select(f => f.File_Num).ToList();
+
+            // Get files from TblFile that have the same File_Num
+            var files = db.TblFile
+                .Where(f => fileNums.Contains(f.File_Num))
+                .Select(f => new
+                {
+                    f.File_name,
+                    f.File_Num,
+                    f.DateSent,
+                    f.FileType_Num,
+                    f.FilePath
+                })
+                .ToList();
+
+            // Return the files as a response
+            return Ok(files);
         }
-            [HttpGet]
-            [Route("api/gettherapistpatientsfiles2/{therapistId}")]
-            public IHttpActionResult GetPatientFiles(string therapistId)
-            {
-                var therapist_Patientlist = db.TblTreats
-                    .Where(f => f.Therapist_Id == therapistId)
-                    .Select(f => f.Patient_Id).ToList();
 
-                // Get files associated with patients treated by the therapist
-                var fills = db.TblFills
-                    .Where(f => therapist_Patientlist.Contains(f.Patient_Id))
-                    .Select(f => new
-                    {
-                        f.File_Num,
-                        f.Patient_Id,
-                        f.Filler_Id
-                    })
-                    .ToList();
 
-                // Extract FileNums from fills
-                var fileNums = fills.Select(f => f.File_Num).ToList();
 
-                // Get files from TblFile that have the same File_Num
-                var files = db.TblFile
-                    .Where(f => fileNums.Contains(f.File_Num))
-                    .Select(f => new
-                    {
-                        f.File_name,
-                        f.File_Num,
-                        f.DateSent,
-                        f.FileType_Num,
-                        f.FilePath
-                    })
-                    .ToList();
-
-                // Return the files as a response
-                return Ok(files);
-            }
-
-        }
     }
->>>>>>> master
+
+
+}
+
+
