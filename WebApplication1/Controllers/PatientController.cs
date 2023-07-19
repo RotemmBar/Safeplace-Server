@@ -45,7 +45,8 @@ namespace WebApplication1.Controllers
                     startTimetemp = p.StartTime.ToString().Substring(13),
                     endtimetemp = p.EndTime.ToString().Substring(13),
                     TherapistName = TherapistName,
-                    PatientName=patientname
+                    PatientName=patientname,
+                    TherapistId = p.TblTreats.FirstOrDefault().Therapist_Id
 
                 }).ToList();
 
@@ -93,7 +94,8 @@ namespace WebApplication1.Controllers
                         FirstName = p.FirstName,
                         LastName = p.LastName,
                         TherapistFirstName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.FirstName,
-                        TherapistLastName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.LastName
+                        TherapistLastName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.LastName,
+                        TherapistId = p.TblTreats.FirstOrDefault().Therapist_Id
                     })
                     .ToList();
 

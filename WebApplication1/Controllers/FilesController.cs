@@ -131,19 +131,65 @@ namespace WebApplication1.Controllers
         public IHttpActionResult GetPatientFiles(string therapistId)
         {
             var therapist_Patientlist = db.TblTreats
-                .Where(f => f.Therapist_Id == therapistId)
-                .Select(f => f.Patient_Id).ToList();
+             .Where(f => f.Therapist_Id == therapistId)
+             .Select(f => f.Patient_Id)
+              .Distinct()
+               .ToList(); //מקבל את הרשימת מטופלים של אותו מטפל ספציפי
 
-            // Get files associated with patients treated by the therapist
+            
             var fills = db.TblFills
-                .Where(f => therapist_Patientlist.Contains(f.Filler_Id))
+           .Where(f => therapist_Patientlist.Contains(f.Patient_Id) && f.Filler_Id == f.Patient_Id)
+           .Select(f => new
+          {
+          f.File_Num,
+          f.Patient_Id,
+          f.Filler_Id
+            })
+          .ToList();
+
+            // Extract FileNums from fills
+            var fileNums = fills.Select(f => f.File_Num).ToList();
+
+            
+            // Get files from TblFile that have the same File_Num
+            var files = db.TblFile
+                .Where(f => fileNums.Contains(f.File_Num))
                 .Select(f => new
                 {
+                    f.File_name,
                     f.File_Num,
-                    f.Patient_Id,
-                    f.Filler_Id
+                    f.DateSent,
+                    f.FileType_Num,
+                    f.FilePath,
+                    f.TblFills.FirstOrDefault().TblPatient.FirstName,
+                    f.TblFills.FirstOrDefault().TblPatient.LastName
                 })
                 .ToList();
+
+            // Return the files as a response
+            return Ok(files);
+        }
+
+        [HttpGet]
+        [Route("api/gettherapistfiles/{therapistId}")]
+        public IHttpActionResult GetTherapistFiles(string therapistId)
+        {
+            var therapist_Patientlist = db.TblTreats
+             .Where(f => f.Therapist_Id == therapistId)
+             .Select(f => f.Patient_Id)
+              .Distinct()
+               .ToList(); //מקבל את הרשימת מטופלים של אותו מטפל ספציפי
+
+
+            var fills = db.TblFills
+           .Where(f => therapist_Patientlist.Contains(f.Patient_Id) && f.Filler_Id == therapistId)
+           .Select(f => new
+           {
+               f.File_Num,
+               f.Patient_Id,
+               f.Filler_Id
+           })
+          .ToList();
 
             // Extract FileNums from fills
             var fileNums = fills.Select(f => f.File_Num).ToList();
@@ -157,7 +203,11 @@ namespace WebApplication1.Controllers
                     f.File_Num,
                     f.DateSent,
                     f.FileType_Num,
-                    f.FilePath
+                    f.FilePath,
+                    f.TblFills.FirstOrDefault().TblPatient.FirstName,
+                    f.TblFills.FirstOrDefault().TblPatient.LastName,
+                    TherapistFirstName = f.TblFills.FirstOrDefault().TblPatient.TblTreats.FirstOrDefault().TblTherapist.FirstName,
+                    TherapistLastName = f.TblFills.FirstOrDefault().TblPatient.TblTreats.FirstOrDefault().TblTherapist.LastName
                 })
                 .ToList();
 
@@ -165,7 +215,34 @@ namespace WebApplication1.Controllers
             return Ok(files);
         }
 
+        [HttpGet]
+        [Route("api/getFileById/{meetingNum}")]
+        public IHttpActionResult GetFileById(int meetingNum)
+        {
+            var file = db.TblFile
+                .FirstOrDefault(f => f.TblFills.Any(fill => fill.TblPatient.TblTreats
+                    .Any(treat => treat.TblTreatment.Treatment_Id == meetingNum)));
 
+            if (file == null)
+            {
+                // File not found, return appropriate response
+                return NotFound();
+            }
+
+            var fileInfo = new
+            {
+                file.File_name,
+                file.File_Num,
+                file.DateSent,
+                file.FileType_Num,
+                file.FilePath,
+                file.TblFills.FirstOrDefault().TblPatient.FirstName,
+                file.TblFills.FirstOrDefault().TblPatient.LastName
+            };
+
+            // Return the file information as a response
+            return Ok(fileInfo);
+        }
 
     }
 
