@@ -93,8 +93,8 @@ namespace WebApplication1.Controllers
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
 
 
-            List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
-            List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
+            List<TblTreatment> room1 = treatsbydayandtherapist.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
+            List<TblTreatment> room2 = treatsbydayandtherapist.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
 
 
             var lis = new Dictionary<int, string>();
@@ -110,7 +110,11 @@ namespace WebApplication1.Controllers
             {
                 foreach (var free in freetreatment)
                 {
-                    if (tre.Value == free.startTimetemp)
+                    string startA = tre.Value.Split(' ')[0].Split(':')[0];
+                    string startB = free.startTimetemp.Split(':')[0];
+                    if (startB[0] == '0')
+                        startB = startB.Substring(1);
+                    if (startA.Equals(startB))
                     {
                         free.available = "No";
                         DateTime startTime;
@@ -132,7 +136,7 @@ namespace WebApplication1.Controllers
                 {
                     if (free.available != "No")
                     {
-                        if (free.startTimetemp == r1time)
+                        if (free.startTimetemp == r1time.Split(' ')[0])
                         {
                             free.available = "Taken1";
                         }
@@ -157,7 +161,7 @@ namespace WebApplication1.Controllers
                     {
                         if (free.available == "Taken1")
                         {
-                            if (free.startTimetemp == r2time)
+                            if (free.startTimetemp == r2time.Split(' ')[0])
                             {
                                 free.available = "Taken2";
                             }
@@ -193,7 +197,7 @@ namespace WebApplication1.Controllers
 
 
             TreatmentDto[] final = new TreatmentDto[0];
-            final = freetreatment.Where(c => c.Room_Num != 0 || c.available == "Taken2").ToArray();
+            final = freetreatment.Where(c => c.available != "No" && (c.Room_Num != 0 || c.available == "Taken2")).ToArray();
 
             List<TblTreatment> alltreatment = db.TblTreatment.ToList(); ///a list of all treatments
 
