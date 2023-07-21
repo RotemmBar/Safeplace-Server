@@ -42,8 +42,8 @@ namespace WebApplication1.Controllers
                     Type_Id = (int)p.Type_Id,
                     Room_Num = (int)p.Room_Num,
                     datetemp = p.Treatment_Date.ToString(),
-                    startTimetemp = p.StartTime.ToString().Substring(13),
-                    endtimetemp = p.EndTime.ToString().Substring(13),
+                    startTimetemp = p.StartTime.ToString().Substring(12),
+                    endtimetemp = p.EndTime.ToString().Substring(12),
                     TherapistName = TherapistName,
                     PatientName=patientname,
                     TherapistId = p.TblTreats.FirstOrDefault().Therapist_Id
@@ -199,8 +199,8 @@ namespace WebApplication1.Controllers
                     Type_Id = (int)p.Type_Id,
                     Room_Num = (int)p.Room_Num,
                     datetemp = p.Treatment_Date.ToString(),
-                    startTimetemp = p.StartTime.ToString().Substring(13),
-                    endtimetemp = p.EndTime.ToString().Substring(13),
+                    startTimetemp = p.StartTime.ToString().Substring(12),
+                    endtimetemp = p.EndTime.ToString().Substring(12),
                     TherapistName = TherapistName,
                 }).ToList();
 
