@@ -18,10 +18,7 @@ namespace WebApplication1.Dto
 
         public string filler_Id { get; set; }
 
-        public string Email { get; set; }
-
-        public int  TreatmentId { get; set; }
-
+        public int TreatmentId { get; set; }
 
     }
 }

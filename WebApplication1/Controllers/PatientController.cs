@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
 
                 List<TreatmentDto> treatment = db.TblTreatment.Where(o => o.TblTreats.
-                Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date >= DateTime.Today && c.Room_Num!=3 && c.WasDone == "n" || c.WasDone == "N").
+               Any(y => y.Patient_Id == id)).Where(c => c.Treatment_Date > DateTime.Now && c.Room_Num != 3 && (c.WasDone == "n" || c.WasDone == "N")).
                 Select(p => new TreatmentDto()
                 {
                     Treatment_Id = p.Treatment_Id,
@@ -42,10 +42,11 @@ namespace WebApplication1.Controllers
                     Type_Id = (int)p.Type_Id,
                     Room_Num = (int)p.Room_Num,
                     datetemp = p.Treatment_Date.ToString(),
-                    startTimetemp = p.StartTime.ToString().Substring(13),
-                    endtimetemp = p.EndTime.ToString().Substring(13),
+                    startTimetemp = p.StartTime.ToString().Substring(12),
+                    endtimetemp = p.EndTime.ToString().Substring(12),
                     TherapistName = TherapistName,
-                    PatientName=patientname
+                    PatientName=patientname,
+                    TherapistId = p.TblTreats.FirstOrDefault().Therapist_Id
 
                 }).ToList();
 
@@ -93,7 +94,8 @@ namespace WebApplication1.Controllers
                         FirstName = p.FirstName,
                         LastName = p.LastName,
                         TherapistFirstName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.FirstName,
-                        TherapistLastName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.LastName
+                        TherapistLastName = p.TblTreats.FirstOrDefault(t => t.Therapist_Id == therapistId).TblTherapist.LastName,
+                        TherapistId = p.TblTreats.FirstOrDefault().Therapist_Id
                     })
                     .ToList();
 
@@ -197,8 +199,8 @@ namespace WebApplication1.Controllers
                     Type_Id = (int)p.Type_Id,
                     Room_Num = (int)p.Room_Num,
                     datetemp = p.Treatment_Date.ToString(),
-                    startTimetemp = p.StartTime.ToString().Substring(13),
-                    endtimetemp = p.EndTime.ToString().Substring(13),
+                    startTimetemp = p.StartTime.ToString().Substring(12),
+                    endtimetemp = p.EndTime.ToString().Substring(12),
                     TherapistName = TherapistName,
                 }).ToList();
 
