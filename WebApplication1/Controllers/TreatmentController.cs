@@ -93,8 +93,8 @@ namespace WebApplication1.Controllers
             List<TblTreatment> treatsbydayandtherapist = treatsbyday.Where(y => y.TblTreats.Any(c => c.Therapist_Id == therapistid)).ToList();
 
 
-            List<TblTreatment> room1 = treatsbydayandtherapist.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
-            List<TblTreatment> room2 = treatsbydayandtherapist.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
+            List<TblTreatment> room1 = treatsbyday.Where(u => u.Room_Num == 1).ToList(); //all treatments happenning TODAY in room 1
+            List<TblTreatment> room2 = treatsbyday.Where(u => u.Room_Num == 2).ToList(); //all treatments happenning TODAY in room 2
 
 
             var lis = new Dictionary<int, string>();
@@ -110,13 +110,13 @@ namespace WebApplication1.Controllers
             {
                 foreach (var free in freetreatment)
                 {
-                    string startA = tre.Value.Split(' ')[0].Split(':')[0];
-                    string startB = free.startTimetemp.Split(':')[0];
-                    if (startB[0] == '0')
-                        startB = startB.Substring(1);
-                    if (startA.Equals(startB))
+                    //string startA = tre.Value.Split(' ')[0].Split(':')[0];
+                    //string startB = free.startTimetemp.Split(':')[0];
+                    //if (startB[0] == '0')
+                    //    startB = startB.Substring(1);
+                    if (IsSameHour(tre.Value, free.startTimetemp))
                     {
-                        free.available = "No";
+                        free.available = "N";
                         DateTime startTime;
                         if (DateTime.TryParse(tre.Value, out startTime))
                         {
@@ -134,17 +134,23 @@ namespace WebApplication1.Controllers
 
                 foreach (var free in freetreatment)
                 {
-                    if (free.available != "No")
+                    if (free.available != "N")
                     {
-                        if (free.startTimetemp == r1time.Split(' ')[0])
-                        {
-                            free.available = "Taken1";
-                        }
-                        else
+                        if (!IsSameHour(r1time, free.startTimetemp))
                         {
                             free.Room_Num = 1;
                             free.available = "RoomFound";
                         }
+                        //if (IsSameHour(r1time, free.startTimetemp))
+
+                        //{
+                        //    free.available = "Taken1";
+                        //}
+                        //else
+                        //{
+                        //    free.Room_Num = 1;
+                        //    free.available = "RoomFound";
+                        //}
                     }
                 }
 
@@ -157,23 +163,29 @@ namespace WebApplication1.Controllers
 
                 foreach (var free in freetreatment)
                 {
-                    if (free.available != "No")
+                    if (free.available != "N")
                     {
-                        if (free.available == "Taken1")
-                        {
-                            if (free.startTimetemp == r2time.Split(' ')[0])
-                            {
-                                free.available = "Taken2";
-                            }
-                            else
-                            {
-                                free.Room_Num = 2;
-                            }
-                        }
-                        if (free.available == "Y")
+
+                        if (!IsSameHour(r2time, free.startTimetemp))
                         {
                             free.Room_Num = 2;
+                            free.available = "RoomFound";
                         }
+                        //if (free.available == "Taken1")
+                        //{
+                        //    if (IsSameHour(r2time, free.startTimetemp))
+                        //    {
+                        //        free.available = "Taken2";
+                        //    }
+                        //    else
+                        //    {
+                        //        free.Room_Num = 2;
+                        //    }
+                        //}
+                        //if (free.available == "Y")
+                        //{
+                        //    free.Room_Num = 2;
+                        //}
                     }
 
                 }
@@ -197,13 +209,13 @@ namespace WebApplication1.Controllers
 
 
             TreatmentDto[] final = new TreatmentDto[0];
-            final = freetreatment.Where(c => c.available != "No" && (c.Room_Num != 0 || c.available == "Taken2")).ToArray();
+            final = freetreatment.Where(c => c.available != "N").ToArray();
 
             List<TblTreatment> alltreatment = db.TblTreatment.ToList(); ///a list of all treatments
 
             Dictionary<string, int> score = new Dictionary<string, int>(); // cancelled each hour
 
-            foreach (var i in freetreatment)
+            foreach (var i in final)
             {
                 if (!score.ContainsKey(i.startTimetemp))
                 {
@@ -236,11 +248,7 @@ namespace WebApplication1.Controllers
                     if (score.ContainsKey(timetemp))
                     {
                         score[timetemp] += 1;
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    } 
                 }
             }
 
@@ -248,7 +256,7 @@ namespace WebApplication1.Controllers
 
             foreach (var treatment in final)
             {
-                if (score[treatment.startTimetemp] == minumuncancel)
+                if (score[treatment.startTimetemp] >= minumuncancel && score[treatment.startTimetemp] <= minumuncancel + 3)
                 {
                     treatment.recommended = true;
                 }
@@ -307,6 +315,17 @@ namespace WebApplication1.Controllers
             }
 
         }
+
+        static bool IsSameHour (string t1, string t2)
+        {
+            string startA = t1.Split(' ')[0].Split(':')[0];
+            string startB = t2.Split(':')[0];
+            if (startB[0] == '0')
+                startB = startB.Substring(1);
+
+            return startA.Equals(startB);
+        }
+        
 
 
     }
